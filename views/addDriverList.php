@@ -15,7 +15,7 @@ include "header.php";
       buttons: [{
         extend: 'excel',
         className: 'custom-excel-button margin',
-        text: '<button class="btn btn-outline-success">Download &nbsp;<i class="fa-solid fa-download"></i></button>',
+        text: '<button class="btn btn-sm btn-outline-success">Download &nbsp;<i class="fa-solid fa-download"></i></button>',
         // text: '<img src="./assets/excel.png" alt="Excel" style="width: 48px;">',
         title: 'Driver List'
 
@@ -56,8 +56,8 @@ include "header.php";
     }
   }
 </style>
-<div class="container p-4 hg250">
-  <p class="m-0">Transport &nbsp; / &nbsp; Add Driver</p>
+<div class="container p-4">
+  <p class="m-0" style="font-size: 14px;">Transport / Add Driver</p>
   <div class="notification" id="notification" style="display:none;">
     <?php echo (isset($_GET['error']) ? $_GET['error'] : ''); ?>
   </div>
@@ -66,26 +66,17 @@ include "header.php";
   </div>
 
   <div class="p-3 border rounded">
-    <!-- <div class="row justify-content-xs-evenly justify-content-lg-end mb-4"> -->
-      <div class="col-1 left">
+      <div class="col-lg-1 col-md-2 position-relative" >
         <a href="<?php echo _ROOT_DIRECTORY_; ?>index.php?action=addDriver">
-          <button type="button" class="btn btn-primary">
+          <button type="button" class="btn btn-sm btn-primary button">
             Add &nbsp;
             <i class="fa-solid fa-circle-plus"></i>
           </button>
         </a>
       </div>
-      <!-- <div class="col-2">
-        <a href="" onclick="window.location.reload();">
-          <button type="button" class="btn btn-secondary">
-            Reload &nbsp;
-            <i class="fa-solid fa-rotate"></i>
-          </button>
-        </a>
-      </div> -->
-    <!-- </div> -->
 
-    <div class="table-responsive table d-none d-lg-block">
+    <div class="table-responsive table" style="position: relative;
+    top: -40px;">
       <table id="driverTable" class="table table-striped table-hover table-borderless ">
         <thead class="text-center">
           <tr>
@@ -107,11 +98,11 @@ include "header.php";
             $i++;
           ?>
             <tr>
-              <td><?php echo $i; ?></td>
-              <td><?php echo $values['driver_name']; ?></td>
-              <td><?php echo $values['driver_contact']; ?>&nbsp;/&nbsp;<?php echo $values['driver_alternate']; ?></td>
-              <td><?php echo $values['driving_license']; ?></td>
-              <td>
+              <td class="align-middle"><?php echo $i; ?></td>
+              <td class="align-middle"><?php echo $values['driver_name']; ?></td>
+              <td class="align-middle"><?php echo $values['driver_contact']; ?>&nbsp;/&nbsp;<?php echo $values['driver_alternate']; ?></td>
+              <td class="align-middle"><?php echo $values['driving_license']; ?></td>
+              <td class="align-middle">
                 <!-- Button trigger modal -->
                 <button type="button" class="btn btn-primary btn-sm" onclick="viewdriver(<?php echo $values['id_driver']; ?>)">
 
@@ -119,7 +110,7 @@ include "header.php";
                 </button>
 
               </td>
-              <td>
+              <td class="align-middle">
                 <?php if (!in_array($values['status'], [1, 3, 6])) : ?>
                   <a href="<?php echo _ROOT_DIRECTORY_; ?>index.php?action=addDriver&&id_driver=<?php echo $values['id_driver'] ?>">
                     <button type="button" class="btn btn-warning btn-sm">
@@ -131,9 +122,9 @@ include "header.php";
                 <?php endif; ?>
 
               </td>
-              <td><?php echo ($values['status'] == 4 ? 'Request Send' : ($values['status'] == 5 ? 'Request Canceled' : '')); ?></td>
-              <td><?php echo ($values['status'] == 3 ? 'Request Send' : ($values['status'] == 6 ? 'Request Canceled' : '')); ?></td>
-              <td style="color: <?php echo ($values['driving_license'] == "" ? 'red' : 'green'); ?>">
+              <td class="align-middle"><?php echo ($values['status'] == 4 ? 'Request Send' : ($values['status'] == 5 ? 'Request Canceled' : '')); ?></td>
+              <td class="align-middle"><?php echo ($values['status'] == 3 ? 'Request Send' : ($values['status'] == 6 ? 'Request Canceled' : '')); ?></td>
+              <td class="align-middle" style="color: <?php echo ($values['driving_license'] == "" ? 'red' : 'green'); ?>">
                 <?php echo ($values['driving_license'] == "" ? 'Incomplete' : 'Completed'); ?>
               </td>
             </tr>
@@ -143,7 +134,7 @@ include "header.php";
     </div>
 
     <!-- Card Start -->
-    <div class="row justify-content-start d-lg-none">
+    <div class="row justify-content-start d-none">
       <div class="col-lg-3">
         <label for="inputState" class="form-label">Quick Search</label>
         <div class="input-group mb-3">
@@ -241,6 +232,32 @@ include "header.php";
 </div>
 <!-- Modal End-->
 
+<script>
+  // Function to dynamically update styles based on screen size
+function updateStyles() {
+  var windowWidth = window.innerWidth;
+
+  var element = document.querySelector('.position-relative');
+
+  // Remove existing Bootstrap classes
+  element.classList.remove('position-md-relative', 'position-lg-relative');
+
+  // Apply appropriate Bootstrap class based on screen size
+  if (windowWidth >= 992) {
+    // Large (lg) screen
+    element.classList.add('position-lg-relative');
+  } else {
+    // Medium (md) screen
+    element.classList.add('position-md-relative');
+  }
+}
+
+// Call the function on window resize and on page load
+window.addEventListener('resize', updateStyles);
+
+// Initial call to update styles on page load
+updateStyles();
+</script>
 
 </body>
 

@@ -14,14 +14,7 @@ class OutstandingReportController{
 		$response=$this->model->OutstandingReport($GetDatas);
 		 require('./views/transporterOutstandingReport.php');
 	}
-		public function ShowDetailsOut(){
-		$GetDatas=[];
-		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-			$GetDatas=$_POST;
-		}
-		$response=$this->model->ShowDetailsOut($GetDatas);
-	
-	}
+		
 
 }
 ?>

@@ -1,220 +1,198 @@
-<?php include 'header.php';?>
-  <body>
-    <div class="p-4 container hg250">
-      <p class="m-0">Transport &nbsp; / &nbsp; Trip Advance Report</p>
+<?php include 'header.php'; ?>
+<script type=text/javascript>
+  $(document).ready(function() {
+    $(document).on('click', '.close', function() {
+      // Find the closest modal and hide it
+      $(this).closest('.modal').modal('hide');
+    });
+    $('#tripPayment').DataTable({
+      lengthMenu: [
+        [-1],
+        ['All']
+      ],
+    });
+    $("#min-date").datepicker({
+      changeMonth: true,
+      changeYear: true,
+      yearRange: "-1:+1",
+      dateFormat: 'dd/mm/yy',
+      onSelect: function(dateText, inst) {
+        $("#max-date").datepicker("option", "minDate",
+          $("#min-date").datepicker("getDate"));
+      }
 
-      <div class="p-3 border rounded">
-        <div class="row justify-content-end mb-4">
-          <div class="col-lg-1">
-            <a href="transporterOutstandingReport.html">
-              <button type="button" class="btn btn-secondary">
-                <i class="fa-solid fa-rotate"></i>
-              </button>
-            </a>
-          </div>
-        </div>
+    });
 
-        <div class="row justify-content-lg-evenly align-items-center">
-          <div class="col-lg-2 mb-md-3">
-            <label for="inputState" class="form-label">Start Date</label>
-            <div class="input-group mb-3">
-              <input type="date" class="form-control border-dark-subtle" />
+
+    $('#max-date').datepicker({
+      changeMonth: true,
+      changeYear: true,
+      yearRange: "-1:+1",
+      dateFormat: 'dd/mm/yy'
+    });
+  });
+
+  function showClientDetails(id_client, trans_id) {
+    $.ajax({
+      url: "<?php echo _ROOT_DIRECTORY_; ?>index.php?&action=ShowClientTrip",
+      data: 'id_client=' + id_client + '&trans_id=' + trans_id,
+      type: "POST",
+      success: function(result) {
+
+        if ($.trim(result) != '') {
+          $.fancybox({
+            'content': result,
+            'autoSize': true,
+            'minWidth': 300
+          });
+        }
+      }
+    });
+  }
+
+  function downloadReport(type) {
+    if (type == 'excel')
+      var url = './common_files/excel-report/trip_advance_payment_report.php?';
+
+
+    window.open(url + "from=" + $('#min-date').val() + "&to=" + $('#max-date').val() + "&type=" + $('input[name="type"]:checked').val(), "_blank");
+    return false;
+  }
+
+  function Itinerary_modal(id, type) {
+    $(".itinerary_modal").modal('show');
+    $.ajax({
+      type: "POST",
+      url: "<?php echo _ROOT_DIRECTORY_; ?>index.php?&action=ViewDetailsAdvance",
+      data: {
+        id: id,
+        type: type
+      },
+      dataType: 'json',
+      beforeSend: function() {
+        $(".itinerary_modal .modal-body").html("<h4 class='text-center'>Please Wait. While Loading..</h4>");
+      },
+      success: function(data) {
+        //console.log(data);
+        $(".itinerary_modal .modal-body").html(data.cont);
+        $(".itinerary_modal .modal-header").html(data.head);
+      }
+    });
+  }
+</script>
+
+<body>
+  <div class="p-4">
+    <p class="m-0">Transport &nbsp; / &nbsp; Trip Advance Report</p>
+
+    <div class="p-3 border rounded">
+      <form action="" method="post" style="box-shadow: none;" class="pb-0 pe-1 ps-1">
+        <div class="row justify-content-lg-around align-items-center">
+          <div class="col-lg-3 flex-row pe-md-4 ps-md-4 mb-md-3 mb-lg-0">
+            <div class="col-3 text-nowrap ">
+              <label for="inputState" class="form-label">Start Date :</label>
+            </div>
+            <div class="col-9">
+              <input style="height: 30px;" type="text" class="form-control border-dark-subtle" autocomplete="off" id="min-date" name="min-date" value="<?php echo isset($response['searchFrom']) ? $response['searchFrom'] : ''; ?>" />
             </div>
           </div>
 
-          <div class="col-lg-2 mb-md-3">
-            <label for="inputState" class="form-label">End Date</label>
-            <div class="input-group mb-3">
-              <input type="date" class="form-control border-dark-subtle" />
+          <div class="col-lg-3 flex-row pe-md-4 ps-md-4 mb-md-3 mb-lg-0">
+            <div class="col-3 text-nowrap ">
+              <label for="inputState" class="form-label">End Date :</label>
+            </div>
+            <div class="col-9">
+              <input style="height: 30px;" type="text" class="form-control border-dark-subtle" autocomplete="off" id="max-date" name="max-date" value="<?php echo isset($response['searchTo']) ? $response['searchTo'] : ''; ?>" />
             </div>
           </div>
 
-          <div
-            class="btn-group col-lg-4 mb-md-4"
-            role="group"
-            aria-label="Basic radio toggle button group"
-          >
-            <input
-              type="radio"
-              class="btn-check"
-              name="btnradio"
-              id="btnradio1"
-              autocomplete="off"
-              checked
-              onclick="toggleDatePicker('hide')"
-            />
-            <label class="btn btn-outline-danger" for="btnradio1"
-              >Paid</label
-            >
+          <div class="btn-group col-lg-2 mb-md-4 mb-lg-0" role="group" aria-label="Basic radio toggle button group">
+            <input type="radio" class="btn-check btn-sm" name="btnradio" id="btnradio1" value="3" name="type" autocomplete="off" checked onclick="toggleDatePicker('hide')" />
+            <label class="btn btn-outline-danger btn-sm" for="btnradio1">Paid</label>
 
-            <input
-              type="radio"
-              class="btn-check"
-              name="btnradio"
-              id="btnradio2"
-              autocomplete="off"
-              onclick="toggleDatePicker('show')"
-            />
-            <label class="btn btn-outline-danger" for="btnradio2"
-              >Unpaid</label
-            >
+            <input type="radio" class="btn-check btn-sm" name="btnradio" id="btnradio2" name="type" value="2" autocomplete="off" <?php echo (isset($response['type']) && $response['type'] == 2) ? 'checked' : ''; ?> onclick="toggleDatePicker('show')" />
+            <label class="btn btn-outline-danger btn-sm" for="btnradio2">Unpaid</label>
           </div>
-          <div class="col-lg-2 mb-md-4">
-            <input
-              type="submit"
-              value="Submit"
-              class="form-control btn btn-outline-danger"
-            />
+          <div class="col-lg-2 mb-md-4 mb-lg-0">
+            <input type="submit" value="Submit" class="form-control btn btn-outline-danger btn-sm" />
           </div>
         </div>
-        <!-- Quick Search -->
-        <div class="row ms-lg-4">
-          <div class="col-lg-3">
-            <label for="inputState" class="form-label">Quick Search</label>
-            <div class="input-group mb-3">
-              <input type="text" class="form-control border-dark-subtle" />
-            </div>
-          </div>
-        </div>
+      </form>
 
-        <!-- table Start -->
-        <div class="table-responsive table">
-          <table class="table table-bordered table-hover d-none d-lg-block">
-            <thead class="text-center">
-              <tr>
-                <th class="text-nowrap">Sl.No</th>
-                <th class="text-nowrap">BH Ref No</th>
-                <th class="text-nowrap">Client Name</th>
-                <th class="text-nowrap">Trip Date</th>
-                <th class="text-nowrap">Arrival Departure</th>
-                <th class="text-nowrap">Trip Advance Request</th>
-                <th class="text-nowrap">Trip Advance Paid</th>
-                <th class="text-nowrap">Approval Status</th>
-                <th class="text-nowrap">Paid Status</th>
-                <th class="text-nowrap">Paid Date</th>
-                <th class="text-nowrap">Remark</th>
-                <th class="text-nowrap">Vehicle Remark</th>
-              </tr>
-            </thead>
+      <!-- table Start -->
+      <button onclick="javascript:downloadReport('excel')" style="right: 31px; top: 45px; z-index: 2;" class="btn-sm btn btn-outline-success position-relative float-end ">
+        Download &nbsp;<i class="fa-solid fa-download"></i>
+      </button>
+      <div class="table-responsive table">
+        <table class="table table-striped table-hover table-borderless" id="tripPayment">
+          <thead class="text-center">
+            <tr>
+              <?php if ($response['mobile'] == 'true') { ?>
 
-            <tbody>
-              <tr class="text-center align-items-center">
-                <td>-</td>
-                <td>-</td>
-                <td class="text-nowrap">-</td>
-                <td>-</td>
-                <td>-</td>
-                <td>-</td>
-                <td>-</td>
-                <td>-</td>
-                <td>-</td>
-                <td>-</td>
-                <td>-</td>
-                <td>-</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <!-- table End -->
+                <th class="vechdet" style="width: 7% !important">Client Details</th>
 
-        <!-- Card Start -->
+              <?php } else { ?>
+                <th>S.no</th>
+                <th>BH Ref No</th>
+                <th>Client Name</th>
+                <th>Trip Date</th>
+                <th>Arrival</th>
+                <th>Departure</th>
+                <th>Itinerary</th>
+                <th>
+                  <table style="margin-bottom:0 !important;">
+                    <thead id="scroll">
+                      <tr>
 
-        <div class="border rounded d-lg-none">
-          <div class="container border-bottom p-2 bg-secondary-subtle">
-            BHCI009072
-          </div>
+                        <th>
+                          <table style="margin-bottom:0 !important;">
+                            <thead id="scroll">
+                              <tr>
+                                <th class="text-nowrap">Trip Advance Request &nbsp;&nbsp; &nbsp;</th>
+                                <th class="text-nowrap">Trip Advance Paid &nbsp;&nbsp; &nbsp;</th>
+                                <th class="text-nowrap">Approval Status &nbsp;&nbsp; &nbsp;</th>
+                                <th class="text-nowrap">Paid Status &nbsp;&nbsp; &nbsp;</th>
+                                <th class="text-nowrap">Paid Date &nbsp;&nbsp; &nbsp;</th>
+                                <th class="text-nowrap">Remark &nbsp;&nbsp; &nbsp;</th>
+                                <th class="text-nowrap">Vehicle Remark &nbsp;&nbsp; &nbsp;</th>
 
-          <div
-            class="container border-bottom align-items-center p-2 d-flex justify-content-between"
-          >
-            <div>Client Name :</div>
-            <div class="text-secondary">-</div>
-          </div>
+                              </tr>
+                            </thead>
+                          </table>
+                        </th>
 
-          <div
-            class="container border-bottom align-items-center p-2 d-flex justify-content-between"
-          >
-            <div>Trip Date :</div>
-            <div class="text-secondary">-</div>
-          </div>
+                      </tr>
+                    </thead>
+                  </table>
+                </th>
 
-          <div
-            class="container border-bottom align-items-center p-2 d-flex justify-content-between"
-          >
-            <div>Arrival Departure :</div>
-            <div class="text-secondary">-</div>
-          </div>
+              <?php } ?>
+            </tr>
+          </thead>
+          <?php echo $response['content']; ?>
+          <tbody>
 
-          <div
-            class="container border-bottom align-items-center p-2 d-flex justify-content-between"
-          >
-            <div>Trip Advance :</div>
-            <div class="text-secondary">-</div>
-          </div>
+          </tbody>
+        </table>
+      </div>
+      <!-- table End -->
 
-          <div
-            class="container border-bottom align-items-center p-2 d-flex justify-content-between"
-          >
-            <div>Trip Advance :</div>
-            <div class="text-secondary">-</div>
-          </div>
 
-          <div
-            class="container border-bottom align-items-center p-2 d-flex justify-content-between"
-          >
-            <div>Approval Status :</div>
-            <div>
-              <div class="text-secondary">-</div>
-            </div>
-          </div>
+    </div>
+  </div>
+</body>
+<div class="modal fade itinerary_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
 
-          <div
-            class="container border-bottom align-items-center p-2 d-flex justify-content-between"
-          >
-            <div>Paid Status :</div>
-            <div class="text-secondary">-</div>
-          </div>
 
-          <div
-            class="container align-items-center p-2 d-flex justify-content-between"
-          >
-            <div>Paid Date :</div>
-            <div class="text-secondary">-</div>
-          </div>
+      </div>
+      <div class="modal-body">
 
-          <div
-            class="container align-items-center p-2 d-flex justify-content-between"
-          >
-            <div>Remark :</div>
-            <div class="text-secondary">-</div>
-          </div>
-
-          <div
-            class="container align-items-center p-2 d-flex justify-content-between"
-          >
-            <div>Remark :</div>
-            <div class="text-secondary">-</div>
-          </div>
-
-          <div
-            class="container align-items-center p-2 d-flex justify-content-between"
-          >
-            <div>Vehicle Remark :</div>
-            <div class="text-secondary">-</div>
-          </div>
-        </div>
-
-        <!-- Card End -->
       </div>
     </div>
-    <script>
-      //   datepicker
-      $(document).ready(function () {
-        $("#myDateInput").datepicker({
-          format: "dd-mm-yyyy",
-          autoclose: true,
-        });
-      });
-    </script>
-  </body>
+  </div>
+</div>
+
 </html>

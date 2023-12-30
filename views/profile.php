@@ -160,14 +160,14 @@ $('#lastname').keyup(function() {
               </div>
           </div>
 
-          <div class="row justify-content-center m-4">
-            <div class="col-3">
+          <div class="row justify-content-around mt-3">
+            <div class="col-3 text-nowrap">
               <button type="button" onclick="window.location.href='<?php echo _ROOT_DIRECTORY_;?>views/dashboard.php'" class="btn btn-outline-danger me-5">
                 <i class="fa-regular fa-circle-xmark"></i>
                 &nbsp; CANCEL
               </button>
             </div>
-            <div class="col-3">
+            <div class="col-3 text-nowrap">
               <button type ="submit"  class="btn btn-outline-secondary">
                 <i class="fa-solid fa-paper-plane"></i>
                 &nbsp; SUBMIT

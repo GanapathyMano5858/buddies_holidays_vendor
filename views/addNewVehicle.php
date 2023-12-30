@@ -120,7 +120,7 @@
   }
 </script>
 <div class="container-sm pt-4 hg250">
-  <p>Transport &nbsp; / &nbsp; Add Vehicle</p>
+  <p class="m-0" style="font-size: 14px;">Transport / Add Vehicle / Add New Vehicle</p>
   <?php if (isset($_GET['v_id']) && $_GET['v_id']) {
     $action = 'addVehicle-update';
   } else {

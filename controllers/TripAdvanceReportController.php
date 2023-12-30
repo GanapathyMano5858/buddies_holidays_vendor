@@ -14,14 +14,22 @@ class TripAdvanceReportController{
 		$response=$this->model->TripadvanceReport($GetDatas);
 		 require('./views/tripAdvanceReport.php');
 	}
-		public function ShowDetailsTrip(){
+		public function ViewDetailsTripadvance(){
 		$GetDatas=[];
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 			$GetDatas=$_POST;
 		}
-		$response=$this->model->ShowDetailsTrip($GetDatas);
-	
+		$response=$this->model->ViewDetails($GetDatas);
+		
 	}
+	public function ShowClientTrip(){
+		$GetDatas=[];
+		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+			$GetDatas=$_POST;
+		}
+		$response=$this->model->ShowClientDetails($GetDatas);
+	}
+	
 
 }
 ?>

@@ -194,7 +194,7 @@ function limitNumberLength12(input) {
   });
 </script>
 <div class="container-sm pt-4 hg250">
-  <p>Transport &nbsp; / &nbsp; Add Driver</p>
+  <p class="m-0" style="font-size: 14px;">Transport / Add Driver / Add New Driver</p>
   <?php if (isset($_GET['id_driver']) && $_GET['id_driver']) {
     $action = 'addDriver-update';
   } else {

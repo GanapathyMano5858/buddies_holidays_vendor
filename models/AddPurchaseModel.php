@@ -138,14 +138,13 @@ class AddPurchaseModel
 
 
           $s .= '<td style="display:none;">' . $classcolour . '</td>';
-          $s .= '<td>' . $si . '</td>';
-          $s .= '<td >' . $valuesa[0]['ref_no'] . '</td>';
-          $s .= '<td style="
-          width: 100px;
+          $s .= '<td class="align-middle">' . $si . '</td>';
+          $s .= '<td class="align-middle" >' . $valuesa[0]['ref_no'] . '</td>';
+          $s .= '<td class="text-nowrap" style="
+          width: 80px;
           justify-content: center;
           align-items: center;
           display: flex;
-          margin: auto;
           height: 105px;">' . $valuesa[0]['client_name'] . '</td>';
 
 
@@ -161,7 +160,7 @@ class AddPurchaseModel
            <table style='width: 100%!important;' class='table-word'>
            <tr style='flex-direction: row;
            display: flex;
-           justify-content: center;
+           justify-content: start;
            align-items: center;'>";
 
           $purchase_total = $purchase_total + $valuesa[0]['purchase_rate_shared'];
@@ -178,17 +177,17 @@ class AddPurchaseModel
             $s .= '<td style="display: flex;
             justify-content: center;
             align-items: center;
-            width: 100px;"> S:' . date('d/m/Y', strtotime($hiss_dateee_staert)) . '<br>E:' . date('d/m/Y', strtotime($valuesa[0]['va_end_date'])) . '</td>';
+            width: 85px;"> S:' . date('d/m/Y', strtotime($hiss_dateee_staert)) . '<br>E:' . date('d/m/Y', strtotime($valuesa[0]['va_end_date'])) . '</td>';
           }
 
           //Vehicle Remark
           //isset($arr_trans_remarks[$keya])&&
           $s .= "<td style='
-          width: 100px !important;
+          width: 85px !important;
           justify-content: center;
           align-items: center;
           display: flex;
-          margin: auto;
+        
           height:105px' >";
 
           if ($valuesa[0]['vehicle_remark'] != "") {
@@ -201,7 +200,7 @@ class AddPurchaseModel
 
 
 
-          $s .= '<td style="width:84px"><table style="margin-bottom:0 !important; width:100% !important">';
+          $s .= '<td style="width:65px"><table style="display: flex; justify-content: center; margin-bottom:0 !important; width:100% !important">';
         }
 
 
@@ -358,18 +357,19 @@ class AddPurchaseModel
         //if($type!=5){
 
         $s .= "<td>
-        <input style='width:80px'; type='" . $types . "' class='cvb " . $class . "' name='total_km" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "' onkeyup='checkalphabetandnumber(this.value, \"#total_km" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "\")' id='total_km" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "' " . $readonly . " value='" . $total_km . "'   maxlength='4' >
+        <input style='width:80px; border: 1px solid #0d6efd;
+        border-radius: 2px;'; type='" . $types . "' class='cvb " . $class . "' name='total_km" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "' onkeyup='checkalphabetandnumber(this.value, \"#total_km" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "\")' id='total_km" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "' " . $readonly . " value='" . $total_km . "'   maxlength='4' >
         
           </td>";
         $s .= "<td>
          
           
-           <input style='width:80px'; type='" . $types . "' class='cvb " . $class . "' name='bal_amount" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "' onkeyup='checkalphabetandnumber(this.value, \"#bal_amount" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "\")'  id='bal_amount" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "' " . $readonly . " value='" . $amount . "' >
+           <input style='width:80px; border: 1px solid #0d6efd; border-radius: 2px;'; type='" . $types . "' class='cvb " . $class . "' name='bal_amount" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "' onkeyup='checkalphabetandnumber(this.value, \"#bal_amount" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "\")'  id='bal_amount" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "' " . $readonly . " value='" . $amount . "' >
           
           </td>";
         $s .= "<td class='" . $container0 . "'>
     
-        <div class='" . $container1 . "'><textarea style='resize:auto;padding:3px 4px; width:100px; height:50px;'  class='" . $class . " " . $container2 . "' name='cal" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "'  id='cal" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "' " . $readonly . " >" . $cal . "
+        <div class='" . $container1 . "'><textarea style='border: 1px solid #0d6efd; border-radius: 2px; resize:auto;padding:3px 4px; width:100px; height:50px;'  class='" . $class . " " . $container2 . "' name='cal" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "'  id='cal" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "' " . $readonly . " >" . $cal . "
         </textarea>
         </div>
        
@@ -385,16 +385,16 @@ class AddPurchaseModel
            <input type='hidden' name='id_client_add'>
            <input type='hidden' name='loss_check" . $valuesa[0]['id_client'] . $valuesa[0]['va_id'] . "' id='loss_check" . $valuesa[0]['id_client'] . $valuesa[0]['va_id'] . "'>
            
-           <div style='width:67px display:flex; justify-content:center; align-item:center;' class='filedrf'><label for='img_bil" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "' class='" . $class_up . "  img_bil" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "'><i class='fa-solid fa-upload pe-2'></i>Upload</label><input type='file'  class='" . $class . "    " . $container2 . "'  name='img_bil" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "[]'  id='img_bil" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "' " . $disabled . "  multiple onclick='removePic(this,\"result\");' onchange='showPreview(this,\"result\");'></div> <output id='result" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "' > " . $link . "</output>
+           <div style='width:67px; display:flex; justify-content:center; align-item:center;' class='filedrf'><label  style='--bs-btn-padding-y: .20rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .65rem;' class='btn btn-primary' for='img_bil" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "' class='" . $class_up . "  img_bil" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "'><i class='fa-solid fa-upload pe-2'></i>Upload</label><input type='file'  class='" . $class . "    " . $container2 . "'  name='img_bil" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "[]'  id='img_bil" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "' " . $disabled . "  multiple onclick='removePic(this,\"result\");' onchange='showPreview(this,\"result\");'></div> <output id='result" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "' > " . $link . "</output>
            
           </td>";
-        $s .= "<td class='   d-flex  text-center justify-content-center align-items-center " . $container0 . "'>
+        $s .= "<td class='   d-flex flex-column  text-center justify-content-center align-items-center " . $container0 . "'>
           
           <div style='display:flex; justify-content: center;
-          align-items: center;' class='filedrf'><label for='img_feed" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "' class='" . $class_up . "  img_feed" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "'><i class='fa-solid pe-2    fa-upload'></i>Upload</label><input type='file'  class='" . $class . "  " . $container2 . "' name='img_feed" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "[]'  id='img_feed" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "' " . $disabled . "  multiple onclick='removePic(this,\"result_feed\");' onchange='showPreview(this,\"result_feed\");'></div> <output id='result_feed" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "' >" . $linkf . "</output>
+          align-items: center;' class='filedrf'><label  style='--bs-btn-padding-y: .20rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .65rem;' class='btn btn-primary' for='img_feed" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "' class='" . $class_up . "  img_feed" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "'><i class='fa-solid fa-upload pe-2'></i>Upload</label><input type='file'  class='" . $class . "  " . $container2 . "' name='img_feed" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "[]'  id='img_feed" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "' " . $disabled . "  multiple onclick='removePic(this,\"result_feed\");' onchange='showPreview(this,\"result_feed\");'></div> <output id='result_feed" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "' >" . $linkf . "</output>
          
           </td>";
-        // $s.="";
+        // $s.="";  
 
         // $s.="<td   class='".$container0."'><div class='".$container1."'><textarea style='resize:auto;'  class='".$class." ".$container2."'  id='remarks".$valuesa[0]['id_client']."".$valuesa[0]['va_id']."' ".$readonly." >".$remarks."</textarea></div>
         // </td>";
@@ -403,7 +403,7 @@ class AddPurchaseModel
         $s .= "<td style='    display: flex;
         justify-content: center;
         align-items: center;
-        width: 100px;'>" . (($valuesa[0]['purchaserate_added_date'] != '0000-00-00 00:00:00') ? date('d/m/Y H:i:s', strtotime($valuesa[0]['purchaserate_added_date'])) . "<br> Days  " . $dateDiff_count : '-') . "</td>";
+        width: 100px; text-align:center;'>" . (($valuesa[0]['purchaserate_added_date'] != '0000-00-00 00:00:00') ? date('d/m/Y H:i:s', strtotime($valuesa[0]['purchaserate_added_date'])) . "<br> Days  " . $dateDiff_count : '-') . "</td>";
 
 
 
@@ -430,13 +430,10 @@ class AddPurchaseModel
         }
 
         $s .= "</td>";
-        $s .= "<td style='    display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 100px;'>";
+        $s .= "<td class='text-center'>";
 
         if (!empty($Combined_image_val)) {
-          $s .= '<i class="fa-solid fa-eye view_bill" data="' . $valuesa[0]['id_client'] . $valuesa[0]['va_id'] . '"></i>';
+          $s .= '<i class="fa-solid fa-eye  view_bill" data="' . $valuesa[0]['id_client'] . $valuesa[0]['va_id'] . '"></i>';
           $s .= "<ul class='viewer_images' style='list-style-type: none;margin: 0 auto;text-align: center;columns: 3;'>";
           $a = 0;
           foreach ($Combined_image_val as $k => $image) {
@@ -543,15 +540,16 @@ class AddPurchaseModel
             $s .= '<div class="panel-heading  arrived ' . $classcolour . '" style="margin-left:0rem;margin-right:0rem;display:flex;align-items:center;margin-bottom:0px;">';
           } else {
             $s .= '<div class="panel panel-default ' . $classcolour . '" style="padding-left:0px;padding-right:0px;padding-bottom:3px;">';
-            $s .= '<div class="panel-heading ' . $classcolour . '" style="margin-left:0rem;margin-right:0rem;display:flex;align-items:center;margin-bottom:0px;">';
+            $s .= '<div class="panel-heading' . $classcolour . '" style="font-weight: 900; justify-content: center; margin-left:0rem;margin-right:0rem;display:flex;align-items:center;margin-bottom:0px;">';
           }
 
 
           $s .= '<div class="panel-title" >' . $valuesa[0]['ref_no'] . '</div>';
 
-          $s .= '</div><div class="panel-body">
+          $s .= '</div>
+          <div class="panel-body">
     
-          <div class="col-xs-12 col-sm-10 colmanagecar">
+          <div class="colmanagecar">
           <p><strong>Client Name</strong><span class="cllr"> ' . $valuesa[0]['client_name'] . '</span></p>';
         }
         $sdfr++;

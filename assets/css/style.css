@@ -255,9 +255,9 @@ form .password i {
 
 .left {
   position: relative;
-  top: 46px;
+  top: -1px;
   z-index: 5;
-  left: 755px;
+  left: 775px;
 }
 
 .tooper {
@@ -288,6 +288,32 @@ table tr td {
   font-size: 12px;
 }
 
+.bg-gray{
+  background: #6d6d6d;
+}
+
+
+
+/* Default styling for both lg and md screens */
+.position-relative {
+  position: relative;
+  top: -1px;
+  z-index: 5;
+}
+
+/* Media query for lg screens */
+@media (min-width: 992px) {
+  .position-lg-relative {
+    left: 775px;
+  }
+}
+
+/* Media query for md screens */
+@media (max-width: 991px) {
+  .position-md-relative {
+    left: 400px;
+  }
+}
 /* ------------------------------------------------------------------------------ */
 
 /* Dashboard */

@@ -4,7 +4,7 @@ include"header.php";
   <body>
 
     <div class="container-sm p-4 hg250">
-      <p class="m-0">Dashboard</p>
+      <p class="m-0" style="font-size: 14px;">Dashboard</p>
 
       <div class="row border rounded-4 p-lg-5 pt-sm-5">
         <div class="col-lg-4 p-3">

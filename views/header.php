@@ -51,7 +51,7 @@ define('_ASSETS_DIR_', _ROOT_DIRECTORY_ . 'assets/');
               <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 Transport
               </a>
-              <ul class="dropdown-menu bg-light ">
+              <ul class="dropdown-menu bg-white text-dark">
                 <li>
                   <a class="dropdown-item" href="<?php echo _ROOT_DIRECTORY_; ?>index.php?action=get-vehicleList">Add Vehicle</a>
                 </li>
@@ -70,32 +70,30 @@ define('_ASSETS_DIR_', _ROOT_DIRECTORY_ . 'assets/');
               </ul>
             </li>
 
-            <!--<li class="nav-item dropdown">-->
-            <!--  <a-->
-            <!--    class="nav-link dropdown-toggle"-->
-            <!--    href="#"-->
-            <!--    role="button"-->
-            <!--    data-bs-toggle="dropdown"-->
-            <!--    aria-expanded="false"-->
-            <!--  >-->
-            <!--    Report-->
-            <!--  </a>-->
-            <!--  <ul class="dropdown-menu bg-danger-subtle">-->
-            <!--    <li>-->
-            <!--      <a class="dropdown-item" href="<?php echo _ROOT_DIRECTORY_; ?>index.php?action=outstanding-report"-->
-            <!--        >Transporter Outstanding Report</a-->
-            <!--      >-->
-            <!--    </li>-->
-            <!-- <hr class="dropdown-divider" /> -->
-            <!--    <li>-->
-            <!--      <a class="dropdown-item" href="<?php echo _ROOT_DIRECTORY_; ?>index.php?action=tripadvance-report">Trip Advance Report</a>-->
-            <!--    </li>-->
-            <!-- <hr class="dropdown-divider" /> -->
-            <!--    <li>-->
-            <!--      <a class="dropdown-item" href="<?php echo _ROOT_DIRECTORY_; ?>index.php?action=billdetails-report">Bill Details Report</a>-->
-            <!--    </li>-->
-            <!--  </ul>-->
-            <!--</li>-->
+            <li class="nav-item dropdown">
+                  <a
+                    class="nav-link dropdown-toggle"
+                    href="#"
+                    role="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    Report
+                  </a>
+                  <ul class="dropdown-menu bg-white text-dark">
+                    <li>
+                      <a class="dropdown-item" href="<?php echo _ROOT_DIRECTORY_;?>index.php?action=outstanding-report"
+                        >Transporter Outstanding Report</a>
+                    </li>
+                    <!-- <hr class="dropdown-divider" /> -->
+                    <li>
+                      <a class="dropdown-item" href="<?php echo _ROOT_DIRECTORY_;?>index.php?action=tripadvance-report">Trip Advance Report</a>
+                    </li>
+                    <!-- <hr class="dropdown-divider" /> -->
+                    <li>
+                      <a class="dropdown-item" href="<?php echo _ROOT_DIRECTORY_;?>index.php?action=billdetails-report">Bill Details Report</a>
+                    </li>
+                  </ul>
+                </li>
 
             <li class="nav-item dropdown">
 
@@ -103,7 +101,7 @@ define('_ASSETS_DIR_', _ROOT_DIRECTORY_ . 'assets/');
                 <?php echo $_SESSION['firstname']; ?>&nbsp;&nbsp;
                 <img src="<?php echo _ASSETS_DIR_; ?>profile_Icon.svg" alt="ProfileIcon" style="width: 25px;" /></a>
 
-              <ul class="dropdown-menu bg-danger-subtle">
+              <ul class="dropdown-menu bg-white text-dark">
                 <li>
                   <a class="dropdown-item" href=<?php echo _ROOT_DIRECTORY_ . 'index.php?action=get-profile&&id=' . $_SESSION['user_id']; ?>>My Account</a>
                 </li>

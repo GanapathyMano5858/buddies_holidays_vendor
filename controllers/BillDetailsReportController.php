@@ -14,12 +14,12 @@ class BillDetailsReportController{
 		$response=$this->model->BilldetailsReport($GetDatas);
 		 require('./views/billDetailsReport.php');
 	}
-	public function ShowDetailsBill(){
+	public function ShowClientBill(){
 		$GetDatas=[];
 		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 			$GetDatas=$_POST;
 		}
-		$response=$this->model->ShowDetailsBill($GetDatas);
+		$response=$this->model->ShowClientBill($GetDatas);
 	
 	}
 

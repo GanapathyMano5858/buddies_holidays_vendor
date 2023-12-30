@@ -469,6 +469,27 @@
     }
 
   }
+
+
+
+  .container-style {
+  padding: 15px;
+}
+
+/* Container styling for md screens */
+@media (max-width: 991px) {
+  .container-md .container-style {
+    padding: 15px;
+  }
+}
+
+/* Container styling for lg screens */
+@media (min-width: 992px) {
+  .container-lg .container-style {
+    padding: 30px;
+  }
+}
+
 </style>
 <script type="text/javascript">
   $(document).ready(function() {
@@ -620,14 +641,14 @@
   }
   $(document).ready(function() {
     if ($("input[name='type']:checked").val() != 5) {
-      $('#date_div').css('display', 'block');
+      $('#date_div').css('display', 'flex');
 
     } else {
       $('#date_div').css('display', 'none');
     }
     $("input[name='type']").change(function() {
       if ($(this).val() != 5) {
-        $('#date_div').css('display', 'block');
+        $('#date_div').css('display', 'flex');
 
       } else {
         $('#date_div').css('display', 'none');
@@ -765,10 +786,37 @@
     }
 
   }
+
+
+// Function to dynamically update container styles based on screen size
+function updateContainerStyles() {
+  var windowWidth = window.innerWidth;
+  var containerElement = document.querySelector('.container-style');
+
+  // Remove existing container class
+  containerElement.classList.remove('container-md', 'container-lg');
+
+  // Apply appropriate container class based on screen size
+  if (windowWidth >= 992) {
+    // Large (lg) screen
+    containerElement.classList.add('container-lg');
+  } else {
+    // Medium (md) screen
+    containerElement.classList.add('container-md');
+  }
+}
+
+// Call the function on window resize
+window.addEventListener('resize', updateContainerStyles);
+
+// Initial call to update container styles on page load
+updateContainerStyles();
+
+
 </script>
 
 <body>
-  <div class="">
+  <div class="container-style overflow-hidden">
     <form id="purchaseratebill" method="post" action="">
       <p class="m-0">Transport &nbsp; / &nbsp; Add Purchase Bill</p>
       <div class="notification" id="notification" style="display:none;">
@@ -779,17 +827,7 @@
       </div>
 
       <div class="p-3 border rounded">
-        <!-- <div class="row justify-content-end mb-4">
-          <div class="col-lg-1">
-            <a href="AddPurchaseBill.html">
-              <button type="button" class="btn btn-secondary">
-                <i class="fa-solid fa-rotate"></i>
-              </button>
-            </a>
-          </div>
-        </div> -->
-
-        <div class="row justify-content-between  align-items-center">
+         <div class="row justify-content-between  align-items-center">
           <div class="btn-group col-lg-2" role="group" aria-label="Basic radio toggle button group">
            
           <input class="btn-check" type="radio" id="btnradio1" name="type" value="5" checked />
@@ -798,17 +836,17 @@
             <input type="radio" class="btn-check" id="btnradio2" name="type" value="3" <?php echo (isset($response['searchType']) && $response['searchType'] == 3) ? 'checked' : ''; ?> />
             <label class="btn btn-outline-danger" for="btnradio2">Added</label>
           </div>
-          <div id="date_div" style="display: none;" class="col-lg-8 flex-row ">
-          <div class="col-lg-1">
-            <label for="min-date" class="form-label text-nowrap ">Start Date:</label>
+          <div id="date_div" style="display: none;" class="col-lg-8 flex-row mt-md-3 mt-lg-0">
+          <div class="col-lg-1 col-md-1">
+            <label for="min-date" class="form-label mb-md-0 text-nowrap ">Start Date:</label>
           </div>
-            <div class="col-lg-3">
+            <div class="col-lg-3 col-md-3">
               <input type="text" class="form-control" id="min-date" name="min-date" autocomplete="off" value="<?php echo isset($response['searchFrom']) ? $response['searchFrom'] : ''; ?>" autocomplete="off" />
             </div>
-            <div class="col-lg-1">
-              <label for="max-date" class="form-label text-nowrap ">End Date:</label>
+            <div class="col-lg-1 col-md-1">
+              <label for="max-date" class="form-label mb-md-0 text-nowrap ">End Date:</label>
             </div>
-            <div class="col-lg-3">
+            <div class="col-lg-3 col-md-3">
               <input type="text" class="form-control" id="max-date" name="max-date" autocomplete="off" value="<?php echo isset($response['searchTo']) ? $response['searchTo'] : ''; ?>" autocomplete="" />
             </div>
           </div>

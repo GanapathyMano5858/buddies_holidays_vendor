@@ -7,8 +7,7 @@ class TripAdvanceReportModel{
 		$this->pdo=$pdo;
 	}
 	public function TripadvanceReport($GetDatas){
-		    $permission=$this->tabAccess;
-    $url=self::$currentIndex.'&token='.$this->token;
+
     $where=1;
     $fromStr=$toStr  = '';
      $useragent=$_SERVER['HTTP_USER_AGENT'];
@@ -18,51 +17,34 @@ class TripAdvanceReportModel{
   else{
     $mobile='false';
   }
-      
-    //print_r($_POST['type']);die;
-       $fromStr =str_replace("/","-",$_POST['from']);
-       $toStr =str_replace("/","-",$_POST['to']);
-        $privilege=Db::getInstance()->executeS('select a.*,b.*,city.id_city as all_cities from ps_employee as a left join ps_privilege as b on (a.pri_id=b.pri_id and b.status=0) left join ps_city as city on (FIND_IN_SET(city.id_state,a.all_city_in_state)) where a.active=1 and a.id_employee='.$this->context->employee->id.'');
+  if(isset($GetDatas["min-date"])&&$GetDatas["min-date"] != ""&&isset($GetDatas["max-date"])&&$GetDatas["max-date"] != "")  {
+      $fromStr =str_replace("/","-",$GetDatas['min-date']);
+      $toStr =str_replace("/","-",$GetDatas['max-date']);
+  }
+     
   
-      $city_list=explode(',', $privilege[0]['city']);
-      foreach ($privilege as $keyssss => $valuess) {
-        $all_city_list[]=$valuess['all_cities'];
-        
-      }
-      foreach($all_city_list as $key_cityy=>$value_cityy){
-      if(!in_array($value_cityy, $city_list)){
-      $city_list[]=$value_cityy;
-      }
-      }
-      $privilege_city=implode(',', $city_list);
-       if($privilege[0]['vendor']==1){
-        $vendor='ve.va_transporter_id='.$privilege[0]['trans_vendor_id'].'';
-       }
-       else{
-        $vendor='(FIND_IN_SET(b.client_arrival ,"'.$privilege_city.'") || FIND_IN_SET(b.client_departure,"'.$privilege_city.'"))';
+        $vendor='ve.va_transporter_id='.$_SESSION['trans_vendor_id'];
    
-
-       }
        $oderby='';
-      if(isset($_POST['from'])&&$_POST['from']!=""&&isset($_POST['to'])&&$_POST['to']!=""&&isset($_POST['type'])&&$_POST['type']==1)
+      if(isset($GetDatas['min-date'])&&$GetDatas['min-date']!=""&&isset($GetDatas['max-date'])&&$GetDatas['max-date']!=""&&isset($GetDatas['type'])&&$GetDatas['type']==1)
         {
 
         $where='tr.payment_date BETWEEN  "'.date('Y-m-d',strtotime($fromStr)).'" AND "'.date('Y-m-d',strtotime($toStr)).'" and tr.ta_va_id!="" and tr.approval_status=2 ';
         $oderby='b.start_from asc ,ve.va_id asc';
         }
-        else if(isset($_POST['from'])&&$_POST['from']!=""&&isset($_POST['to'])&&$_POST['to']!=""&&isset($_POST['type'])&&$_POST['type']==2)
+        else if(isset($GetDatas['min-date'])&&$GetDatas['min-date']!=""&&isset($GetDatas['max-date'])&&$GetDatas['max-date']!=""&&isset($GetDatas['type'])&&$GetDatas['type']==2)
         {
         $where='tr.paid_status=1 and tr.approval_status=2';
         $oderby='b.start_from asc ,ve.va_id asc';
 
         }
-         else if(isset($_POST['type'])&&$_POST['type']==2)
+         else if(isset($GetDatas['type'])&&$GetDatas['type']==2)
         {
         $where='tr.paid_status=1 and tr.approval_status=2';
         $oderby='b.start_from asc ,ve.va_id asc';
 
         }
-        else if(isset($_POST['from'])&&$_POST['from']!=""&&isset($_POST['to'])&&$_POST['to']!=""&&isset($_POST['type'])&&$_POST['type']==3)
+        else if(isset($GetDatas['min-date'])&&$GetDatas['min-date']!=""&&isset($GetDatas['max-date'])&&$GetDatas['max-date']!=""&&isset($GetDatas['type'])&&$GetDatas['type']==3)
         {
         $where='tr.payment_date BETWEEN  "'.date('Y-m-d',strtotime($fromStr)).'" AND "'.date('Y-m-d',strtotime($toStr)).'" and (tr.paid_status=2 or (tr.paid_status=1 and tr.individual_paid_status=1))';
         $oderby='tr.payment_date asc,ve.va_id asc';
@@ -74,10 +56,11 @@ class TripAdvanceReportModel{
         }
 
 
-      $ClientList=Db::getInstance()->executeS('select ve.va_transporter_id, ve.va_id,b.details,b.cancel_status,b.arrivedornot,b.id_client, b.ref_no,b.client_name,b.start_from,b.end_to,b.client_arrival_name,b.client_departure_name,b.transporter_id as curt_transporter_id,b.confirmedprice, b.rejected_vendors,b.remarks,tr.*, e.t_id,e.reference_no,e.trans_vendors,e.transporter_name,e.dest_name,e.bank_access_id ,e.trans_type  from ps_vehicle_allotment as ve left join ps_client as b on (ve.client_table_id=b.id_client) left join  ps_trip_advance as tr on(ve.va_id =tr.ta_va_id) left join ps_transporter as e on (e.t_id=ve.va_transporter_id )  where '.$where.' and b.status=0  and b.transporter_id!="" and '.$vendor.'   order by '. $oderby.'');
+      $ClientList=$this->pdo->prepare('select ve.va_transporter_id, ve.va_id,b.details,b.cancel_status,b.arrivedornot,b.id_client, b.ref_no,b.client_name,b.start_from,b.end_to,b.client_arrival_name,b.client_departure_name,b.transporter_id as curt_transporter_id,b.confirmedprice, b.rejected_vendors,b.remarks,tr.*, e.t_id,e.reference_no,e.trans_vendors,e.transporter_name,e.dest_name,e.bank_access_id ,e.trans_type  from ps_vehicle_allotment as ve left join ps_client as b on (ve.client_table_id=b.id_client) left join  ps_trip_advance as tr on(ve.va_id =tr.ta_va_id) left join ps_transporter as e on (e.t_id=ve.va_transporter_id )  where '.$where.' and b.status=0  and b.transporter_id!="" and '.$vendor.'   order by '. $oderby.'');
 
-
-    
+    $ClientList->execute();
+    $ClientList=$ClientList->fetchAll(PDO::FETCH_ASSOC);
+    $listArraaa=[];
 
     function group_list($array,$key){
       $return =array();
@@ -106,13 +89,9 @@ class TripAdvanceReportModel{
        }
 
      }
-   
-// 
-//  print_r($listArraaa); echo '<pre>';
-// die;
+      
     
-    
-    $s=''; 
+    $s=$si=''; 
     //main loop key>client reference
     foreach($listArraaa as $keys => $list){  
       $si++;
@@ -151,36 +130,39 @@ class TripAdvanceReportModel{
           }
 
           else{
-          $s.="<tr>";
+          $s.="<tr class='align-middle'>";
 
           }
-            if($privilege[0]['vendor']==1&&$mobile=='true'){
-          $s.='<td style="width: 3% !important" class="sortid">'.$si.'</td>';
-          $s.='<td style="width: 7% !important"><span class="asr">BH Ref No</span> <span class="cllr">'.$valuesa[0]['ref_no'].'</span><br>';
+            if($mobile=='true'){
+    
+          $s.='<td style="width: 7% !important;"><div style="display: flex;
+          justify-content: space-between;
+          align-items: center;"><span class="asr">BH Ref No</span> <span class="cllr"><b>'.$valuesa[0]['ref_no'].'</b></span></div><br>';
            foreach($valuesa as $keydsfb=>$valuesbb)
                {  
                  
-                 $s.='<span class="asr">Pyament Date</span> <span class="cllr">'.((($valuesbb['paid_status']==1&&$valuesbb['individual_paid_status']==1)||$valuesbb['paid_status']==2) ? date('d/m/Y',strtotime($valuesbb['payment_date'])): '-').'</span>';
-                  $s.='<br><span class="asr">Amount</span> <span class="cllr">'.(isset($valuesbb['tripadvance_paid'] )? $valuesbb['tripadvance_paid'] :'-').'</span><br>';
+                 $s.='<div style="display:flex; justify-content:space-between; align-items: center;"><span class="asr">Pyament Date</span> <span class="cllr">'.((($valuesbb['paid_status']==1&&$valuesbb['individual_paid_status']==1)||$valuesbb['paid_status']==2) ? date('d/m/Y',strtotime($valuesbb['payment_date'])): '-').'</span></div> <br>';
+                  $s.='<div style="display:flex; justify-content:space-between; align-items: center;"><span class="asr">Amount</span> <span class="cllr">'.(isset($valuesbb['tripadvance_paid'] )? $valuesbb['tripadvance_paid'] :'-').'</span> </div> <br>';
                 }
-               $s.="<br><span class='asr'>View</span>
-               <span class='cllr'><a class='customedit' href='javascript:void(0)' title='View' onclick='javascript:return showClientDetails(".$valuesa[0]['id_client'].",".$privilege[0]['trans_vendor_id'].");'>
-                <i class='icon-eye'></i>
-              </a></span><br>";
+               $s.="<div style='display:flex; justify-content:space-between; align-items: center;'><span class='asr'>View</span>
+               <span class='cllr'><a class='customedit' href='javascript:void(0)' title='View' onclick='javascript:return showClientDetails(".$valuesa[0]['id_client'].",".$_SESSION['trans_vendor_id'].");'>
+               <button class='btn btn-primary' style='--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;'>  <i class='fa-solid fa-eye'></i>
+             </button> </a> </span></div>";
 
           }
           else{
-          $s.='<td>'.$si.'</td>';
-          $s.='<td>'.$valuesa[0]['ref_no'].'</td>';
-          $s.='<td>'.$valuesa[0]['client_name'].'</td>';
+          $s.='<td class="text-center">'.$si.'</td>';
+          $s.='<td class="text-center"><b>'.$valuesa[0]['ref_no'].'</b></td>';
+          $s.='<td class="text-nowrap text-center"><b>'.$valuesa[0]['client_name'].'</b></td>';
           $s.='<td>A:'.date('d/m/Y',strtotime($valuesa[0]['start_from'])).'<br>D:'.date('d/m/Y',strtotime($valuesa[0]['end_to'])).'</td>';
-          $s.='<td>'.$valuesa[0]['client_arrival_name'].'</td>';
-          $s.='<td>'.$valuesa[0]['client_departure_name'].'</td>';
-            if((($valuesa[0]['details'])&&$valuesa[0]['details']!=""&&$privilege[0]['vendor']==1&&$valuesa[0]['start_from']<=date("Y-m-d", strtotime("+1 days")))||($valuesa[0]['details']!=""&&$privilege[0]['vendor']==0)){
-             $s.="<td><button  type='button' class='dialogs' data-toggle='modal' onclick='Itinerary_modal(".$valuesa[0]['id_client'].",1);' ><img src='../img/details.png' height='20' width='20' ></button></td>";
+          $s.='<td class="text-center">'.$valuesa[0]['client_arrival_name'].'</td>';
+          $s.='<td class="text-center">'.$valuesa[0]['client_departure_name'].'</td>';
+    
+            if((($valuesa[0]['details'])&&$valuesa[0]['details']!=""&&$valuesa[0]['start_from']<=date("Y-m-d", strtotime("+1 days")))){
+             $s.="<td class='text-center'><button  type='button' class='dialogs btn btn-primary' data-toggle='modal' onclick='Itinerary_modal(".$valuesa[0]['id_client'].",1);' ><i class='fa-solid fa-file-lines'></i></button></td>";
          }
          else{
-          $s.= "<td>-</td>";
+          $s.= "<td class='text-center'>-</td>";
 
          }
           $s.='<td><table style="width:100%">';
@@ -188,44 +170,12 @@ class TripAdvanceReportModel{
       }
       $sdfr++;
        //main loop key>Vehicle Allotemnt id
-        if(($privilege[0]['vendor']==1&&$mobile=='false')||$privilege[0]['vendor']==0){
+        if($mobile=='false'){
         if($j==0)
         {
          
-          $s.='<tr>';
-           if($privilege[0]['vendor']==0){
-           $countStr=14;
-           $inc='';
-           $transss_name=ucfirst(strtolower($valuesa[0]['transporter_name']));
-            $trans_length=strlen($valuesa[0]['transporter_name']);
-            if($trans_length>$countStr){
-                  $wrap_trans=$c=0;    
-              do{
-                $wrap_trans+=$countStr;
-                $firstCharacter = substr($transss_name, $c, $wrap_trans);
-                
-                  $c+=$countStr;
-                  
-                  $inc.=$firstCharacter.'<br>';
-              }while(strlen($firstCharacter)>0);
-              
-            }
-            else{
-
-              $inc=$transss_name;
-              for($i=$countStr-$trans_length;$i>0;$i--){
-
-                $inc.='&nbsp';
-              }
-            }
-          $s.='<td class="wordwrapCol">'.$inc.'</td>';
-          if($valuesa[0]['trans_vendors']==1)
-          {
-            $s.='<td>Vendor&nbsp;&nbsp;&nbsp;</td>';
-          }else {
-            $s.='<td>Transporter</td>';
-          }
-          }
+          $s.='<tr class="align-middle">';
+          
           $s.='<td><table style="width:100%">';
         }
      
@@ -239,26 +189,26 @@ class TripAdvanceReportModel{
         foreach($valuesa as $keyb=>$valuesb)
         {  
            
-          $s.='<tr>';
+          $s.='<tr class="align-middle">';
            if($lll==0){
             
-          $s.='<td style="width:13% !important;text-align:center;">'.(isset($valuesb['tripadvance_request'] )? $valuesb['tripadvance_request'] :'-').'</td>';
+          $s.='<td style="width:18% !important;text-align:center;">'.(isset($valuesb['tripadvance_request'] )? $valuesb['tripadvance_request'] :'-').'</td>';
  
            }
            else{
              $s.='<td></td>';
            }
           
-           $s.='<td style="width:13% !important;text-align:center;">'.(isset($valuesb['tripadvance_paid'] )? $valuesb['tripadvance_paid'] :'-').'</td>';
+           $s.='<td style="width:23% !important;text-align:center;">'.(isset($valuesb['tripadvance_paid'] )? $valuesb['tripadvance_paid'] :'-').'</td>';
            //$s.="<td style='text-align:center';><div class='show_query' >".(isset($valuesb['paid_amount'] )? $valuesb['paid_amount'] :'-')."<div class='show_me'>".(isset($valuesb['payment_details'] )? $valuesb['payment_details'] :'-')."</div></div></td>";
 
          // approval status
                 if($lll==0){
              if(($valuesb['approval_status'])==1){
-                  $s.="<td style='width:13% !important;text-align:center;' class='pends'>PENDING</td>";
+                  $s.="<td style='width:14% !important;text-align:center;' class='pends'>PENDING</td>";
                   }
                   else if(($valuesb['approval_status'])==2){
-                  $s.="<td style='width:13% !important;text-align:center;' class='paids'>APPROVED</td>";
+                  $s.="<td style='width:9% text-align:center;' class='paids'>APPROVED</td>";
 
                   }
                   else if(($valuesb['approval_status'])==3)
@@ -357,21 +307,60 @@ class TripAdvanceReportModel{
     }
     
   }
-echo $s;
-die;
   
-		
+	   return [
+            "mobile" => $mobile,
+            "content" =>$s,
+            "searchFrom" => isset($GetDatas["min-date"])
+                ? $GetDatas["min-date"]
+                : "",
+            "searchTo" => isset($GetDatas["max-date"])
+                ? $GetDatas["max-date"]
+                : "",
+            "searchType" => isset($GetDatas["type"]) ? $GetDatas["type"] : "",
+        ];	
 	}
-	public function ShowClientTrip($GetDatas){
+  public function ViewDetails($GetDatas){
+    $id_client=$GetDatas['id'];
+    $type=$GetDatas['type'];
+    $content=$heading="";
+    if($type==1){
+      $value='details';
+      $headings='Itinerary Details';
+   
+   }
+   else if($type==2){
+    $value='vehical_note';
+    $headings='Vehicle Note';
 
+   }
+    else if($type==3){
+    $value='special_note';
+    $headings='Special Note';
+
+   }
+    $typeArr= $this->pdo->prepare('select '.$value.' from ps_client where status!=1 and id_client="'.$id_client.'"');
+     $typeArr->execute();
+    $typeArr=$typeArr->fetchAll(PDO::FETCH_ASSOC);
+    foreach ($typeArr[0] as $key => $value1) 
       
     
-$permission=$this->tabAccess;
-    $emp_id= $this->context->employee->id ;
-    $id_client=(int)Tools::getValue('id_client');
-    $trans_id=(int)Tools::getValue('trans_id');
+    $content='<div >'. $value1.'</div>';
+   $heading='<button type="button" class="close clst" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button><h4 class="modal-title text-center" id="myModalLabel">'. $headings.'</h4>';
+    
 
-    $clientARR = Db::getInstance()->executeS('select ve.va_start_date,ve.va_end_date,ve.va_transporter_id, ve.va_id,b.details,b.cancel_status,b.arrivedornot,b.id_client, b.ref_no,b.client_name,b.start_from,b.end_to,b.client_arrival_name,b.client_departure_name,b.transporter_id as curt_transporter_id,b.confirmedprice, b.rejected_vendors,b.remarks,tr.*, e.t_id,e.reference_no,e.trans_vendors,e.transporter_name,e.dest_name,e.bank_access_id ,e.trans_type  from ps_vehicle_allotment as ve left join ps_client as b on (ve.client_table_id=b.id_client) left join  ps_trip_advance as tr on(ve.va_id =tr.ta_va_id) left join ps_transporter as e on (e.t_id=ve.va_transporter_id )  where ve.va_transporter_id='.$trans_id.' and b.id_client="'.$id_client.'" and b.status=0');
+   echo json_encode(array('cont'=>$content,'head'=>$heading));
+  exit;
+
+  }
+  public function ShowClientDetails($GetDatas)
+  {   
+    $id_client=$GetDatas['id_client'];
+    $trans_id=$GetDatas['trans_id'];
+
+    $clientARR = $this->pdo->prepare('select ve.va_start_date,ve.va_end_date,ve.va_transporter_id, ve.va_id,b.details,b.cancel_status,b.arrivedornot,b.id_client, b.ref_no,b.client_name,b.start_from,b.end_to,b.client_arrival_name,b.client_departure_name,b.transporter_id as curt_transporter_id,b.confirmedprice, b.rejected_vendors,b.remarks,tr.*, e.t_id,e.reference_no,e.trans_vendors,e.transporter_name,e.dest_name,e.bank_access_id ,e.trans_type  from ps_vehicle_allotment as ve left join ps_client as b on (ve.client_table_id=b.id_client) left join  ps_trip_advance as tr on(ve.va_id =tr.ta_va_id) left join ps_transporter as e on (e.t_id=ve.va_transporter_id )  where ve.va_transporter_id='.$trans_id.' and b.id_client="'.$id_client.'" and b.status=0');
+    $clientARR->execute();
+    $clientARR=$clientARR->fetchAll(PDO::FETCH_ASSOC);
     // echo '<pre>';
     // print_r($clientARR);
     // echo '</pre>';
@@ -473,19 +462,88 @@ $permission=$this->tabAccess;
        $vendorRemark="-";
 
         }
-     
-    $this->context->smarty->assign(array(
-    'clientList'=>  $clientARR[0],
-    'tripAdvace_paid'=>$tripAdvace_paid,
-    'vendorRemark'=>$vendorRemark,
-    'trip_strart_date'=>$trip_strart_date,
-    'trip_end_date'=>$trip_end_date,
-    'privileges'=>Db::getInstance()->executeS('select * from ps_employee as a left join ps_privilege as b on a.pri_id=b.pri_id where a.active=1 and a.id_employee='.$this->context->employee->id.''),
-    'loginId'=>$this->context->employee->id,
-    'url_post' => self::$currentIndex.'&token='.$this->token,
-    ));
 
-       echo $this->createTemplate('viewclient.tpl')->fetch();
+$clientList=$clientARR[0];
+  
+
+
+echo '<fieldset >
+
+  <div class="container client_views">
+    <h3 class="clienrdeth3" style="text-align: center; background: #6d6d6d;"> Client Details</h3>
+    <hr>
+    <div class="col-sm-6 col-md-4 col-xs-12">
+      <label class="col-xs-6 pdb">BH Ref No </label>
+      <span class="col-xs-6 pdb margB">'.$clientList['ref_no'].'</span>
+
+    </div>
+    
+    <div class="col-sm-6 col-md-4 col-xs-12">
+      <label class="col-xs-6 pdb">Client Name</label>
+      <span class="col-xs-6 pdb margB">'.$clientList['client_name'].'</span>
+    </div>
+    
+    <div class="col-sm-6 col-md-4 col-xs-12">
+      <label class="col-xs-6 pdb">Arrival</label>
+      <span class="col-xs-6 pdb margB">'.$clientList['client_arrival_name'].'</span>
+    </div>
+    <div class="col-sm-6 col-md-4 col-xs-12">
+      <label class="col-xs-6 pdb">Departure</label>
+      <span class="col-xs-6 pdb margB">'.$clientList['client_departure_name'].'</span>
+    </div>
+    
+    <div class="col-sm-6 col-md-4 col-xs-12">
+      <label class="col-xs-6 pdb">Trip Date</label>
+      <span class="col-xs-6 pdb margB">'.$trip_strart_date.$trip_end_date.'</span>
+    </div>
+
+    <div class="col-sm-6 col-md-4 col-xs-12">
+      <label class="col-xs-6 pdb">Vehicle Remark</label>
+      <span class="col-xs-6 pdb margB">'.$vendorRemark.'</span>
+    </div>
+    <div class="clearfix"></div>
+     <div class="col-sm-12 col-md-12 list_view" >
+    <div class="table-responsive viewtable">
+      <table class="table" >
+      
+      
+      <thead>
+        <tr class="tabhead">
+          <th>Trip Advance Request</th>
+          <th>Trip Advance Paid</th>
+          <th>Approval Status</th>
+          <th>Paid Status</th>
+          <th>Utr No & Date</th>
+          <th>Remark</th>
+          
+        </tr>
+      </thead>
+      
+      <tbody>';
+
+        foreach($tripAdvace_paid as $valuess){ echo'<tr> <td>'.$valuess
+        ['request'].'</td> <td>'.$valuess['paid'].'</td> <td>'.$valuess
+        ['approval_status'].'</td> <td>'.$valuess['paid_status'].'</td>'; 
+        if($valuess['paid_status']=='Partially Paid'||$valuess
+        ['paid_status']=='PAID'){ echo'<td>'.$valuess['utr'].'<br>'.$valuess
+        ['paid_date'].'</td>'; } else{ echo'<td>-</td>'; }
+        echo'<td>'.$valuess['remark'].'</td>
+          
+          
+        </tr>';
+        }
+        
+      echo'</tbody>
+    </table>
+  </div>
+</div>
+</fieldset>';
+     
+ 
     exit;
-	}
+  
+
+  }
+
+
 }

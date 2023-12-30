@@ -1,326 +1,404 @@
-<?php include 'header.php';?>
-<body>
+<?php include 'header.php'; ?>
+<style type="text/css">
+  .even td table,
+  .odd td table {
+    table-layout: fixed;
+  }
 
-    <div class="p-4 container hg250">
-      <p class="m-0">Transport &nbsp; / &nbsp; Bill Details Report</p>
+  td {
+    text-align: center !important;
+  }
 
-      <div class="p-3 border rounded">
-        <div class="row justify-content-end mb-4">
-          <div class="col-lg-1">
-            <a href="transporterOutstandingReport.html">
-              <button type="button" class="btn btn-secondary">
-                <i class="fa-solid fa-rotate"></i>
-              </button>
-            </a>
-          </div>
-        </div>
+  p {
+    margin-bottom: 0 !important;
+  }
 
-        <div class="row justify-content-between align-items-center">
-          <div
-            class="btn-group col-lg-3 mb-md-3"
-            role="group"
-            aria-label="Basic radio toggle button group"
-          >
-            <input
-              type="radio"
-              class="btn-check"
-              name="btnradio"
-              id="btnradio1"
-              autocomplete="off"
-              checked
-              onclick="toggleDatePicker('hide')"
-            />
-            <label class="btn btn-outline-danger" for="btnradio1">Unpaid</label>
+  .jconfirm-box {
+    width: 400px;
+  }
 
-            <input
-              type="radio"
-              class="btn-check"
-              name="btnradio"
-              id="btnradio2"
-              autocomplete="off"
-              onclick="toggleDatePicker('show')"
-            />
-            <label class="btn btn-outline-danger" for="btnradio2">Paid</label>
+  .show_query {
+    position: relative;
+    text-decoration: none !important;
+    color: #555555 !important;
+    font-weight: bold;
 
-            <input
-              type="radio"
-              class="btn-check"
-              name="btnradio"
-              id="btnradio3"
-              autocomplete="off"
-              onclick="toggleDatePicker('show')"
-            />
-            <label class="btn btn-outline-danger" for="btnradio3">All</label>
-          </div>
+  }
 
-          <div class="gap-3 col-lg-3 mb-md-2 d-none" id="datePickerContainer1">
-            <label for="datepicker" class="form-label">Start Date:</label>
-            <input type="date" class="form-control" id="datepicker" />
-          </div>
-          <div class="gap-3 col-lg-3 mb-md-2 d-none" id="datePickerContainer2">
-            <label for="datepicker" class="form-label">End Date:</label>
-            <input type="date" class="form-control" id="datepicker" />
-          </div>
+  .show_query:hover .show_me {
+    display: block;
+    position: absolute;
+    background-color: #515050;
+    color: white;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    width: 200px;
+    min-height: 50px;
+    right: 10px;
+    z-index: 1;
+    padding: 10px 10px;
+    word-break: break-all;
+  }
 
-          <div class="gap-3 mb-md-3 mt-md-3 col-lg-2 custom-btn">
-            <input
-              type="button"
-              class="form-control btn btn-danger"
-              value="SUBMIT"
-            />
-          </div>
-        </div>
-        <!-- Quick Search -->
-        <div class="row">
-          <div class="col-lg-4">
-            <label for="inputState" class="form-label">Quick Search</label>
-            <div class="input-group mb-3">
-              <input type="text" class="form-control border-dark-subtle" />
-            </div>
-          </div>
-        </div>
-        <!-- Quick Search -->
+  .show_me {
+    display: none;
+  }
 
-        <!-- table Start -->
-        <div class="table-responsive table">
-          <table class="table table-bordered table-hover d-none d-lg-block">
-            <thead class="text-center">
-              <tr>
-                <th class="text-nowrap">Sl.No</th>
-                <th class="text-nowrap">BH Ref No</th>
-                <th class="text-nowrap">Client Name</th>
-                <th class="text-nowrap">Arrival</th>
-                <th class="text-nowrap">Trip Date</th>
-                <th class="text-nowrap">Bill Amount</th>
-                <th class="text-nowrap">TDS</th>
-                <th class="text-nowrap">Trip Advance</th>
-                <th class="text-nowrap">Driver Received Amount</th>
-                <th class="text-nowrap">Remaining Individual payable Amount</th>
-                <th class="text-nowrap">Vehicle Remark</th>
-                <th class="text-nowrap">Status</th>
-              </tr>
-            </thead>
+  .cancel td {
+    background: #e4b7d8 !important;
+  }
 
-            <tbody>
-              <tr class="text-center align-items-center">
-                <td>1</td>
-                <td>BHCI009287</td>
-                <td class="text-nowrap">Shumsuddin Mysore</td>
-                <td>S:13/01/2023 E:16/01/2023</td>
-                <td>0</td>
-                <td>0</td>
-                <td>-</td>
-                <td>-</td>
-                <td>0</td>
-                <td>-</td>
-                <td>-</td>
-                <td class="text-nowrap fw-bold text-danger-emphasis">
-                  Awaiting for<br />verify
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <!-- table End -->
+  .arrived td {
+    background: #EEDEF5 !important;
+  }
 
-        <!-- Card Start -->
+  @media(max-width: 599px) {
 
-        <div class="d-lg-none">
-          <div
-            class="container text-center text-danger mb-3 rounded border-bottom p-2 bg-secondary-subtle"
-          >
-            CLIENT DETAILS
-          </div>
+    .sorting_1,
+    .serialno,
+    .sortid {
+      display: none;
+    }
 
-          <div class="border rounded">
-            <div
-              class="container border-bottom p-2 d-flex justify-content-between"
-            >
-              <div>Bh Ref No :</div>
-              <div class="text-secondary">BHCI009072</div>
-            </div>
+    div.dt-buttons {
+      float: unset !important;
+      margin-left: 35px;
+    }
 
-            <div
-              class="container border-bottom p-2 d-flex justify-content-between"
-            >
-              <div>Travel Date :</div>
-              <div class="text-secondary">A:13/01/2023<br />D:16/01/2023</div>
-            </div>
+    .medmargB {
+      margin: 45px 0px 10px 0 !important;
+    }
 
-            <div
-              class="container border-bottom p-2 d-flex justify-content-between"
-            >
-              <div>Amount :</div>
-              <div class="text-secondary">0</div>
-            </div>
+    #BillDetailsTable {
+      border-spacing: 8px !important;
+    }
 
-            <div
-              class="container border-bottom p-2 d-flex justify-content-between"
-            >
-              <div>Status :</div>
-              <div class="text-nowrap fw-bold text-danger-emphasis">
-                Awaiting for<br />verify
-              </div>
-            </div>
+    .cladatepicker {
+      width: 100%;
+    }
+  }
 
-            <div class="container p-2 d-flex justify-content-between">
-              <div>View :</div>
+  @media(width:320px) {
+    .cllr {
+      color: #7d7d7d;
+      float: right;
+      font-size: 10px;
+    }
 
-              <div>
-                <!-- Button trigger modal -->
-                <button
-                  type="button"
-                  class="btn btn-primary btn-sm"
-                  data-bs-toggle="modal"
-                  data-bs-target="#exampleModal"
-                >
-                  <i class="fa-solid fa-eye"></i>
-                </button>
+    .pdb {
+      padding: 0px 3px 0px 0px !important;
+    }
 
-                <!-- Modal Start -->
-                <div
-                  class="modal fade"
-                  id="exampleModal"
-                  tabindex="-1"
-                  aria-labelledby="exampleModalLabel"
-                  aria-hidden="true"
-                >
-                  <div class="modal-dialog">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">
-                          Driver Details
-                        </h5>
-                        <button
-                          type="button"
-                          class="btn-close"
-                          data-bs-dismiss="modal"
-                          aria-label="Close"
-                        ></button>
-                      </div>
-                      <div class="modal-body">
-                        <div class="container-fluid border p-3 rounded">
-                          <div class="row justify-content-between p-2">
-                            <div class="col-md-6 text-start">BH Ref No :</div>
-                            <div class="col-md-6 text-secondary text-end">
-                              BHCI009072
-                            </div>
-                          </div>
-                          <div class="row justify-content-between p-2">
-                            <div class="col-md-6 text-start">Client Name :</div>
-                            <div class="col-md-6 text-secondary text-end">
-                              Shumsuddin
-                            </div>
-                          </div>
-                          <div class="row justify-content-between p-2">
-                            <div class="col-md-6 text-start">Arrival :</div>
-                            <div class="col-md-6 text-secondary text-end">
-                              Mysore
-                            </div>
-                          </div>
-                          <div class="row justify-content-between p-2">
-                            <div class="col-md-6 text-start">Departure :</div>
-                            <div class="col-md-6 text-secondary text-end">
-                              Mysore
-                            </div>
-                          </div>
-                          <div class="row justify-content-between p-2">
-                            <div class="col-md-6 text-start">Trip Date :</div>
-                            <div class="col-md-6 text-secondary text-end">
-                              S:13/01/2023<br />E:16/01/2023
-                            </div>
-                          </div>
-                          <div
-                            class="row justify-content-between p-2 align-items-center"
-                          >
-                            <div class="col-md-6 text-start">Bill Amount :</div>
-                            <div class="col-md-6 text-secondary text-end">
-                              0
-                            </div>
-                          </div>
-                          <div
-                            class="row justify-content-between p-2 align-items-center"
-                          >
-                            <div class="col-md-6 text-start">TDS :</div>
-                            <div class="col-md-6 text-secondary text-end">
-                              0
-                            </div>
-                          </div>
-                          <div
-                            class="row justify-content-between p-2 align-items-center"
-                          >
-                            <div class="col-md-6 text-start">Trip Advance :</div>
-                            <div class="col-md-6 text-secondary text-end">
-                              0
-                            </div>
-                          </div>
-                          <div
-                            class="row justify-content-between p-2 align-items-center"
-                          >
-                            <div class="col-md-6 text-start">Driver Received Amount :</div>
-                            <div class="col-md-6 text-secondary text-end">
-                              0
-                            </div>
-                          </div>
-                          <div
-                            class="row justify-content-between p-2 align-items-center"
-                          >
-                            <div class="col-md-6 text-start">Remaining Individual Payable Amount :</div>
-                            <div class="col-md-6 text-secondary text-end">
-                              0
-                            </div>
-                          </div>
-                          <div
-                            class="row justify-content-between p-2 align-items-center"
-                          >
-                            <div class="col-md-6 text-start">Vehicle Remark :</div>
-                            <div class="col-md-6 text-secondary text-end">
-                              -
-                            </div>
-                          </div>
-                          <div
-                            class="row justify-content-between p-2 align-items-center"
-                          >
-                            <div class="col-md-6 text-start">Status  :</div>
-                            <div class="col-md-6 text-danger-emphasis text-end">
-                              Awaiting for<br />verify
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <!-- Modal End-->
-              </div>
-            </div>
-          </div>
-        </div>
+    .client_views label:after {
+      content: "";
+    }
+  }
 
-        <!-- Card End -->
-      </div>
-    </div>
-    <script>
-      // Initialize date picker
-      //   $("#datepicker").datepicker();
+  @media (max-width: 1024px) {
+    table tbody tr td {
+      line-height: 28px !important;
+    }
 
-      // Function to toggle date picker visibility
-      function toggleDatePicker(action) {
-        var datePickerContainer1 = document.getElementById(
-          "datePickerContainer1"
-        );
-        var datePickerContainer2 = document.getElementById(
-          "datePickerContainer2"
-        );
+    .asr {
+      color: #500606;
+      float: left;
+    }
 
-        if (action === "show") {
-          datePickerContainer1.classList.remove("d-none");
-          datePickerContainer2.classList.remove("d-none");
-        } else {
-          datePickerContainer1.classList.add("d-none");
-          datePickerContainer2.classList.add("d-none");
+    .asr:after {
+      content: ":";
+      position: absolute;
+      right: 50%;
+    }
+
+    .cllr {
+      color: #7d7d7d;
+      float: right;
+      white-space: nowrap;
+      overflow: hidden;
+      width: 62%;
+      text-align: right;
+      text-overflow: ellipsis;
+    }
+
+    .client_views,
+    .list_view {
+      padding: 0px;
+    }
+
+    .client_views h3 {
+      margin: 8px 0;
+      font-size: 18px;
+    }
+
+    .request {
+      color: #ffffff;
+      background: transparent !important;
+      padding: 2px 0px;
+      text-transform: uppercase;
+      color: #f31111 !important;
+      font-weight: 600;
+      font-size: 11px;
+    }
+
+    .bootstrap .table tbody>tr:nth-child(odd)>td {
+      background-color: #ffffff !important;
+      padding: 20px 15px 20px 15px;
+      box-shadow: 0 10px 10px -10px rgba(0, 0, 0, 0.42);
+      border: 1px solid #e4e4e4;
+    }
+
+    .bootstrap .table tbody>tr:nth-child(even)>td {
+      background-color: #ffffff !important;
+      padding: 20px 15px 20px 15px;
+      box-shadow: 0 10px 10px -10px rgba(0, 0, 0, 0.42);
+      border: 1px solid #e4e4e4;
+    }
+
+    .bootstrap .table tbody>tr:nth-child(odd)>td,
+    .bootstrap .table tbody>tr:nth-child(even)>td:hover {
+      box-shadow: 0 10px 10px -10px rgba(0, 0, 0, 0.42);
+      border: 1px solid #e4e4e4;
+    }
+
+    .icon-trash {
+      color: #cc0707;
+      font-size: 16px;
+    }
+
+    .dataTables_filter label {
+      font-size: 12px !important;
+    }
+
+    .serialno {
+      width: 14% !important;
+    }
+
+    .vechdet {
+      text-align: center !important;
+      font-weight: 600;
+      text-transform: uppercase;
+      width: 85% !important;
+      background: linear-gradient(to bottom, #efe9e9 19%, #dcdcdc 56%) !important;
+    }
+
+    .pdb {
+      padding: 0px;
+    }
+
+    .margB {
+      margin: 10px 0px 10px 0;
+    }
+
+    .medmargB {
+      margin: 30px 0px 10px 0;
+    }
+
+    .ui-datepicker {
+      z-index: 9999 !important;
+    }
+  }
+</style>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#BillDetailsTable').DataTable({
+      lengthMenu: [
+        [-1],
+        ['All']
+      ],
+
+    });
+
+    if ($("input[name='type']:checked").val() != 2) {
+      $('#datePickerContainer1').removeClass("d-none");
+      $('#datePickerContainer2').removeClass("d-none");
+
+    } else {
+      $('#datePickerContainer1').addClass("d-none");
+      $('#datePickerContainer2').addClass("d-none");
+    }
+    $("input[name='type']").change(function() {
+      if ($(this).val() != 2) {
+
+        $('#datePickerContainer1').removeClass("d-none");
+        $('#datePickerContainer2').removeClass("d-none");
+      } else {
+        $('#datePickerContainer1').addClass("d-none");
+        $('#datePickerContainer2').addClass("d-none");
+      }
+    });
+
+    $("#min-date").datepicker({
+      changeMonth: true,
+      changeYear: true,
+      yearRange: "-1:+1",
+      dateFormat: 'dd/mm/yy',
+      onSelect: function(dateText, inst) {
+        $("#max-date").datepicker("option", "minDate",
+          $("#min-date").datepicker("getDate"));
+      }
+
+    });
+    $('#max-date').datepicker({
+      changeMonth: true,
+      changeYear: true,
+      yearRange: "-1:+1",
+      dateFormat: 'dd/mm/yy'
+    });
+  });
+
+  function downloadReport(type) {
+    if (type == 'excel')
+      var url = './common_files/excel-report/billdetails_report.php?';
+    window.open(url + "from=" + $('#min-date').val() + "&to=" + $('#max-date').val() + "&type=" + $('input[name=type]:checked').val(), "_blank");
+    return false;
+  }
+
+  function showClientDetails(id_client, trans_id) {
+    $.ajax({
+      url: "<?php echo _ROOT_DIRECTORY_; ?>index.php?&action=ShowClientBill",
+      data: 'id_client=' + id_client + '&trans_id=' + trans_id,
+      type: "POST",
+      success: function(result) {
+
+        if ($.trim(result) != '') {
+          $("#BillReportModal .modal-body").html(result);
+          $("#BillReportModal").modal("show");
         }
       }
-    </script>
-  </body>
+    });
+  }
+</script>
+
+<body>
+
+  <div class="p-4 container hg250">
+    <p class="m-0">Transport &nbsp; / &nbsp; Bill Details Report</p>
+
+    <div class="p-3 border rounded">
+      <form action="" method="post" style="box-shadow: none; padding:25px 25px 0;">
+        <div class="row justify-content-between align-items-center">
+          <div class="btn-group col-lg-3 mb-md-3 mb-lg-0" role="group" aria-label="Basic radio toggle button group">
+            <input type="radio" class="btn-check" name="type" id="btnradio1" autocomplete="off" value="2" checked />
+            <label class="btn btn-outline-danger btn-sm " for="btnradio1">Unpaid</label>
+
+            <input type="radio" class="btn-check" name="type" id="btnradio2" value="3" autocomplete="off" <?php echo (isset($response['searchType']) && $response['searchType'] == 3) ? 'checked' : ''; ?> />
+            <label class="btn btn-outline-danger btn-sm" for="btnradio2">Paid</label>
+
+            <input type="radio" class="btn-check" name="type" id="btnradio3" value="1" autocomplete="off" <?php echo (isset($response['searchType']) && $response['searchType'] == 1) ? 'checked' : ''; ?> />
+            <label class="btn btn-outline-danger btn-sm" for="btnradio3">All</label>
+          </div>
+
+          <div class="gap-3 col-lg-3 flex-row  mb-md-3 mb-lg-0 " id="datePickerContainer1">
+            <div class="col-3">
+              <label for="datepicker" class="form-label text-nowrap ">Start Date:</label>
+            </div>
+            <div class="col-9">
+              <input style="height: 30px;" type="text" class="form-control" autocomplete="off" id="min-date" name="min-date" value="<?php echo isset($response['searchFrom']) ? $response['searchFrom'] : ''; ?>" />
+            </div>
+          </div>
+          <div class="gap-3 col-lg-3 flex-row mb-md-3 mb-lg-0" id="datePickerContainer2">
+            <div class="col-3">
+              <label for="datepicker" class="form-label text-nowrap ">End Date:</label>
+            </div>
+            <div class="col-9">
+              <input style="height: 30px;" type="text" class="form-control" id="max-date" name="max-date" autocomplete="off" value="<?php echo isset($response['searchTo']) ? $response['searchTo'] : ''; ?>" />
+            </div>
+          </div>
+
+          <div class="gap-3 col-lg-2 ">
+            <input type="submit" class="form-control btn btn-danger btn-sm " value="SUBMIT" />
+          </div>
+        </div>
+      </form>
+
+      <!-- table Start -->
+      <button onclick="javascript:downloadReport('excel')" style="right: 28px; top: 45px;" class="btn-sm btn btn-outline-success position-relative float-end ">
+        Download &nbsp;<i class="fa-solid fa-download"></i>
+      </button>
+      <div class="table-responsive table">
+        <table class="table table-striped table-hover table-borderless" id="BillDetailsTable">
+          <thead class="text-center">
+            <tr class="align-middle">
+              <?php if ($response['mobile'] == 'true') { ?>
+
+                <th class="vechdet" style="width: 10% !important">Client Details</th>
+
+              <?php } else { ?>
+                <th style="width: 3% !important">S.no</th>
+                <th style="width: 7% !important">BH Ref No</th>
+                <th style="width: 7% !important">Client Name</th>
+
+                <th style="width: 7% !important">Arrival</th>
+
+                <th>
+                  <table class="table table-striped table-hover table-borderless" style="margin-bottom:0 !important; width: 100% !important" ;>
+                    <thead id="scroll">
+                      <tr class="align-middle">
+
+                        <th class="p-0" style="width: 10% !important">Trip Date</th>
+                        <th class="p-0 text-nowrap" style="width: 7% !important">Bill Amount </th>
+                        <th class="p-0" style="width: 5% !important">TDS</th>
+                        <th class="p-0" style="width: 10% !important">
+                          <table class="table table-striped table-hover table-borderless" style="margin-bottom:0 !important; width: 100% !important" ;>
+                            <thead id="scroll">
+                              <tr class="align-middle">
+                                <th class="p-0">Trip Advance</th>
+
+                              </tr>
+                            </thead>
+                          </table>
+                        </th>
+                        <th class="p-0" style="width: 5% !important">Driver Received Amount</th>
+                        <th class="p-0" style="width: 7% !important">
+                          <?php if (isset($response['searchType']) && $response['searchType'] == 3) {
+                            echo "Remaining Individual paid Amount";
+                          } elseif (isset($searchCity) && $searchCity == 1) {
+                            echo "Remaining Individual Amount";
+                          } else {
+                            echo "Remaining Individual payable Amount";
+                          }
+                          ?>
+                        </th>
+                        <th class="p-0" style="width: 6% !important">Vehicle Remark</th>
+                        <th class="p-0" style="width: 8% !important">Status</th>
+                      </tr>
+                    </thead>
+                  </table>
+                </th>
+              <?php } ?>
+            </tr>
+          </thead>
+
+          <tbody>
+
+            <?php echo $response['content']; ?>
+
+          </tbody>
+        </table>
+      </div>
+      <!-- table End -->
+
+      <!-- Modal Start -->
+      <div class="modal fade" id="BillReportModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">
+                Driver Details
+              </h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Modal End-->
+
+    </div>
+  </div>
+</body>
+
 </html>

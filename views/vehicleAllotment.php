@@ -979,7 +979,7 @@
     <p class="m-0">Transport &nbsp; / &nbsp; Vehicle Allotment</p>
 
     <div class="p-3 border rounded">
-      <div class="row justify-content-end mb-4">
+      <!-- <div class="row justify-content-end mb-4">
         <div class="col-lg-1">
           <a href="vehicleAllotment.html">
             <button type="button" class="btn btn-secondary">
@@ -987,35 +987,35 @@
             </button>
           </a>
         </div>
-      </div>
+      </div> -->
       <form action="" method="post" style="box-shadow: none;">
-        <div class="row container m-auto  justify-content-lg-evenly align-items-center">
-          <div class="col-lg-1 mt-auto mb-auto ms-auto ">
-            <label for="inputState" class="form-label m-0 text-nowrap ">Start Date</label>
+        <div class="row  justify-content-lg-evenly align-items-center">
+          <div class="col-lg-1 mt-auto mb-lg-auto mb-md-2 ps-md-4 ps-lg-0 ">
+            <label for="inputState" class="form-label m-0 text-nowrap ">Start Date :</label>
           </div>
-          <div class="col-lg-2 mt-auto mb-auto">
-            <div class="input-group">
-              <input type="text" id="min-date" autocomplete="off" name="min-date" class="form-control border-dark-subtle" value="<?php echo isset($response['searchFrom']) ? $response['searchFrom'] : ''; ?>">
-            </div>
-          </div>
-
-          <div class="col-lg-1 mt-auto mb-auto ms-auto">
-            <label for="inputState" class="form-label m-0">End Date</label>
-          </div>
-
-          <div class="col-lg-2 mt-auto mb-auto">
-            <!-- <label for="inputState" class="form-label">End Date</label> -->
+          <div class="col-lg-2 mt-auto mb-auto pe-md-3 ps-md-3 ps-lg-0 pe-lg-0 mb-md-2 mb-lg-0">
             <div class="input-group ">
-              <input type="text" id="max-date" name="max-date" class="form-control border-dark-subtle" autocomplete="off" value="<?php echo isset($response['searchTo']) ? $response['searchTo'] : ''; ?>">
+              <input style="height: 30px;" type="text" id="min-date" autocomplete="off" name="min-date" class=" form-control border-dark-subtle" value="<?php echo isset($response['searchFrom']) ? $response['searchFrom'] : ''; ?>">
             </div>
           </div>
 
-          <div class="btn-group col-lg-4" role="group" aria-label="Basic radio toggle button group">
+          <div class="col-lg-1 mt-auto mb-lg-auto mb-md-2  ps-md-4 ps-lg-0">
+            <label for="inputState" class="form-label m-0 text-nowrap">End Date :</label>
+          </div>
+
+          <div class="col-lg-2 mt-auto mb-auto pe-md-3 ps-md-3 ps-lg-0 pe-lg-0 mb-md-3 mb-lg-0">
+            <div class="input-group ">
+              <input style="height: 30px;" type="text" id="max-date" name="max-date" class="form-control border-dark-subtle" autocomplete="off" value="<?php echo isset($response['searchTo']) ? $response['searchTo'] : ''; ?>">
+            </div>
+          </div>
+
+          <div class="btn-group col-lg-4 mb-md-3 mb-lg-0 " role="group" aria-label="Basic radio toggle button group">
             <input type="radio" class="btn-check" name="type" id="btnradio1" autocomplete="off" value="1" checked onclick="toggleDatePicker('hide')" />
             <label class="btn btn-outline-danger" for="btnradio1">Un Allotted</label>
 
             <input type="radio" class="btn-check" name="type" id="btnradio2" value="2" <?php echo (isset($response['searchType']) && $response['searchType'] == 2) ? 'checked' : ''; ?> autocomplete="off" />
             <label class="btn btn-outline-danger" for="btnradio2">Allotted</label>
+
             <input type="radio" class="btn-check" name="type" id="btnradio3" autocomplete="off" value="3" <?php echo (isset($response['searchType']) && $response['searchType'] == 3) ? 'checked' : ''; ?> />
             <label class="btn btn-outline-danger" for="btnradio3">All</label>
           </div>
@@ -1040,7 +1040,7 @@
                 <th style="display: none;">S.no</th>
                 <th>S.no</th>
                 <th class="text-nowrap ">Booking Id </th>
-                <th>Guest Name</th>
+                <th class="text-nowrap">Guest Name</th>
                 <th>Arrival </th>
                 <th>Departure </th>
                 <th class="text-nowrap">Travel Date</th>
@@ -1064,7 +1064,7 @@
                   </table>
                 </th>
                 <th>Allotment</th>
-                <!-- <?php } ?> -->
+                   <?php } ?>
             </tr>
           </thead>
 
