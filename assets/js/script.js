@@ -1,5 +1,52 @@
 // Selecting form and input elements
+/**************** Page Active Finder *************/
+var inactivityTime = 10 * 60 * 1000; // 10 minutes in milliseconds
+var timeout;
 
+function startInactivityTimer() {
+timeout = setTimeout(function () {
+$.alert('You have been inactive for 10 minutes!');
+// You can perform other actions here, like redirecting or logging out
+}, inactivityTime);
+}
+
+function resetInactivityTimer() {
+clearTimeout(timeout);
+startInactivityTimer();
+}
+
+$(document).on('mousemove keydown', function () {
+//resetInactivityTimer();
+});
+
+// Start the timer when the page loads
+//startInactivityTimer();
+ $(document).ready(function(){
+   var $dataTable = $('.tableList');
+
+    if ($dataTable.length > 0) {
+     $(".overlayss").css('display', 'block');
+    }
+     $dataTable.DataTable({
+      language: { search: "" },
+      lengthMenu: [
+        [-1],
+        ['All']
+      ],
+        //processing: true,
+      initComplete: function () {
+            console.log('DataTable content has finished loading.');
+            
+            $(".overlayss").css('display','none');
+        }
+
+    });
+  $("input[type='search']").attr("placeholder", "Quick Search");
+
+
+});
+
+/**************** End Page Active Finder *************/
 function initializeViewer() {
   $(".viewer_image").viewer({backdrop: 'static'});
   $(".viewer_images").viewer({backdrop: 'static'});

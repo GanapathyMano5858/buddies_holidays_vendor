@@ -35,8 +35,8 @@ class VehicleAllotmentModel
         } elseif (isset($GetDatas["type"]) && $GetDatas["type"] == 4) {
             $type = "(c.cancel_status=1 or c.arrivedornot=1)";
         } else {
-            $type =
-                '(va.va_driver_id="" and va.va_vehicle_id="" and c.cancel_status!=1 and c.arrivedornot!=1) or c.status_datechanged=1';
+             $type =
+                '(va.va_driver_id="" and va.va_vehicle_id="" and c.cancel_status!=1 and c.arrivedornot!=1 and c.transporter_id='.$_SESSION["trans_vendor_id"].') or c.status_datechanged=1' ;
         }
 
         if (
@@ -70,7 +70,7 @@ class VehicleAllotmentModel
                 $where .
                 "  and " .
                 $type .
-                " and c.status_datechanged!=1 and va.trip_went_not!=2 order by c.start_from asc, va.va_id asc"
+                " and c.status_datechanged!=1 and va.trip_went_not!=2 order by c.start_from asc"
         );
 
         $vehicleallotmentlist->execute();
@@ -81,7 +81,7 @@ class VehicleAllotmentModel
         $permission["edit"] = 1;
 
         $i = 1;
-        $s = $ff = $input = "";
+        $s = $ff = $input = $toclosewhile = "";
 
         function group_assoc($array, $key)
         {
@@ -105,7 +105,7 @@ class VehicleAllotmentModel
             $Allot_button = "-";
             $arr_tranfffs = [];
             $t = 0;
-
+            $toclosewhile=count($list);
             foreach ($list as $keys => $valus) {
                 $select_last_trans = $this->pdo->prepare(
                     "select va_id from ps_vehicle_allotment where client_table_id=" .
@@ -132,14 +132,14 @@ class VehicleAllotmentModel
                     foreach ($select_client_id as $client_id_val) {
                         $client_id_val1[] = $client_id_val["id_client"];
                     }
-
+                    $Color_datechanged ="";
                     if (
                         in_array($valus["id_client"], $client_id_val1) &&
                         $privilege_query[0]["vendor"] == 1 &&
                         $_SESSION["trans_vendor_id"] != $valus["transporter_id"]
                     ) {
-                        $s .= "<tr class='disable'>ujtyuytuty";
-                        $ff .= "<tr class='disable'>ujtyuytuty";
+                        $s .= "<tr class='disable align-middle'>";
+                        $ff .= "<tr class='disable align-middle'>";
                     } else {
                         if ($valus["status_datechanged"] == 1) {
                             $Color_datechanged = "violet";
@@ -148,25 +148,25 @@ class VehicleAllotmentModel
                         }
                         if ($valus["cancel_status"] == 1) {
                             $s .=
-                                "<tr  class='cancel " .
+                                "<tr  class='cancel align-middle " .
                                 $Color_datechanged .
                                 "' >";
                             $ff .=
-                                "<tr  class='cancel " .
+                                "<tr  class='cancel align-middle " .
                                 $Color_datechanged .
                                 "' >";
                         } elseif ($valus["arrivedornot"] == 1) {
                             $s .=
-                                "<tr class='arrived " .
+                                "<tr class='arrived align-middle " .
                                 $Color_datechanged .
                                 "' >";
                             $ff .=
-                                "<tr class='arrived " .
+                                "<tr class='arrived align-middle ".
                                 $Color_datechanged .
                                 "' >";
                         } else {
-                            $s .= "<tr class='" . $Color_datechanged . "'>";
-                            $ff .= "<tr class='" . $Color_datechanged . "'>";
+                            $s .= "<tr class='align-middle " . $Color_datechanged . "'>";
+                            $ff .= "<tr class='align-middle " . $Color_datechanged . "'>";
                         }
                     }
                     $arrivalviadetails =
@@ -237,39 +237,39 @@ class VehicleAllotmentModel
                         $cartypesdd = $cartypesdd->fetchAll(PDO::FETCH_ASSOC);
 
                         $ff .=
-                            "<td>" . $Color_datechanged . "  " . $i . "</td>";
-                        $ff .= "<td class=''>";
+                            "<td style='display:none'>" . $i . "</td>";
+                        $ff .= "<td class='d-flex flex-column gap-2'>";
                         $ff .=
-                            "<span class='asr'>Booking Id</span> <span class='cllr'>" .
+                            "<div class='d-flex justify-content-between'><span class='asr'>Booking Id</span> <span class='cllr'>" .
                             $valus["ref_no"] .
-                            "</span><br>";
+                            "</span></div>";
                         $ff .=
-                            "<span class='asr'> Guest Name</span> <span class='cllr'>" .
+                            "<div class='d-flex justify-content-between'><span class='asr'> Guest Name</span> <span class='cllr'>" .
                             $valus["client_name"] .
-                            "</span><br>";
+                            "</span></div>";
                         if ($valus["trip_went_not"] != 2) {
                             $ff .=
-                                "<span class='asr'>Arrival Date</span> <span class='cllr'>" .
+                                "<div class='d-flex justify-content-between'><span class='asr'>Arrival Date</span> <span class='cllr'>" .
                                 date("d/m/Y", strtotime($DATEFORM_star)) .
-                                "</span>";
+                                "</span></div>";
                         } else {
                             $ff .=
-                                "<span class='asr'>Arrival Date</span> <span class='cllr'>Trip Not Went</span>";
+                                "<div class='d-flex justify-content-between'><span class='asr'>Arrival Date</span> <span class='cllr'>Trip Not Went</span></div>";
                         }
 
                         $ff .=
-                            "<br>
+                            "<div class='d-flex justify-content-between'>
 								     <span class='asr'>No of days</span> <span class='cllr'>" .
                             $no_of_days .
-                            " </span><br>
-								         <span class='asr'>Vehicle Type</span> <span class='cllr'>" .
+                            " </span></div>
+                            <div class='d-flex justify-content-between'>   <span class='asr'>Vehicle Type</span> <span class='cllr'>" .
                             $cartypesdd[0]["vehicle_type_name"] .
-                            " </span><br>";
+                            " </span></div>";
                         // if($valus['details']){
                         $ff .=
-                            " <span class='asr'>Download Itinerary</span> <span class='cllr'><span id='itinerary_down" .
+                            "<div class='d-flex justify-content-between'> <span class='asr'>Download Itinerary</span> <span class='cllr'><span id='itinerary_down" .
                             $valus["id_client"] .
-                            "'></span></span><br>";
+                            "'><i class='fa-solid fa-download'></i></span></span></div>";
                         //}
                         if ($privilege_query[0]["vendor"] == 0) {
                             $select_transporter1 = $this->pdo->prepare(
@@ -294,41 +294,41 @@ class VehicleAllotmentModel
                         }
 
                         $ff .=
-                            "<span class='asr'>View</span>
-									<span class='cllr'><a class='customedit' href='javascript:void(0)' title='View' onclick='javascript:return showClientDetails(" .
+                            "<div class='d-flex justify-content-between'><span class='asr'>View</span>
+									<span class='cllr'><a class='btn btn-primary' href='javascript:void(0)' title='View' onclick='javascript:return showClientDetails(" .
                             $valus["id_client"] .
                             "," .
                             $_SESSION["trans_vendor_id"] .
                             ");'>
 									<i class='fa-solid fa-eye'></i>
-									</a></span><br>";
+									</a></span></div>";
                         //$valus['end_to']>=date('Y-m-d')&&
                         if (
                             $valus["cancel_status"] == 0 &&
                             $valus["arrivedornot"] == 0
                         ) {
-                            $ff .= "<span class='asr'>Allot</span>";
+                            // $ff .= "<span class='asr'>Allot</span>";
                         }
                     } else {
-                        $s .=
-                            "<td style='display:none;'>" .
-                            $Color_datechanged .
-                            "</td>";
+                        // $s .=
+                        //     "<td style='display:none;'>" .
+                        //     $Color_datechanged .
+                        //     "</td>";
 
-                        $s .= "<td>" . $i . "</td>";
+                        $s .= "<td class='align-middle'>" . $i . "</td>";
                         $s .=
-                            "<td>" .
+                            "<td class='align-middle'>" .
                             (isset($valus["ref_no"]) ? $valus["ref_no"] : "-") .
                             "</td>";
 
                         $s .=
-                            "<td class='text-nowrap'>" .
+                            "<td class='text-nowrap align-middle'>" .
                             (isset($valus["client_name"])
                                 ? $valus["client_name"]
                                 : "-") .
                             "</td>
 						
-						<td /*class='text-nowrap'*/>" .
+						<td class='text-nowrap align-middle'>" .
                             (isset($valus["client_arrival_name"])
                                 ? $valus["client_arrival_name"]
                                 : "-") .
@@ -336,7 +336,7 @@ class VehicleAllotmentModel
                             $arrivalviadetails .
                             "
 						</td>
-						<td>" .
+						<td class='text-nowrap align-middle'>" .
                             (isset($valus["client_departure_name"])
                                 ? $valus["client_departure_name"]
                                 : "-") .
@@ -345,7 +345,7 @@ class VehicleAllotmentModel
                             "
 						</td>";
                         $s .=
-                            "<td class='text-nowrap'>A:" .
+                            "<td class='text-nowrap align-middle'>A:" .
                             ($valus["start_from"]
                                 ? date("d-m-Y", strtotime($valus["start_from"]))
                                 : "-") .
@@ -399,7 +399,7 @@ class VehicleAllotmentModel
                         $TRANSPORTER = $valus["va_transporter_id"];
                         $TRANSPORTER_va_id = $valus["va_id"];
                         $s .=
-                            "<tr><td style='width: 11%;'><span class='date_history" .
+                            "<tr class='align-middle'><td style='width: 11%;'><span class='date_history" .
                             $TRANSPORTER .
                             $valus["id_client"] .
                             $valus["va_id"] .
@@ -415,7 +415,7 @@ class VehicleAllotmentModel
 
                             //$s.="<tr ><td style='width: 11%;'><span class='date_history".$TRANSPORTER.$valus['id_client'].$valus['va_id']."'></span><br><span style='color: #2777bb;'>A:".(($DATEFORM) ?date('d-m-Y',strtotime($DATEFORM)) : '-')."</span><br>D:".(($DATETO) ? date('d-m-Y',strtotime($DATETO)).'(Trip Not Went)' : 'Trip Not Went')."</td>";
                             $s .=
-                                "<tr ><td style='width: 11%;'><span class='date_history" .
+                                "<tr class='align-middle'><td style='width: 11%;'><span class='date_history" .
                                 $TRANSPORTER .
                                 $valus["id_client"] .
                                 $valus["va_id"] .
@@ -424,7 +424,7 @@ class VehicleAllotmentModel
                             $DATEFORM = $valus["va_start_date"];
                             $DATETO = $valus["va_end_date"];
                             $s .=
-                                "<tr ><td style='width: 11%;'><span class='date_history" .
+                                "<tr class='align-middle'><td style='width: 11%;'><span class='date_history" .
                                 $TRANSPORTER .
                                 $valus["id_client"] .
                                 $valus["va_id"] .
@@ -467,7 +467,7 @@ class VehicleAllotmentModel
                         $check_trip_status = "and va_h.trip_went_not!=2";
                     }
                     $s .= "<td><table style='width:100%;' >
-                              <tbody><tr>";
+                              <tbody><tr class='align-middle'>";
                     // if($privilege_query)
 
                     $vehicle_his = $this->pdo->prepare(
@@ -501,17 +501,14 @@ class VehicleAllotmentModel
                                     "</span><br>";
                             }
 
-                            $s .= "<tr>";
+                            $s .= "<tr class='align-middle'>";
                             $s .=
                                 "<td style='width:10%;padding: 0px 0px;'>" .
                                 (isset($list["his_vehicle"])
                                     ? $list["his_vehicle"]
                                     : "-") .
                                 "</td>";
-                            if ($privilege_query[0]["vendor"] == 0) {
-                                $s .= "<td style='width:10%;'>  </td>";
-                            }
-                            // $s.="<td style='width:20%;'>   </td>";
+                           
                             $s .=
                                 "<td style='width:10%;'><div class='show_query' >" .
                                 (isset($list["his_driver"])
@@ -553,12 +550,8 @@ class VehicleAllotmentModel
                             "')</script>";
                     } else {
                         $input = "     ";
-                        $s .= "<tr>";
+                        $s .= "<tr  class='align-middle'>";
                         $s .= "<td style='width:10%;'>       </td>";
-                        if ($privilege_query[0]["vendor"] == 0) {
-                            $s .= "<td style='width:10%;'>    </td>";
-                        }
-                        // $s.="<td style='width:20%;'>       </td>";
                         $s .= "<td style='width:10%;'>      </td>";
                         $s .= "<td style='width:10%;'>    </td>";
                         $s .= "<td style='width:10%;'>     </td>";
@@ -568,7 +561,7 @@ class VehicleAllotmentModel
                     }
 
                     $s .= "</tr>";
-                    $s .= "<tr>";
+                    $s .= "<tr  class='align-middle'>";
 
                     $cartype = $this->pdo->prepare(
                         "SELECT b.vehicle_type_name,b.vt_id from   ps_vehicletypes as b  where b.vt_id=" .
@@ -588,10 +581,7 @@ class VehicleAllotmentModel
                         $privilege_query[0]["vendor"] == 1 &&
                         $_SESSION["trans_vendor_id"] != $valus["transporter_id"]
                     ) {
-                        $s .=
-                            "<td style='width:5%;'>" .
-                            ($t == 0 ? "-" : "") .
-                            "</td>";
+
 
                         $s .=
                             "<td  style='width:10%;'><div class='show_query' >" .
@@ -613,23 +603,7 @@ class VehicleAllotmentModel
                             "</div></div></td>";
                         $s .= "<td style='width:10%;'>-</td>";
                     } else {
-                        if ($privilege_query[0]["vendor"] == 0) {
-                            if ($valus["vehical_note"] != "") {
-                                $s .=
-                                    "<td style='width:10%;'>" .
-                                    ($t == 0
-                                        ? '<button  type="button" class=" dialogs" data-toggle="modal" onclick="Itinerary_modal(' .
-                                        $valus["id_client"] .
-                                        ',1);" ><img src="./assets/details.png" height="20" width="20" ></button>'
-                                        : "") .
-                                    "</td>";
-                            } else {
-                                $s .=
-                                    "<td style='width:10%;'>" .
-                                    ($t == 0 ? "-" : "") .
-                                    "</td>";
-                            }
-                        }
+                  
 
                         $s .=
                             "<td style='width: 15px;%;' ><div class='show_query' >" .
@@ -649,39 +623,11 @@ class VehicleAllotmentModel
                                 ? $valus["vehicle_no"]
                                 : "Nil") .
                             "</div></div>";
-                        if (
-                            $privilege_query[0]["vendor"] == 0 &&
-                            $TRANSPORTER_va_id ==
-                            $select_last_trans[0]["va_id"] &&
-                            $valus["driver_name"] != ""
-                        ) {
-                            $s .=
-                                "<button  type='button' class='driver_sms raz btn' data-toggle='modal' onclick='driver_sms_modal(" .
-                                $valus["id_client"] .
-                                "," .
-                                $valus["va_id"] .
-                                ")'><strong>SMS</strong></button>";
-                        }
+                      
                         $s .= "</td>";
 
                         $s .= "<td style='width:10%;'>";
-                        if (
-                            $privilege_query[0]["vendor"] == 0 &&
-                            $TRANSPORTER_va_id ==
-                            $select_last_trans[0]["va_id"] &&
-                            $valus["driver_name"] != ""
-                        ) {
-                            $s .=
-                                "<button type='button' class='mailee' data-toggle='modal' onclick='javascript:return export_mail_modal(" .
-                                $valus["id_client"] .
-                                ",\"" .
-                                $select_transporter1[0]["email"] .
-                                "\",\"" .
-                                $DATEFORM .
-                                "\"," .
-                                $privilege_query[0]["vendor"] .
-                                ")'><strong><i class='fa fa-envelope'></i></strong></button>";
-                        }
+                     
                         // if (
                         //     $TRANSPORTER_va_id ==
                         //         $select_last_trans[0]["va_id"] &&
@@ -732,7 +678,7 @@ class VehicleAllotmentModel
                         $s .= "<td style='width:10%;'>-</td>";
                     }
                     $s .=
-                        "<td style=' width:10% text-align: center !important;'>";
+                        "<td style=' width:10%; text-align: center !important;'>";
 
                     if ($valus["vehicle_remark"] != "") {
                         $s .=
@@ -748,7 +694,7 @@ class VehicleAllotmentModel
                                     "d/m/Y h:i:s a",
                                     strtotime($valus["vehicle_created_date"])
                                 )) .
-                            "</div></p></div></td>";
+                            "</div></p></div>";
                     } else {
                         $s .= "-";
                     }
@@ -838,7 +784,7 @@ class VehicleAllotmentModel
                 $ff .=
                     "<script>$('#itinerary_down" .
                     $valus["id_client"] .
-                    "').html('<button type=\'button\' class=\'downloo\ btn btn-outline-primary  ' onclick=\"download(\'" .
+                    "').html('<button type=\'button\' class=\'downloo\ btn btn-outline-primary\' onclick=\"download(\'" .
                     $actual_link .
                     "\'," .
                     $valus["id_client"] .
@@ -928,7 +874,7 @@ class VehicleAllotmentModel
                                 $valus["status_datechanged"] .
                                 "\",\"" .
                                 $old_transporter_date .
-                                "\",0)'; style='background: linear-gradient(to bottom, #2196F3 19%, #078ac6 56%);' class='allot_button'>Modify</a></span>";
+                                "\",0)'; style='margin:10px auto; width:250px; background: linear-gradient(to bottom, #2196F3 19%, #078ac6 56%);' class='allot_button'>Modify</a></span>";
                             $s .=
                                 "<span class='cllr'><a " .
                                 $disabled .
@@ -1031,7 +977,7 @@ class VehicleAllotmentModel
                                     $valus["status_datechanged"] .
                                     "\",\"" .
                                     $old_transporter_date .
-                                    "\",0)' style='background: linear-gradient(to bottom, #8fd83a 19%, #8BC34D 56%);' class='allot_button'>Allot</a>";
+                                    "\",0)' style='background: linear-gradient(to bottom, #8fd83a 19%, #8BC34D 56%);' class='allot_button_mobile'>Allot</a>";
                                 $s .=
                                     "<a " .
                                     $disabled .
@@ -1084,6 +1030,7 @@ class VehicleAllotmentModel
         }
 
         return [
+            "no_of_records"=>$toclosewhile,
             "mobile" => $mobile,
             "content" => $mobile == "true" ? $ff : $s,
             "searchFrom" => isset($GetDatas["min-date"])
@@ -1207,7 +1154,7 @@ class VehicleAllotmentModel
 
                 $res = $this->pdo->prepare('INSERT INTO ps_vehicle_allotment_history (client_table_id,va_start_date,va_end_date,va_transporter_id,va_driver_id,va_vehicle_id,remarks,create_date,trip_went_not,id_history) VALUES(:client_table_id,:va_start_date,:va_end_date,:va_transporter_id,:va_driver_id,:va_vehicle_id,:remarks,:create_date,:trip_went_not,:id_history)');
 
-                $remarks = $GetDatas['remarks'] . ' ,changed Date :' . date('Y-m-d H:i:s');
+                $remarks = $GetDatas['remarks'] . ' ,changed Date :' . date('d-m-Y H:i:s');
                 $res->bindParam(':client_table_id', $select[0]['client_table_id']);
                 $res->bindParam(':va_start_date', $select[0]['va_start_date']);
                 $res->bindParam(':va_end_date', $ENDDATE);
@@ -1221,27 +1168,6 @@ class VehicleAllotmentModel
 
                 $res->execute();
             }
-
-            // $fetech_details_driver=$this->pdo->prepare("select driver_name from ps_driver where id_driver=".$GetDatas['driver_id']."");
-            //      $fetech_details_driver->execute();
-            //      $fetech_details_driver = $fetech_details_driver->fetchAll(PDO::FETCH_ASSOC);
-            // $fetech_details_vehicle=$this->pdo->prepare("select vehicle_no from ps_vehicles where v_id=".$GetDatas['vehicle_id']."");
-            //      $fetech_details_vehicle->execute();
-            //      $fetech_details_vehicle = $fetech_details_vehicle->fetchAll(PDO::FETCH_ASSOC);
-            // $customer_arrival_id=$this->pdo->prepare("select client_arrival,ref_no from ps_client where id_client=".$GetDatas['client_id']."");
-            //      $customer_arrival_id->execute();
-            //      $customer_arrival_id = $customer_arrival_id->fetchAll(PDO::FETCH_ASSOC);
-
-
-
-            // $datediff =  strtotime($start_date) - time();
-            // $hours=round($datediff / (60 * 60 * 24));
-            // if($ress&&$hours<=0){
-            //   $transport_manager_no=transportmanagerSMS($customer_arrival_id[0]['client_arrival']);
-            // $mesage =("Hi,".$privilege_query[0]['firstname']." have changed Driver:".$fetech_details_driver[0]['driver_name']." and Vehicle:".$fetech_details_vehicle[0]['vehicle_no']." for ".$customer_arrival_id[0]['ref_no']." ");
-            // $smss=smsAPICall($transport_manager_no,$mesage);
-
-            // }
         }
 
         if ($res || $ress) {
@@ -1380,6 +1306,11 @@ class VehicleAllotmentModel
             $can_allot_value_vehicle_repeating = $this->pdo->prepare('SELECT GROUP_CONCAT(vehicles) as v_ids from (select GROUP_CONCAT(v.v_id) as vehicles FROM ps_vehicles v where v.status not in (1,6) and v.transporter_id=' . $trans_id . ' group by REPLACE(REPLACE(REPLACE(v.vehicle_no, " ", ""),",",""),"-","") Having COUNT(v.v_id) > 1) AA');
             $can_allot_value_vehicle_repeating->execute();
             $can_allot_value_vehicle_repeating = $can_allot_value_vehicle_repeating->fetchAll(PDO::FETCH_ASSOC);
+              //vehicle condition for year and vehicle type is empty
+             $cannot_allot_vehicle_wrong_year = $this->pdo->prepare('SELECT GROUP_CONCAT(vehicles) as v_ids from (select GROUP_CONCAT(v.v_id) as vehicles FROM ps_vehicles v left join ps_vehicletypes t on (t.vt_id=v.vehicle_type and t.status=0) where v.status not in (1,6) and v.transporter_id=' . $trans_id . 'and (v.vehicle_year<2014 or t.vehicle_type_name="" )GROUP BY v.transporter_id');
+            $cannot_allot_vehicle_wrong_year->execute();
+            $cannot_allot_vehicle_wrong_year = $cannot_allot_vehicle_wrong_year->fetchAll(PDO::FETCH_ASSOC);
+            // End this 
 
             $own_driver_multi_rec = $this->pdo->prepare('SELECT count(v.v_id) as count FROM ps_vehicles v left join ps_transporter t on (v.transporter_id=t.t_id) where  v.transporter_id=' . $trans_id . '  and  v.status not in (1,6) and t.trans_vendors=0');
             $own_driver_multi_rec->execute();
@@ -1428,7 +1359,7 @@ class VehicleAllotmentModel
         }
         $vehicleAllotment = array('0' => $can_allot_vehicle, '1' => $can_allot_driver);
 
-        $heading .= '<button type="button" class="close clst" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button><h4 class="modal-title text-center" id="myModalLabel">New Vehicle & Driver Assign</h4>
+        $heading .= '<button type="button" class="close clst" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button><h5 class="modal-title text-center text-black" id="myModalLabel">New Vehicle & Driver Assign</h5>
      <input type="hidden" id="hidden_type" value="' . $checked . '">';
 
 
@@ -1437,9 +1368,9 @@ class VehicleAllotmentModel
             $cont .= '<script>
 $("#que_div").css("display", "none");
 $("#vehicle_div").css("display", "block");
-$("#arrival_div").css("display", "inline");
-$("#date_div").css("display", "block");
-$("#final_submit").css("display", "block");
+$("#arrival_div").css("display", "flex");
+$("#date_div").css("display", "flex");
+$("#final_submit").css("display", "flex");
 $(".allotmentmodel #myModalLabel").html("New Vehicle Assign");
 initaatedatepicker("from_date_modify","end_date_modify",2);
 
@@ -1450,16 +1381,16 @@ initaatedatepicker("from_date_modify","end_date_modify",2);
             $cont .= '<script>
 $("#driver_div").css("display", "block");
 $("#que_div").css("display", "none");
-$("#arrival_div").css("display", "inline");
-$("#date_div").css("display", "block");
+$("#arrival_div").css("display", "flex");
+$("#date_div").css("display", "flex");
 $(".allotmentmodel #myModalLabel").html("New Driver Assign");
 initaatedatepicker("from_date_modify","end_date_modify",2);
 
 </script>';
         } else if ($checked == 3) {
             $cont .= '<script>
-$("#arrival_div").css("display", "inline");
-$("#date_div").css("display", "block");
+$("#arrival_div").css("display", "flex");
+$("#date_div").css("display", "flex");
 $("#vehicle_div").css("display", "block");
 $("#que_div").css("display", "none");
 $("#next_driver").css("display", "block");
@@ -1469,10 +1400,10 @@ initaatedatepicker("from_date_modify","end_date_modify",2);
 </script>';
         } elseif ($statusss == 1) {
             $cont .= '<script>initaatedatepicker("from_date12","end_date6",1);
-     $("#date_div").css("display", "block");</script>';
+     $("#date_div").css("display", "flex");</script>';
         } elseif (($vehicle_table_id == 0 && !empty($check_reject_vendor[0]['rejected_vendors']))) {
             $cont .= '<script>initaatedatepicker("from_date1","end_date6",1);
-     $("#date_div").css("display", "block");</script>';
+     $("#date_div").css("display", "flex");</script>';
         } else {
             $cont .= '<script>
 	initaatedatepicker("from_date_modify","end_date_modify",2);
@@ -1495,49 +1426,45 @@ initaatedatepicker("from_date_modify","end_date_modify",2);
         if ($vehicle_table_id != 0 && $statusss != 1) {
             $cont .= '	<div id="que_div" style="text-align:center;">
            <p >DO YOU WANT TO MODIFY</p>
-<div style="text-align:center;">
-<input type="radio" id="allot_vehicle" name="allot_que" value="1" ' . $checke . '><label for="allot_vehicle">Vehicle Only</label>
-<input type="radio" id="allot_driver" name="allot_que" value="2"  ' . $checke2 . '><label for="allot_driver">Driver Only</label>
-<input type="radio" id="allot_both" name="allot_que" value="3" ' . $checke3 . '><label for="allot_both">Modify Both</label>
+<div style="display: flex; flex-flow: wrap; justify-content: center; gap: 10px;;">
+<div class="d-flex"><input class="mx-1" type="radio" id="allot_vehicle" name="allot_que" value="1" ' . $checke . '><label class="text-nowrap" for="allot_vehicle">Vehicle Only</label></div>
+<div class="d-flex"><input class="mx-1" type="radio" id="allot_driver" name="allot_que" value="2"  ' . $checke2 . '><label class="text-nowrap" for="allot_driver">Driver Only</label></div>
+<div class="d-flex"><input class="mx-1" type="radio" id="allot_both" name="allot_que" value="3" ' . $checke3 . '><label class="text-nowrap" for="allot_both">Modify Both</label></div>
 </div>';
-            $cont .= '<div id="remark_div" style="display:none;margin-top:10px;"><lable>Reason For Modify</lable>
-<input type="text" class="fancy_input remarks" name="remarks1" id="remarks1" value=" "></div>';
-            $cont .= '<button style="float:right;"  id="next_action" name="next_action" class="btn btn-search" disabled >Next</button>
+            $cont .= '<div id="remark_div" style="display:none;flex-direction: column; justify-content: start; margin: 10px 0 0; gap:5px;"><lable class="text-start">Reason For Modify</lable>
+<input type="text" class="fancy_input remarks w-100" name="remarks1" id="remarks1" value=" "></div>';
+            $cont .= '<button style="float:right;"  id="next_action" name="next_action" class="btn btn-danger nextAction" disabled >Next</button>
    </div>';
         }
 
 
         if ($vehicle_table_id != 0 && $statusss != 1) {
+            $displaytable='style="display:none;"';
+            $location='display:none;';
             $display = 'style="display:none;"';
             $display_s = 'style="float: right; display:none;"';
-            $display_p = 'style="float: left ; display:none;"';
+            $display_p = 'display:none;';
         } else {
-            $display = 'style="display:inline;"';
+            $displaytable='style="display:block;"';
+            $location='display:flex;';
+            $display = 'style="display:flex;"';
             $display_s = 'style="float: right; display:block;"';
-            $display_p = 'style="float: left ; display:block;"';
+            $display_p = 'display:flex;';
         }
+        // style=" ' . $location . ' justify-content: space-between; align-items: center;"
 
-        $cont .= '<span id="arrival_div" ' . $display . '>
-       <label style="margin-left: 10px;">Client Arrival : </label> 
-        <span >' . $client_arrival_name . '</span>
+        $cont .= '<div class="row"  id="arrival_div" style="'. $location .'">
+       <div class="col-6 col-md-4 col-lg-3 text-nowrap">Client Arrival : </div> 
+        <div class="col-6 col-md-4 col-lg-3">' . $client_arrival_name . '</div>
         <input type="hidden" id="span" value="0">
         
-   		<label style="margin-left: 50px;">Vehicle Type : </label><span>';
+   		<div class="col-6 col-md-4 col-lg-3  text-nowrap">Vehicle Type : </div>
+        <div class="col-6 col-md-4 col-lg-3 ">';
         if (array_key_exists($vehicle_type_client, $valuesfdsf)) {
             $VEHICLE = $valuesfdsf[$vehicle_type_client];
         }
-        $cont .= $VEHICLE . '</span></span>';
+        $cont .= $VEHICLE . '</div></div>';
 
-
-
-        // if($va_id==""&&$check_reject_vendor[0]['rejected_vendors']!=""){
-        // 	$displaygdfg='style="display:block;float:right;"';
-
-        // }
-        // else{
-        // 	$displaygdfg='style="display:none;float:right;"';
-
-        // }
         if ($searched_fromdate != 'false') {
             $start_date_value = $searched_fromdate;
             $end_date_value = $searched_todate;
@@ -1545,54 +1472,80 @@ initaatedatepicker("from_date_modify","end_date_modify",2);
             $start_date_value = '';
             $end_date_value = date('d/m/Y', strtotime($end_date));
         }
-        $cont .= '<span id="date_div" style="display:none;" >
-		     	<span class="col-sm-4 col-md-3">
+        // $cont .= '<div id="date_div" style="display:none; justify-content: space-between;width: 77%;" >
+		//      	<span class="col-sm-4 col-md-3">
+		//     <label>From</label>
+   	
+	    //     <input style="width:200px;" type="text" readonly name="from_date4" id="from_date4" autocomplete="off" readonly value="' . $start_date_value . '"   onchange="allotment(\'' . $fromdate_client . '\',\'' . $end_date_client . '\',\'' . $id_client . '\',\'' . $trans_id . '\',\'' . $va_id . '\',\'' . $fromdate . '\',\'' . $end_date . '\',\'' . $client_arrival . '\',\'' . $vehicle_type_client . '\',\'' . $typeOFtransporter . '\',\'' . $client_departure . '\',\'' . $client_arrival_name . '\',\'' . $vehicle_table_id . '\',\'' . $driver_table_id . '\',\'' . $statusss . '\',\'' . $old_transporter_date . '\',document.getElementById(\'hidden_type\').value,this.value,document.getElementById(\'to_date4\').value,document.getElementById(\'remarks\').value);">
+	    //     <input type="hidden" id="span" value="0">
+	    //     <input  type="hidden"  name="from_date12" id="from_date12" value="' . date('d/m/Y', strtotime($fromdate_client)) . '" >
+	    //     <input  type="hidden"  name="from_date1" id="from_date1" value="' . date('d/m/Y', strtotime($old_transporter_date)) . '" >
+	    //        <input  type="hidden"  name="end_date6" id="end_date6" value="' . date('d/m/Y', strtotime($end_date_client)) . '" >
+	    //         <input  type="hidden"  name="from_date_modify" id="from_date_modify" value="' . date('d/m/Y', strtotime($fromdate)) . '" >
+	    //        <input  type="hidden"  name="end_date_modify" id="end_date_modify" value="' . date('d/m/Y', strtotime($end_date)) . '" ></span>
+	    //        <span class="col-sm-4 col-md-3">
+		//       <label>To</label> <input style="width:200px" type="text" readonly name="to_date4" id="to_date4" autocomplete="off" value="' . $end_date_value . '"  onchange="allotment(\'' . $fromdate_client . '\',\'' . $end_date_client . '\',\'' . $id_client . '\',\'' . $trans_id . '\',\'' . $va_id . '\',\'' . $fromdate . '\',\'' . $end_date . '\',\'' . $client_arrival . '\',\'' . $vehicle_type_client . '\',\'' . $typeOFtransporter . '\',\'' . $client_departure . '\',\'' . $client_arrival_name . '\',\'' . $vehicle_table_id . '\',\'' . $driver_table_id . '\',\'' . $statusss . '\',\'' . $old_transporter_date . '\',document.getElementById(\'hidden_type\').value,document.getElementById(\'from_date4\').value,this.value,document.getElementById(\'remarks\').value);">
+		//         <input type="hidden" id="span" value="0"></span>
+		//       </div> <div class="clearfix"></div>';
+
+
+
+        // $cont .= '<br>
+		// 	<div class="table-responsive clearfix vehicle_divss" id="vehicle_div" reer4 ' . $displaytable . '>
+		// 	<table id="datallotment_value" class="table table-striped table-hover responsive datallotment" cellspacing="0" style="width:100% !important;">
+		// 	 <thead >
+		// 			<tr class="align-middle">';
+
+        //     $cont .= '<th >S.no</th>
+		// 					<th >Type of Vehicle</th>
+		// 					<th >Vehicle No</th>
+		// 				    <th >Choose</th>
+        //         </tr>
+		// 		</thead>
+		// 		<tbody>';
+
+// hdfhdfhdifhdhfhd
+
+
+$cont .=    '<div id="date_div" style="display:none;" class="row justify-content-between w-100 pt-1">
+		     	<span class="col-6 col-md-5">
 		    <label>From</label>
    	
-	        <input  type="text" readonly name="from_date4" id="from_date4" autocomplete="off" readonly value="' . $start_date_value . '"   onchange="allotment(\'' . $fromdate_client . '\',\'' . $end_date_client . '\',\'' . $id_client . '\',\'' . $trans_id . '\',\'' . $va_id . '\',\'' . $fromdate . '\',\'' . $end_date . '\',\'' . $client_arrival . '\',\'' . $vehicle_type_client . '\',\'' . $typeOFtransporter . '\',\'' . $client_departure . '\',\'' . $client_arrival_name . '\',\'' . $vehicle_table_id . '\',\'' . $driver_table_id . '\',\'' . $statusss . '\',\'' . $old_transporter_date . '\',document.getElementById(\'hidden_type\').value,this.value,document.getElementById(\'to_date4\').value,document.getElementById(\'remarks\').value);">
+	        <input class="w-100 py-1 px-2" type="text" readonly name="from_date4" id="from_date4" autocomplete="off" readonly value="' . $start_date_value . '"   onchange="allotment(\'' . $fromdate_client . '\',\'' . $end_date_client . '\',\'' . $id_client . '\',\'' . $trans_id . '\',\'' . $va_id . '\',\'' . $fromdate . '\',\'' . $end_date . '\',\'' . $client_arrival . '\',\'' . $vehicle_type_client . '\',\'' . $typeOFtransporter . '\',\'' . $client_departure . '\',\'' . $client_arrival_name . '\',\'' . $vehicle_table_id . '\',\'' . $driver_table_id . '\',\'' . $statusss . '\',\'' . $old_transporter_date . '\',document.getElementById(\'hidden_type\').value,this.value,document.getElementById(\'to_date4\').value,document.getElementById(\'remarks\').value);">
 	        <input type="hidden" id="span" value="0">
 	        <input  type="hidden"  name="from_date12" id="from_date12" value="' . date('d/m/Y', strtotime($fromdate_client)) . '" >
 	        <input  type="hidden"  name="from_date1" id="from_date1" value="' . date('d/m/Y', strtotime($old_transporter_date)) . '" >
 	           <input  type="hidden"  name="end_date6" id="end_date6" value="' . date('d/m/Y', strtotime($end_date_client)) . '" >
 	            <input  type="hidden"  name="from_date_modify" id="from_date_modify" value="' . date('d/m/Y', strtotime($fromdate)) . '" >
 	           <input  type="hidden"  name="end_date_modify" id="end_date_modify" value="' . date('d/m/Y', strtotime($end_date)) . '" ></span>
-	           <span class="col-sm-4 col-md-3">
-		      <label>To</label> <input type="text" readonly name="to_date4" id="to_date4" autocomplete="off" value="' . $end_date_value . '"  onchange="allotment(\'' . $fromdate_client . '\',\'' . $end_date_client . '\',\'' . $id_client . '\',\'' . $trans_id . '\',\'' . $va_id . '\',\'' . $fromdate . '\',\'' . $end_date . '\',\'' . $client_arrival . '\',\'' . $vehicle_type_client . '\',\'' . $typeOFtransporter . '\',\'' . $client_departure . '\',\'' . $client_arrival_name . '\',\'' . $vehicle_table_id . '\',\'' . $driver_table_id . '\',\'' . $statusss . '\',\'' . $old_transporter_date . '\',document.getElementById(\'hidden_type\').value,document.getElementById(\'from_date4\').value,this.value,document.getElementById(\'remarks\').value);">
+	           <span class="col-6 col-md-5">
+		      <label>To</label> <input class="w-100  py-1 px-2" type="text" readonly name="to_date4" id="to_date4" autocomplete="off" value="' . $end_date_value . '"  onchange="allotment(\'' . $fromdate_client . '\',\'' . $end_date_client . '\',\'' . $id_client . '\',\'' . $trans_id . '\',\'' . $va_id . '\',\'' . $fromdate . '\',\'' . $end_date . '\',\'' . $client_arrival . '\',\'' . $vehicle_type_client . '\',\'' . $typeOFtransporter . '\',\'' . $client_departure . '\',\'' . $client_arrival_name . '\',\'' . $vehicle_table_id . '\',\'' . $driver_table_id . '\',\'' . $statusss . '\',\'' . $old_transporter_date . '\',document.getElementById(\'hidden_type\').value,document.getElementById(\'from_date4\').value,this.value,document.getElementById(\'remarks\').value);">
 		        <input type="hidden" id="span" value="0"></span>
-		      </span> <div class="clearfix"></div>';
+		      </div> <div class="clearfix"></div>';
 
 
 
         $cont .= '<br>
-			<div class="table-responsive clearfix vehicle_divss" id="vehicle_div" reer4 ' . $display . '>
+			<div class="table-responsive clearfix vehicle_divss" id="vehicle_div" reer4 ' . $displaytable . '>
 			<table id="datallotment_value" class="table table-striped table-hover responsive datallotment" cellspacing="0" style="width:100% !important;">
 			 <thead >
-					<tr>';
-        if ($privilege_query[0]['vendor'] == 0) {
-            if ($mobile == 'true') {
-                $cont .= '<th >S.no</th>
-						    <th >Vehicle Type</th>
-                          	<th >Vehicle No</th>
-                          	<th >Choose</th>';
-            } else {
-                $cont .= '<th >S.no</th>
-							<th >Vendor / Transporter</th>
-							<th >Transporter Name</th>
-						    <th >Transporter Id</th>
-						    <th >Vehicle Type</th>
-                          	<th >Vehicle No</th>
-                            <th >Choose</th>';
-            }
-        } elseif ($privilege_query[0]['vendor'] == 1) {
+					<tr class="align-middle">';
 
             $cont .= '<th >S.no</th>
 							<th >Type of Vehicle</th>
 							<th >Vehicle No</th>
-						    <th >Choose</th>';
-        }
-        $cont .= '</tr>
+						    <th >Choose</th>
+                </tr>
 				</thead>
 				<tbody>';
+
+
+
+
+
+
+
+
 
         foreach ($can_allot_value_vehicle as $allotlist) {
             $allotVehicle[] = $allotlist['va_vehicle_id'];
@@ -1601,31 +1554,17 @@ initaatedatepicker("from_date_modify","end_date_modify",2);
         $i = 0;
         foreach ($vehicleAllotment[0] as $vehiclesvalues) {
             $i++;
-            $cont .= '<tr ' . ((in_array($vehiclesvalues['v_id'], $allotVehicle) && $vehiclesvalues['blocked'] == 1) ? 'class="allot"' : '') . '>';
+            $cont .= '<tr class="align-middle" ' . ((in_array($vehiclesvalues['v_id'], $allotVehicle) && $vehiclesvalues['blocked'] == 1) ? 'class="allot"' : '') . '>';
             //check own driver vehicle 
             if ($own_driver_multi_rec[0]['count'] > 1) {
                 $cont .= 'Transporter Can\'t add more than one vehicle, so remove duplicates and keep only one valid vehicle record';
             } else {
 
-                if ($privilege_query[0]['vendor'] == 0) {
-                    if ($mobile == 'true') {
-                        $cont .= '<td >' . $i . '</td>
-						<td >' . $vehiclesvalues['vehicle_type_client'] . '</td>
-						<td >' . $vehiclesvalues['vehicle_no'] . '</td>';
-                    } else {
-                        $cont .= '<td >' . $i . '</td>
-						<td >' . (($vehiclesvalues['trans_vendors'] == 1) ? 'Vendor' : 'Transporter') . '</td>
-						<td >' . $vehiclesvalues['transporter_name_v'] . '</td>
-						<td >' . $vehiclesvalues['transporter_ref_no'] . '</td>
-						<td >' . $vehiclesvalues['vehicle_type_client'] . '</td>
-						<td >' . $vehiclesvalues['vehicle_no'] . '</td>';
-                    }
-                } elseif ($privilege_query[0]['vendor'] == 1) {
 
                     $cont .= '<td >' . $i . '</td>
 						<td >' . $vehiclesvalues['vehicle_type_client'] . '</td>
 						<td >' . $vehiclesvalues['vehicle_no'] . '</td>';
-                }
+               
                 $cont .= '<td class="text-center">';
                 if (isset($can_allot_value_vehicle_repeating[0]['v_ids'])) {
                     $ve = explode(",", $can_allot_value_vehicle_repeating[0]['v_ids']);
@@ -1657,9 +1596,9 @@ initaatedatepicker("from_date_modify","end_date_modify",2);
         }
         $cont .= '</tbody>
 			</table>
-	<input class="btn-search" ' . $display_s . ' type="button" name="next_driver" id="next_driver" value="Next">';
+	<input class="btn btn-search btn btn-danger" style="display: flex;margin: 15px 0 0 0;justify-content: center;align-items: center;width: 40%; float:right;"' . $display_s . ' type="button" name="next_driver" id="next_driver" value="Next">';
         if ($vehicle_table_id != 0 && $statusss != 1) {
-            $cont .= '<input class="btn btn-search" style="float: right;margin-left: 4px;margin-top: 3px; display:none;" type="button" name="final_submit" id="final_submit" value="Confirm" onclick="disable_checkbox(),Allotmentvehicle(\'' . $id_client . '\',\'' . $trans_id . '\',\'' . $va_id . '\',\'' . $fromdate . '\',\'' . $end_date . '\',\'' . $dirver_name_update[0]['driver_name'] . '\',\'' . $statusss . '\')";> <input type="hidden" value="Update" id="suuub">';
+            $cont .= '<input class="btn btn-search btn btn-danger" style="margin: 10px 0 0 0;justify-content: center;align-items: center;width: 40%; ' . $display_p . '" type="button" name="final_submit" id="final_submit" value="Confirm" onclick="disable_checkbox(),Allotmentvehicle(\'' . $id_client . '\',\'' . $trans_id . '\',\'' . $va_id . '\',\'' . $fromdate . '\',\'' . $end_date . '\',\'' . $dirver_name_update[0]['driver_name'] . '\',\'' . $statusss . '\')";> <input type="hidden" value="Update" id="suuub">';
         }
         $cont .= '<div id="loadingDiv" style="display: none">
     <div>
@@ -1668,7 +1607,7 @@ initaatedatepicker("from_date_modify","end_date_modify",2);
 </div>
 	
 	</div>
-	<div class="table-responsive clearfix" id="driver_div" style="display:none">
+	<div class="table-responsive clearfix" id="driver_div" style="display:none; border:none !important;">
 	<span id="date_div" style="display:none" >
 		    <label>From</label>
    		
@@ -1683,10 +1622,10 @@ initaatedatepicker("from_date_modify","end_date_modify",2);
 		        <input type="hidden" id="span" value="0">
 		      </span> <div class="clearfix"></div>
 
-		     <div class="table-responsive clearfix">
+		     <div class="table-responsive clearfix" style=" border:none !important;">
 			<table id="datallotment_value_driver" class="table table-striped table-hover responsive datallotment" cellspacing="0" style="width:100% !important;">
 			 <thead >
-					<tr>';
+					<tr class="align-middle">';
         $VALUE = 'Submit';
         if ($privilege_query[0]['vendor'] == 0) {
             if ($mobile == 'true') {
@@ -1722,7 +1661,7 @@ initaatedatepicker("from_date_modify","end_date_modify",2);
         $i = 0;
         foreach ($vehicleAllotment[1] as $vehiclesvalues) {
             $i++;
-            $cont .= '<tr ' . ((in_array($vehiclesvalues['id_driver'], $allotdriver) && $vehiclesvalues['blocked'] == 1) ? 'class="allot"' : '') . '>';
+            $cont .= '<tr class="align-middle"' . ((in_array($vehiclesvalues['id_driver'], $allotdriver) && $vehiclesvalues['blocked'] == 1) ? 'class="allot"' : '') . '>';
 
 
             if ($privilege_query[0]['vendor'] == 0) {
@@ -1767,14 +1706,14 @@ initaatedatepicker("from_date_modify","end_date_modify",2);
         }
         $cont .= '</tbody>
 			</table>';
-        $cont .= '<input class="btn-search" style="float: right;margin-left: 4px;margin-top: 3px;" type="button" name="final_submit" id="final_submit" value="' . $VALUE . '" onclick="disable_checkbox(),Allotmentvehicle(\'' . $id_client . '\',\'' . $trans_id . '\',\'' . $va_id . '\',\'' . $fromdate . '\',\'' . $end_date . '\',\'' . $dirver_name_update[0]['driver_name'] . '\',\'' . $statusss . '\')";> <input type="hidden" value="' . $VALUqE . '" id="suuub">';
+        $cont .= '<div class="d-flex justify-content-between flex-row-reverse"><input class="btn btn-search btn btn-danger" style="display: flex;margin: 10px 0 0 0;justify-content: center;align-items: center;width: 40%;"type="button" name="final_submit" id="final_submit" value="' . $VALUE . '" onclick="disable_checkbox(),Allotmentvehicle(\'' . $id_client . '\',\'' . $trans_id . '\',\'' . $va_id . '\',\'' . $fromdate . '\',\'' . $end_date . '\',\'' . $dirver_name_update[0]['driver_name'] . '\',\'' . $statusss . '\')";> <input type="hidden" value="' . $VALUqE . '" id="suuub">';
         // if($va_id==""){
         // $cont.='<div id="remark_div" style="float:right;"><lable>Remark</lable>
         //          <input type="text" class="fancy_input remarks" name="remarks" id="remarks" value=""></div>';
         //            }	  
 
-        $cont .= '<input class="btn-search" ' . $display_p . ' type="button" name="previous_driver" id="previous_driver" value="Previous">
-			<div class="clearfix"></div>
+        $cont .= '<input class="btn btn-search btn btn-danger" style="margin: 10px 0 0 0;justify-content: center;align-items: center;width: 40%;"' . $display_p . ' type="button" name="previous_driver" id="previous_driver" value="Previous">
+			</div>
 			<div id="loadingDiv1" style="display: none">
     <div>
        Please Wait!..  <img src="./assets/load_search.gif">
@@ -1796,7 +1735,7 @@ initaatedatepicker("from_date_modify","end_date_modify",2);
         $trans_id = $GetDatas['trans_id'];
         $actual_link = './common_files/download_pdf_trans.php';
         if ($trans_id != "" && $trans_id != 0) {
-            $transporter = 'and a.transporter_id="' . $trans_id . '" and d.va_transporter_id="' . $trans_id . '"';
+            $transporter = 'and a.transporter_id="' . $trans_id . '" or d.va_transporter_id="' . $trans_id . '"';
         } else {
             $transporter = '';
         }
@@ -1823,50 +1762,52 @@ initaatedatepicker("from_date_modify","end_date_modify",2);
         $viaList = array(1 => 'Flight', 2 => 'Train', 3 => 'Bus', 4 => 'Residency');
         $vendor = (($trans_id != "" && $trans_id != 0) ? 1 : 0);
 
-        echo '<style type="text/css">
-    table td{
-        line-height: 1.5; 
-        padding: 5px;
-        font-size: 12px;
-    }
-    table th{
-        line-height: 1.5; 
-        width: 50%;
-        vertical-align: top;
-        font-weight: normal;
-        color: #000;
-        font-size: 14px;
-    }
-    fieldset {
-        border: 1px solid #c0c0c0;
-        margin: 0 2px;
-        padding: 0.35em 0.625em 0.75em;
-    }
-</style>';
+//         echo '<style type="text/css">
+//     table td{
+//         line-height: 1.5; 
+//         padding: 5px;
+//         font-size: 12px;
+//     }
+//     table th{
+//         line-height: 1.5; 
+//         width: 50%;
+//         vertical-align: top;
+//         font-weight: normal;
+//         color: #000;
+//         font-size: 14px;
+//     }
+//     fieldset {
+//         border: 1px solid #c0c0c0;
+//         margin: 0 2px;
+//         padding: 0.35em 0.625em 0.75em;
+//     }
+// </style>';
 
         if (!empty($clientList)) {
             $countArr = count($clientList);
 
             echo '<fieldset>
-        <div class="container client_views">
+        <div class="container client_views" >
+        <hr class="m-0">
             <h3 style="text-align: center;"> Client Details</h3>
-            <hr>
-            <div class="col-sm-6 col-md-4">
+            <hr class="m-0 pb-2">
+            <div class="d-flex flex-column gap-2 w-100 overflow-auto" style="font-size: 13px !important;">
+            <div class="d-flex justify-content-between">
                 <label>BH Ref No </label>
-                ' . $clientList[0]['ref_no'] . '
+                <b>' . $clientList[0]['ref_no'] . '</b>
             </div>
-            <div class="col-sm-6 col-md-4">
+            <div class="d-flex justify-content-between">
                 <label>Client Name</label>
-                ' . $clientList[0]['client_name'] . '
+               <b> ' . $clientList[0]['client_name'] . '</b>
             </div>
-            <div class="col-sm-6 col-md-4">
+            <div class="d-flex justify-content-between">
                 <label>Arrival</label>' . $clientList[0]['client_arrival_name'] . '
             </div>
-            <div class="col-sm-6 col-md-4">
+            <div class="d-flex justify-content-between">
                 <label>Departure:</label>
                 ' . $clientList[0]['client_departure_name'] . '
             </div>
-            <div class="col-sm-6 col-md-4">
+            <div class="d-flex justify-content-between">
                 <label>No Of Days</label>';
             if ($vendor == 0) {
                 echo $clientList[0]['no_of_days'];
@@ -1875,8 +1816,7 @@ initaatedatepicker("from_date_modify","end_date_modify",2);
                 echo (floor($dateDiff / (3600 * 24))) + 1;
             }
             echo '</div>
-            <div class="clearfix"></div>
-            <div class="col-sm-6 col-md-4">
+            <div class="d-flex justify-content-between">
                 <label>Arrival Via</label>';
             if (array_key_exists($clientList[0]['arrival_via'], $viaList)) {
                 echo $viaList[$clientList[0]['arrival_via']];
@@ -1887,7 +1827,7 @@ initaatedatepicker("from_date_modify","end_date_modify",2);
                 echo ' , ' . $clientList[0]['a_train_flight_no'];
             }
             echo '</div>
-            <div class="col-sm-6 col-md-4">
+            <div class="d-flex justify-content-between">
                 <label>Departure Via</label>';
             if (array_key_exists($clientList[0]['departure_via'], $viaList)) {
                 echo $viaList[$clientList[0]['departure_via']];
@@ -1899,52 +1839,52 @@ initaatedatepicker("from_date_modify","end_date_modify",2);
             }
             echo '</div>';
             if ($vendor == 0) {
-                echo '<div class="col-sm-6 col-md-4">
+                echo '<div class="d-flex justify-content-between">
                 <label>From Date</label>
                 ' . $clientList[0]['start_from'] . '
             </div>
-            <div class="col-sm-6 col-md-4">
+            <div class="d-flex justify-content-between">
                 <label>To Date</label>
                 ' . $clientList[0]['end_to'] . '
             </div>';
             }
-            echo '<div class="col-sm-6 col-md-4">
+            echo '<div class="d-flex justify-content-between">
                 <label>Vehicle Type</label>
                 ' . $clientList[0]['vehicle_type_name'] . '
             </div>
-            <div class="col-sm-6 col-md-4">
+            <div class="d-flex justify-content-between mb-3 align-items-center">
                 <label>Download Itinerary</label>
                 <button type="button" class="downloo btn btn-outline-primary " onclick="download(\'' . $actual_link . '\',\'' . $clientList[0]['id_client'] . '\',\'' . $clientList[$countArr - 1]['driver_name'] . '\',\'' . $clientList[$countArr - 1]['contactalterno'] . '\',\'' . $clientList[$countArr - 1]['contact_no'] . '\',\'' . $clientList[$countArr - 1]['va_vehicle_name'] . '\',\'' . $clientList[$countArr - 1]['vehicle_no'] . '\',0,\'' . $clientList[$countArr - 1]['va_start_date'] . '\',' . $vendor . ')"><i class="fa fa-download" aria-hidden="true"></i></button>
+            </div>
             </div>
             <div class="col-sm-12 col-md-12 list_view" >
                 <div class="table-responsive">
                     <table class="table" >
-                        <tr class="tabhead">
-                            <th>Arrival & Departure</th>
-                            <th>Driver Name</th>
-                            <th>Contact No</th>
-                            <th>Vehicle</th>
-                            <th>Vehicle No</th>
-                            <th>Vendor Remark</th>
-                            <th></th>
-                            <th>Vehicle Remark</th>
+                        <tr class="tabhead table-secondary">
+                            <th class="text-nowrap text-black align-middle">Arrival & Departure</th>
+                            <th class="text-nowrap text-black align-middle">Driver Name</th>
+                            <th class="text-nowrap text-black align-middle">Contact No</th>
+                            <th class="text-nowrap text-black align-middle">Vehicle</th>
+                            <th class="text-nowrap text-black align-middle">Vehicle No</th>
+                            <th class="text-nowrap text-black align-middle">Vendor Remark</th>
+                            <th class="text-nowrap text-black align-middle">Vehicle Remark</th>
                         </tr>';
 
             if (!empty($vehicle_his)) {
                 foreach ($vehicle_his as $List) {
-                    echo '<tr>
+                    echo '<tr class="align-middle">
                     <td>' . (($List['trip_went_not'] != 2) ? 'A:' . $List['his_start'] . '<br>D:' . $List['his_end'] : 'Trip Not Went') . '</td>
                     <td>' . (($List['his_driver'] != "") ? $List['his_driver'] : '-') . '</td>
                     <td>' . (($List['his_contact_no'] != "") ? $List['his_contact_no'] : '-') . '</td>
                     <td>' . (($List['his_vehicle'] != "") ? $List['his_vehicle'] : '-') . '</td>
                     <td>' . (($List['his_vehicle_no'] != "") ? $List['his_vehicle_no'] : '-') . '</td>
-                    <td><td>
+                    <td></td>
                     <td >' . (($List['his_remarks'] != "") ? $List['his_remarks'] : '-') . '</td>
                 </tr>';
                 }
             }
             foreach ($clientList as $ListTable) {
-                echo '<tr class="text-nowrap">
+                echo '<tr class="text-nowrap align-middle">
                 <td>' . (($ListTable['driver_name'] != "") ? 'A:' . $ListTable['va_start_date'] . '<br>D:' . $ListTable['va_end_date'] : '-') . '</td>
                 <td>' . (($ListTable['driver_name'] != "") ? $ListTable['driver_name'] : '-') . '</td>
                 <td>' . (($ListTable['contact_no'] != "") ? $ListTable['contact_no'] : '-') . '</td>

@@ -8,10 +8,12 @@ class DriverListModel{
 	}
 	public function getDriverList() {
 
-		$driverList =$this->pdo->prepare(' SELECT ps_driver.*,ps_driver.status,ps_driver.blocked as vehicle_blocked,ps_driver.contact_no as driver_contact,ps_driver.contactalterno as driver_alternate FROM ps_driver  LEFT JOIN ps_transporter ON ps_transporter.t_id=ps_driver.transporter_id  where ps_transporter.t_id='.$_SESSION['trans_vendor_id'].'  and ps_driver.status!=1  ORDER BY ps_driver.id_driver DESC');
+		$driverList =$this->pdo->prepare('SELECT ps_driver.*,ps_driver.status,ps_driver.blocked as vehicle_blocked,ps_driver.contact_no as driver_contact,ps_driver.contactalterno as driver_alternate FROM ps_driver  LEFT JOIN ps_transporter ON ps_transporter.t_id=ps_driver.transporter_id  where ps_transporter.t_id='.$_SESSION['trans_vendor_id'].'  and ps_driver.status!=1  ORDER BY ps_driver.id_driver DESC');
 		$driverList->execute();
+        $driverList=$driverList->fetchAll(PDO::FETCH_ASSOC);
 			return array(
-				'driverList'=>$driverList->fetchAll(PDO::FETCH_ASSOC),
+                "no_of_records"=>count($driverList),
+				'driverList'=>$driverList,
 			);
 			
     }
@@ -235,51 +237,51 @@ class DriverListModel{
         $driverList->execute();
         $row=$driverList->fetch(PDO::FETCH_ASSOC);
          $content='<div class="container-fluid border p-3 rounded">
-                <div class="row justify-content-between p-2">
-                  <div class="col-md-6 text-start">
-                    Driver Name :
+                <div class="row justify-content-between p-2" style="align-items: center;">
+                  <div class="col-md-5 col-6 text-nowrap text-start">
+                    Driver Name:
                   </div>
-                  <div class="col-md-6 text-secondary text-end">
+                  <div class="col-md-7 col-6 text-secondary text-end">
                     '.$row["driver_name"].'
                   </div>
                 </div>
                 <div class="row justify-content-between p-2">
-                  <div class="col-md-6 text-start">
-                    Driver contact No :
+                  <div class="col-md-5 col-6 text-nowrap text-start">
+                    Driver contact No:
                   </div>
-                  <div class="col-md-6 text-secondary text-end">
+                  <div class="col-md-7 col-6 text-nowrap text-secondary text-end">
                     '.$row["contact_no"].'
                   </div>
                 </div>
                 <div class="row justify-content-between p-2">
-                  <div class="col-md-6 text-start">
-                    Driver alternate Contact :
+                  <div class="col-md-5 col-6 text-nowrap text-start">
+                    Driver Alternate No:
                   </div>
-                  <div class="col-md-6 text-secondary text-end">
+                  <div class="col-md-7 col-6 text-nowrap text-secondary text-end">
                     '.$row["contactalterno"].'
                   </div>
                 </div>
                 <div class="row justify-content-between p-2">
-                  <div class="col-md-6 text-start">
-                    Driving License :
+                  <div class="col-md-5 col-6 text-nowrap text-start">
+                    Driving License:
                   </div>
-                  <div class="col-md-6 text-secondary text-end">
+                  <div class="col-md-7 col-6 text-nowrap text-secondary text-end">
                     '.$row["driving_license"].'
                   </div>
                 </div>
                 <div class="row justify-content-between p-2">
-                  <div class="col-md-6 text-start">Aadhaar :</div>
-                  <div class="col-md-6 text-secondary text-end">
+                  <div class="col-md-5 col-6 text-nowrap text-start">Aadhaar:</div>
+                  <div class="col-md-7 col-6 text-nowrap text-secondary text-end">
                     '.$row["aadhaar"].'
                   </div>
                 </div>
                 <div
-                  class="row justify-content-between p-2 align-items-center"
+                  class="row justify-content-between p-2 align-items-center" style="align-items: center;"
                 >
-                  <div class="col-md-6 text-start">
-                    Date Created :
+                  <div class="col-md-5 col-6 text-nowrap text-start">
+                    Date Created:
                   </div>
-                  <div class="col-md-6 text-secondary text-end">
+                  <div class="col-md-7 col-6 text-secondary text-end">
                     '.date('d/m/Y h:i:s a', strtotime($row["create_date"])).'
                   </div>
                 </div>

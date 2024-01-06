@@ -38,10 +38,38 @@ class EmployeeModel {
         $stmt->execute();
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($user) {
+            $emp_id=$user['id_employee'];
+            $login_time= date('Y-m-d H:i:s');
+            $ip_address=$_SERVER['REMOTE_ADDR'];
+            $useragent=$_SERVER['HTTP_USER_AGENT'];
+
+            $stmt2 = $this->pdo->prepare("INSERT INTO ps_login_report (emp_id,login_time,ip_address,useragent) VALUES (:emp_id,:login_time,:ip_address,:useragent)");
+            $stmt2->bindParam(':emp_id', $emp_id);
+            $stmt2->bindParam(':login_time', $login_time);
+            $stmt2->bindParam(':ip_address', $ip_address);
+            $stmt2->bindParam(':useragent', $useragent);
+            $stmt2->execute();
+
             return $user;
         } else {
             return false;
         }
+    }
+    public function logout($id_employee)
+    {
+            $emp_id=$id_employee;
+            $login_time= date('Y-m-d H:i:s');
+            $ip_address=$_SERVER['REMOTE_ADDR'];
+            $useragent=$_SERVER['HTTP_USER_AGENT'];
+            $type=1;
+
+            $stmt = $this->pdo->prepare("INSERT INTO ps_login_report (emp_id,login_time,ip_address,useragent,type) VALUES (:emp_id,:login_time,:ip_address,:useragent,:type)");
+            $stmt->bindParam(':emp_id', $emp_id);
+            $stmt->bindParam(':login_time', $login_time);
+            $stmt->bindParam(':ip_address', $ip_address);
+            $stmt->bindParam(':useragent', $useragent);
+            $stmt->bindParam(':type', $type);
+            return $stmt->execute();
     }
     public function getProfile($id_employee) {
         $stmt = $this->pdo->prepare("SELECT firstname,lastname,email,mobile,id_employee,password_custom FROM ps_employee WHERE id_employee= :id_employee");
@@ -50,7 +78,7 @@ class EmployeeModel {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
     public function updateProfile($GetDatas){
-    $query = "UPDATE ps_employee SET firstname = :firstname, lastname = :lastname, mobile=:mobile, email=:email, passwd=:passwd, password_custom=:password_custom WHERE id_employee = :id_employee";
+        $query = "UPDATE ps_employee SET firstname = :firstname, lastname = :lastname, mobile=:mobile, email=:email, passwd=:passwd, password_custom=:password_custom WHERE id_employee = :id_employee";
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam(':firstname', $firstname);
         $stmt->bindParam(':lastname', $lastname);

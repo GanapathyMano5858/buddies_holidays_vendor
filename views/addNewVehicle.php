@@ -119,20 +119,31 @@
 
   }
 </script>
-<div class="container-sm pt-4 hg250">
-  <p class="m-0" style="font-size: 14px;">Transport / Add Vehicle / Add New Vehicle</p>
+<div class="container-fluid container-sm pt-4">
+    <p style="font-size: 13px;" class=" page-head m-0 pb-2"><ul class="breadcrumb page-breadcrumb">
+  <li class="breadcrumb-container">
+  <a class="text-decoration-none text-dark" href="<?php echo _ROOT_DIRECTORY_; ?>index.php?action=get-vehicleList">Transport&nbsp;&nbsp;
+  </a>
+  </li>
+  <li class="breadcrumb-current">
+  <a class="text-decoration-none text-dark" href="<?php echo _ROOT_DIRECTORY_; ?>index.php?action=get-vehicleList">/&nbsp;&nbsp;Add Vehicle 
+  </a>
+  </li>
+  </ul>
+ </p>
+ 
   <?php if (isset($_GET['v_id']) && $_GET['v_id']) {
     $action = 'addVehicle-update';
   } else {
     $action = 'addVehicle-submit';
   }
   ?>
-  <div class="p-4 border rounded-4">
-    <div class="row align-items-center">
+  <div class=" p-5  border rounded-4">
+    <!-- <div class="row align-items-center">
       <div class="col-lg-2">
         <p>Vehicle Details</p>
       </div>
-    </div>
+    </div> -->
     <form method="post" action="<?php echo _ROOT_DIRECTORY_ . 'index.php?action=' . $action; ?>" onsubmit="return validateform(event);" name="vehicle_form" style="display: block; width: auto">
       <input type="hidden" name="v_id" id="v_id" value="<?php echo (isset($response['vehicleList']['v_id']) ? $response['vehicleList']['v_id'] : ''); ?>">
 

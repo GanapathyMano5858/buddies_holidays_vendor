@@ -56,6 +56,7 @@ if(isset($GetDatas['type'])&&$GetDatas['type']==3){
   
     $listArr = group_list($outstandinglist,'ref_no');
     $listArra=array();
+    $listArraaa=[];
 
    foreach($listArr as $key1=>$value1)
    {
@@ -72,9 +73,10 @@ if(isset($GetDatas['type'])&&$GetDatas['type']==3){
 
      } 
 
-    $s ='';
-	$si=''; 
+     $s ='';
+	   $si=''; 
      $mobileCont='';
+     $toclosewhile = "";
     //main loop key>client reference
     foreach($listArraaa as $keys => $list){  
       $si++;
@@ -329,6 +331,7 @@ if(isset($GetDatas['type'])&&$GetDatas['type']==3){
 
 	}
 	 return [
+	 	        "no_of_records"=>$toclosewhile,
             "mobile" => $mobile,
             "content" =>($mobile=='true'? $mobileCont : $content),
             "searchFrom" => isset($GetDatas["min-date"])

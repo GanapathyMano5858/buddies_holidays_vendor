@@ -26,7 +26,6 @@ class AuthController {
                 if ($this->model->emailExists($email)) {
                     if($this->model->checkVendor($email)){
                     if ($user = $this->model->authenticate($email, $passwd)) {
-                        session_start();
                         $_SESSION['trans_vendor_id']=$user['trans_vendor_id'];
                         $_SESSION['user_id'] = $user['id_employee'];
                         $_SESSION['lastname'] = $user['lastname'];
@@ -34,8 +33,13 @@ class AuthController {
                         $_SESSION['mobile'] = $user['mobile'];
                         $_SESSION['email'] = $user['email'];
                         $_SESSION['passwd'] = $user['password_custom'];
+                        $cookieName = 'last_activity';
+                        $cookieValue = time();
+                        $cookieExpiration = time() + ini_get('session.gc_maxlifetime')+1800;
 
-                        header('Location: ./views/dashboard.php');
+                        setcookie($cookieName, $cookieValue, $cookieExpiration, '/');
+
+                        header('Location: ./index.php?action=GetCount');
                         exit;
                     } else {
                              $error = "Incorrect password";
@@ -58,6 +62,7 @@ class AuthController {
 
     public function logout() {
         session_start();
+        $response=$this->model->logout($_SESSION['user_id']);
         session_destroy();
         header('Location: ./views/login.php');
         exit;

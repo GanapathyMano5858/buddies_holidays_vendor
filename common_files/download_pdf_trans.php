@@ -4,7 +4,7 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 include(dirname(dirname(__FILE__))).'/config.php';
 $con = mysqli_connect(_DB_SERVER_,_DB_USER_,_DB_PASSWD_,_DB_NAME_) or die("Error " . mysqli_error($con));
-		date_default_timezone_set('Asia/Kolkata');
+date_default_timezone_set('Asia/Kolkata');
 
 
 $arrival_via="";	

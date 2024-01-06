@@ -170,17 +170,17 @@
   }
 
   .print-clean {
-    border: none;
+    border: none !important;
     background: transparent;
     box-shadow: none !important;
     text-align: center;
     float: right;
   }
 
-  .colmanagecar textarea {
+  /* .colmanagecar textarea {
     float: left;
     text-align: left;
-  }
+  } */
 
   .print-clean1 {
     border: 0;
@@ -233,7 +233,7 @@
   }
 
   .raz {
-    width: 60px;
+    /* width: 60px; */
     padding: 2px 8px;
   }
 
@@ -353,10 +353,10 @@
   .noaction {
     opacity: .6;
     cursor: not-allowed !important;
-    color: #7d7676 !important;
+    color: #ffffff !important;
   }
 
-  .removeFile {
+  /* .removeFile {
     background: #93969e94;
     border-radius: 50%;
     padding: 0px 5px;
@@ -365,15 +365,19 @@
     position: relative;
     top: 3px;
     float: right;
-  }
+  } */
 
   .bootstrap output {
     display: table;
   }
 
   .uploadfilee {
-    /*display: inline-block;*/
-    margin: 5px 0px;
+    margin: 8px 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row-reverse;
+    width: 60px;
   }
 
   @media(width:320px) {
@@ -418,7 +422,7 @@
       color: #040404;
     }
 
-    .removeFile {
+    /* .removeFile {
       background: #93969e94;
       border-radius: 50%;
       padding: 5px 10px;
@@ -426,14 +430,14 @@
       font-weight: 600;
       position: relative;
       top: 3px;
-    }
+    } */
 
     .adminpurchaserate output {
       display: inline-block;
     }
 
     .asr {
-      color: #500606;
+      color: black;
       float: left;
     }
 
@@ -443,9 +447,9 @@
 
     .cllr {
       color: #7d7d7d;
-      float: right;
+      /* float: right;
       font-size: 11px;
-      clear: both;
+      clear: both; */
     }
 
     .trname {
@@ -472,22 +476,29 @@
 
 
 
-  .container-style {
+  /* .container-style {
   padding: 15px;
 }
 
-/* Container styling for md screens */
 @media (max-width: 991px) {
   .container-md .container-style {
     padding: 15px;
   }
 }
 
-/* Container styling for lg screens */
+
 @media (min-width: 992px) {
   .container-lg .container-style {
     padding: 30px;
   }
+} */
+
+/* Container styling for md screens */
+
+/* Container styling for lg screens */
+
+.filedrf input :disabled {
+  cursor: not-allowed;
 }
 
 </style>
@@ -504,8 +515,6 @@
       $("#purchaseratebill").submit();
 
     });
-
-    $('#datatables').DataTable({});
 
   });
 
@@ -683,7 +692,7 @@
     console.log(width);
     //if(width<1440){
     if (width < 1366) {
-      var searchTemplate = '<div class="input-group" style="padding:10px;"><span class="input-group-addon"><i class="fas fa-search"></i></span><input type="text" class="form-control"></div>';
+      var searchTemplate = '<div class="input-group" style="padding:10px 0; justify-content: center; align-items: center !important; gap: 10px;"><input type="text" placeholder="Quick Search" style="border-radius: 5px" class="form-control"></div>'; 
       $(".datagrid").sieve({
         itemSelector: "li",
         searchTemplate: searchTemplate
@@ -786,39 +795,22 @@
     }
 
   }
-
-
-// Function to dynamically update container styles based on screen size
-function updateContainerStyles() {
-  var windowWidth = window.innerWidth;
-  var containerElement = document.querySelector('.container-style');
-
-  // Remove existing container class
-  containerElement.classList.remove('container-md', 'container-lg');
-
-  // Apply appropriate container class based on screen size
-  if (windowWidth >= 992) {
-    // Large (lg) screen
-    containerElement.classList.add('container-lg');
-  } else {
-    // Medium (md) screen
-    containerElement.classList.add('container-md');
-  }
-}
-
-// Call the function on window resize
-window.addEventListener('resize', updateContainerStyles);
-
-// Initial call to update container styles on page load
-updateContainerStyles();
-
-
 </script>
 
 <body>
-  <div class="container-style overflow-hidden">
-    <form id="purchaseratebill" method="post" action="">
-      <p class="m-0">Transport &nbsp; / &nbsp; Add Purchase Bill</p>
+  <div class="container-fluid overflow-hidden">
+    <form id="purchaseratebill" method="post" action="" class="w-100 py-3 px-0" style="box-shadow: none;">
+      <p style="font-size: 13px;" class=" page-head m-0 pb-2"><ul class="breadcrumb page-breadcrumb">
+      <li class="breadcrumb-container">
+      <a class="text-decoration-none text-dark" href="<?php echo _ROOT_DIRECTORY_; ?>index.php?action=get-vehicleList">Transport&nbsp;&nbsp;
+      </a>
+      </li>
+      <li class="breadcrumb-current">
+      <a class="text-decoration-none text-dark" href="<?php echo _ROOT_DIRECTORY_; ?>index.php?action=add-purchase-bill">/&nbsp;&nbsp;Add Purchase Bill 
+      </a>
+      </li>
+      </ul>
+      </p>
       <div class="notification" id="notification" style="display:none;">
         <?php echo (isset($_GET['error']) ? $_GET['error'] : ''); ?>
       </div>
@@ -827,40 +819,54 @@ updateContainerStyles();
       </div>
 
       <div class="p-3 border rounded">
-         <div class="row justify-content-between  align-items-center">
-          <div class="btn-group col-lg-2" role="group" aria-label="Basic radio toggle button group">
+         <div class="row justify-content-between  align-items-center py-lg-3 py-0">
+          <div class="btn-group col-lg-2 btn-sm" role="group" aria-label="Basic radio toggle button group">
            
           <input class="btn-check" type="radio" id="btnradio1" name="type" value="5" checked />
-            <label class="btn btn-outline-danger" for="btnradio1">Add</label>
+            <label class="btn btn-sm btn-outline-danger" for="btnradio1">Add</label>
 
             <input type="radio" class="btn-check" id="btnradio2" name="type" value="3" <?php echo (isset($response['searchType']) && $response['searchType'] == 3) ? 'checked' : ''; ?> />
-            <label class="btn btn-outline-danger" for="btnradio2">Added</label>
+            <label class="btn btn-sm btn-outline-danger" for="btnradio2">Added</label>
           </div>
-          <div id="date_div" style="display: none;" class="col-lg-8 flex-row mt-md-3 mt-lg-0">
-          <div class="col-lg-1 col-md-1">
-            <label for="min-date" class="form-label mb-md-0 text-nowrap ">Start Date:</label>
+
+          <div style="font-size: 14px;" class="py-lg-0 py-2 col-1 text-nowrap mb-md-2 ps-md-4 ps-lg-0 ">
+            <label for="inputState" class="form-label m-0 text-nowrap ">Start Date :</label>
           </div>
-            <div class="col-lg-3 col-md-3">
-              <input type="text" class="form-control" id="min-date" name="min-date" autocomplete="off" value="<?php echo isset($response['searchFrom']) ? $response['searchFrom'] : ''; ?>" autocomplete="off" />
-            </div>
-            <div class="col-lg-1 col-md-1">
-              <label for="max-date" class="form-label mb-md-0 text-nowrap ">End Date:</label>
-            </div>
-            <div class="col-lg-3 col-md-3">
-              <input type="text" class="form-control" id="max-date" name="max-date" autocomplete="off" value="<?php echo isset($response['searchTo']) ? $response['searchTo'] : ''; ?>" autocomplete="" />
+          <div class="col-lg-2  pe-md-3 ps-md-3 ps-lg-0 pe-lg-0 mb-md-2 mb-lg-0">
+            <div class="input-group ">
+              <input style="height: 30px;" type="text" id="min-date" autocomplete="off" name="min-date" class=" form-control border-dark-subtle" value="<?php echo isset($response['searchFrom']) ? $response['searchFrom'] : ''; ?>">
             </div>
           </div>
 
-          <div class="col-lg-2 custom-btn">
-            <input type="button" class="form-control btn btn-outline-danger mt-md-4 mb-md-3" id="searchclient" name="searchclient" value="Search" />
+          <div style="font-size: 14px;" class="py-lg-0 py-2 col-1 text-nowrap mb-md-2  ps-md-4 ps-lg-0">
+            <label for="inputState" class="form-label m-0 text-nowrap">End Date :</label>
           </div>
+
+          <div class="col-lg-2 pe-md-3 ps-md-3 ps-lg-0 pe-lg-0 mb-md-3 mb-lg-0">
+            <div class="input-group ">
+              <input style="height: 30px;" type="text" id="max-date" name="max-date" class="form-control border-dark-subtle" autocomplete="off" value="<?php echo isset($response['searchTo']) ? $response['searchTo'] : ''; ?>">
+            </div>
+          </div>
+
+
+          <div class="mb-0 col-lg-1 pb-2 col-5 pb-lg-0 custom-btn">
+            <input type="button" class="form-control btn btn-outline-danger btn-sm" id="searchclient" name="searchclient" value="Search" />
+          </div>
+
+
+          <!-- <div class=""> -->
+        <?php if ($response['mobile'] == 1) { ?>
+       <?php echo(isset($response['no_of_records'])&&$response['no_of_records']!="")? '<div class="col-6 pt-1 px-0 text-start">Total Records : '.$response['no_of_records'].'</div>':'';?>
+        <!-- </div> -->
+
+
         </div>
 
         <?php if ($response['mobile'] == 0) { ?>
 
           <!-- table Start -->
           <div class="table-responsive table">
-            <table class="table table-striped table-hover table-borderless " id="datatables">
+            <table class="table table-striped table-hover table-borderless w-100 tableList" id="datatables">
               <thead class="text-center ">
                 <tr>
                   <th style="display:none;">S.no</th>
@@ -877,12 +883,12 @@ updateContainerStyles();
                           <th>Trip Date</th>
                           <th >Vehicle Remark</th>
 
-                          <th style="width: 85px;">
+                          <th>
                             <table class="w-100" style="margin-bottom:0 !important;">
                               <thead id="scroll">
                                 <tr>
                                   <th class="text-nowrap " >Trip Advance</th>
-
+                                  <th class="text-nowrap">Total KM </th>
                                 </tr>
                               </thead>
                             </table>
@@ -896,8 +902,6 @@ updateContainerStyles();
                           <th class="text-nowrap">Rejected Remark</th>
                           <th class="text-nowrap">Images</th>
                           <th class="text-nowrap">Action</th>
-                          <th class="text-nowrap">Total KM </th>
-
                         </tr>
                       </thead>
                     </table>
@@ -913,40 +917,33 @@ updateContainerStyles();
           </div>
         <?php } ?>
         <!-- table End -->
-        <?php if ($response['mobile'] == 1) { ?>
-
-          <!-- Grid Start -->
-          <div class="grid-responsive clearfix">
-            <ul class="datagrid row list-unstyled">
-              <?php echo $response['content']; ?>
-
-            </ul>
-
-          </div>
+    
+       <!-- Grid Start -->
+            <div class="grid-responsive clearfix">
+              <?php
+              if (empty($response['content'])) {
+              echo '<div class="alert alert-secondary" role="alert">
+                      No data available
+                    </div>';
+              } else {
+             
+              echo '<ul class="datagrid row list-unstyled">' . $response['content'] . '</ul>';
+              }
+            ?>
+            </div>
         <?php } ?>
         <!-- Grid End -->
 
       </div>
     </form>
   </div>
-  <div class="overlayss __web-inspector-hide-shortcut__">
-    <div class="loader-box">
-      <div id="loader-2">
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <div class="loading" data-name="Loading">Please Wait....</div>
-      </div>
-    </div>
-  </div>
+
 
   <div class="modal fade imageModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content" style="width: 80%; margin:0 auto;">
-        <div class="modal-header">
-          <button type="button" class="close clst" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <div class="modal-header flex-row-reverse">
+          <button type="button" class="close clst btn btn-outline-danger btn-sm" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
           <h4 class="modal-title text-center" id="myModalLabel">Image Slider</h4>
         </div>
         <div class="modal-body">
@@ -1030,7 +1027,7 @@ updateContainerStyles();
               reader.onload = function(e) {
                 var div = document.createElement('div');
                 div.classList.add('uploadfilee');
-                div.innerHTML = '<a class="removeFile" href="javascript:void(0);" data-fileid=' + j + ' >X</a><p style="display:none;">' + files[j].name + ' </p><span class="thumbnail"> ' + files[j].name.substring(0, 5) + '... </span>';
+                div.innerHTML = '<a class="removeFile" href="javascript:void(0);" data-fileid=' + j + ' ><button type="button" class="btn-close btn btn-primary" aria-label="Close"></button></a><p style="display:none;">' + files[j].name + ' </p><span class="thumbnail"> ' + files[j].name.substring(0, 5) + '... </span>';
 
                 output.insertBefore(div, null);
               }

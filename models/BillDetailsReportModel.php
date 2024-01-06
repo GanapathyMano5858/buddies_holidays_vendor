@@ -17,6 +17,7 @@ class BillDetailsReportModel{
   }
   $where=1;
   $fromStr=$toStr = $orderby = '';
+  $GetDatas['type']=((isset($GetDatas['type']))? $GetDatas['type'] : 2);
 if(isset($GetDatas["min-date"])&&$GetDatas["min-date"] != ""&&isset($GetDatas["max-date"])&&$GetDatas["max-date"] != "")  {
       $fromStr =str_replace("/","-",$GetDatas['min-date']);
       $toStr =str_replace("/","-",$GetDatas['max-date']);
@@ -73,7 +74,7 @@ if(isset($GetDatas["min-date"])&&$GetDatas["min-date"] != ""&&isset($GetDatas["m
 
     }
    
-
+    $toclosewhile = "";
     $listArr = group_list($ClientList,'ref_no');
     $listArra=array();
 
@@ -165,7 +166,7 @@ if(isset($GetDatas["min-date"])&&$GetDatas["min-date"] != ""&&isset($GetDatas["m
         $status_mobile="PAID";
         }
         if($vv==1){
-          $s.='<td style="width: 10% !important"><span class="asr">BH Ref No</span> <span class="cllr">'.$valiee[0]['ref_no'].'</span><br>';
+          $s.='<td class="d-flex flex-column gap-2"><div class="d-flex justify-content-between"><span class="asr">BH Ref No</span> <span class="cllr">'.$valiee[0]['ref_no'].'</span></div>';
              if($GetDatas['type']==1||$GetDatas['type']==2){
                
                   if($valiee[0]['trip_went_not']!=2){
@@ -177,30 +178,30 @@ if(isset($GetDatas["min-date"])&&$GetDatas["min-date"] != ""&&isset($GetDatas["m
 
                       }
 
-                   $s.='<span class="asr">Travel Date</span><span class="cllr">A:'.date('d/m/Y',strtotime($hiss_dateee_staert)).'</span><br><span class="cllr">D:'.date('d/m/Y',strtotime($valiee[0]['va_end_date'])).'</span><br>';
+                   $s.='<div class="d-flex align-items-center justify-content-between"><span class="asr">Travel Date</span><div class="col-7"><span class="cllr">A:'.date('d/m/Y',strtotime($hiss_dateee_staert)).'</span><br><span class="cllr">D:'.date('d/m/Y',strtotime($valiee[0]['va_end_date'])).'</span></div></div>';
                   }
                   else{
-                       $s.='<span class="asr">Travel Date</span><span class="cllr">Trip not went</span> <br>';
+                       $s.='<div class="d-flex justify-content-between"><span class="asr">Travel Date</span><span class="cllr">Trip not went</span> </div>';
                   }
               
               
               
              }
              else{
-                $s.='<span class="asr">Date</span> <span class="cllr">'.(($valiee[0]['paid_status_bill_allotment']==1) ? date('d/m/Y',strtotime($valiee[0]['adjust_paid_date_allotment'])): '-').'</span><br>';
+                $s.='<div class="d-flex justify-content-between"><span class="asr">Date</span> <span class="cllr">'.(($valiee[0]['paid_status_bill_allotment']==1) ? date('d/m/Y',strtotime($valiee[0]['adjust_paid_date_allotment'])): '-').'</span></div>';
              }
            }
              
-                $s.='<span class="asr">Amount</span> <span class="cllr">'.$individual_remaining_mobile.'</span><br>';
+                $s.='<div class="d-flex justify-content-between"><span class="asr">Amount</span> <span class="cllr">'.$individual_remaining_mobile.'</span></div>';
                if($GetDatas['type']==1||$GetDatas['type']==2){
 
-                $s.='<span class="asr">Status</span> <span class="cllr">'.$status_mobile.'</span><br>';
+                $s.='<div class="d-flex justify-content-between"><span class="asr">Status</span> <span class="cllr">'.$status_mobile.'</span></div>';
               }
               
-                $s.='<span class="asr">View</span> <span class="cllr"><a class="customedit" href="javascript:void(0)" title="View" onclick="javascript:return showClientDetails('.$valiee[0]['id_client'].','.$valiee[0]['va_transporter_id'].');">
+                $s.='<div class="d-flex justify-content-between"><span class="asr">View</span> <span class="cllr"><a class="customedit" href="javascript:void(0)" title="View" onclick="javascript:return showClientDetails('.$valiee[0]['id_client'].','.$valiee[0]['va_transporter_id'].');">
 
                <button class="btn btn-primary" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"><i class="fa-solid fa-eye"></i></button>
-              </a></span><br>';
+              </a></span></div>';
               
 
              } //  foreach close
@@ -362,6 +363,7 @@ if(isset($GetDatas["min-date"])&&$GetDatas["min-date"] != ""&&isset($GetDatas["m
     }
      return [
             "mobile" => $mobile,
+            "no_of_records"=>$toclosewhile,
             "content" =>$s,
             "searchFrom" => isset($GetDatas["min-date"])
                 ? $GetDatas["min-date"]
@@ -369,7 +371,7 @@ if(isset($GetDatas["min-date"])&&$GetDatas["min-date"] != ""&&isset($GetDatas["m
             "searchTo" => isset($GetDatas["max-date"])
                 ? $GetDatas["max-date"]
                 : "",
-            "searchType" => isset($GetDatas["type"]) ? $GetDatas["type"] : "",
+            "searchType" => isset($GetDatas["type"]) ? $GetDatas["type"] :"",
         ];
    
 	}
@@ -495,88 +497,88 @@ if(isset($GetDatas["min-date"])&&$GetDatas["min-date"] != ""&&isset($GetDatas["m
         $tds_trip=round($tds_trip);
         $content=' <div class="container-fluid border p-3 rounded">
                           <div class="row justify-content-between p-2">
-                            <div class="col-md-6 text-start">BH Ref No :</div>
-                            <div class="col-md-6 text-secondary text-end">
+                            <div class="col-6 text-start">BH Ref No :</div>
+                            <div class="col-6 text-secondary text-end">
                               '.$clientList["ref_no"].'
                             </div>
                           </div>
-                          <div class="row justify-content-between p-2">
-                            <div class="col-md-6 text-start">Client Name :</div>
-                            <div class="col-md-6 text-secondary text-end">
+                          <div class="row align-items-center justify-content-between p-2">
+                            <div class="col-6 text-start">Client Name :</div>
+                            <div class="col-6 text-secondary text-end">
                               '.$clientList["client_name"].'
                             </div>
                           </div>
                           <div class="row justify-content-between p-2">
-                            <div class="col-md-6 text-start">Arrival :</div>
-                            <div class="col-md-6 text-secondary text-end">
+                            <div class="col-6 text-start">Arrival :</div>
+                            <div class="col-6 text-secondary text-end">
                               '.$clientList["client_arrival_name"].'
                             </div>
                           </div>
                           <div class="row justify-content-between p-2">
-                            <div class="col-md-6 text-start">Departure :</div>
-                            <div class="col-md-6 text-secondary text-end">
+                            <div class="col-6 text-start">Departure :</div>
+                            <div class="col-6 text-secondary text-end">
                               '.$clientList["client_departure_name"].'
                             </div>
                           </div>
-                          <div class="row justify-content-between p-2">
-                            <div class="col-md-6 text-start">Trip Date :</div>
-                            <div class="col-md-6 text-secondary text-end">
-                            '.$trip_strart_date.'<br />'.$trip_end_date.'
+                          <div class="row justify-content-between align-items-center p-2">
+                            <div class="col-6 text-start">Trip Date :</div>
+                            <div class="col-6 text-secondary text-end">
+                            '.$trip_strart_date.''.$trip_end_date.'
                             </div>
                           </div>
                           <div
                             class="row justify-content-between p-2 align-items-center"
                           >
-                            <div class="col-md-6 text-start">Bill Amount :</div>
-                            <div class="col-md-6 text-secondary text-end">
+                            <div class="col-6 text-start">Bill Amount :</div>
+                            <div class="col-6 text-secondary text-end">
                               '.$clientList["purchase_rate_shared"].'
                             </div>
                           </div>
                           <div
                             class="row justify-content-between p-2 align-items-center"
                           >
-                            <div class="col-md-6 text-start">TDS :</div>
-                            <div class="col-md-6 text-secondary text-end">
+                            <div class="col-6 text-start">TDS :</div>
+                            <div class="col-6 text-secondary text-end">
                               '.$tds_trip.'
                             </div>
                           </div>
                           <div
                             class="row justify-content-between p-2 align-items-center"
                           >
-                            <div class="col-md-6 text-start">Trip Advance :</div>
-                            <div class="col-md-6 text-secondary text-end">
+                            <div class="col-6 text-start">Trip Advance :</div>
+                            <div class="col-6 text-secondary text-end">
                               '.$tripAdvace_paid.'
                             </div>
                           </div>
                           <div
                             class="row justify-content-between p-2 align-items-center"
                           >
-                            <div class="col-md-6 text-start">Driver Received Amount :</div>
-                            <div class="col-md-6 text-secondary text-end">
+                            <div class="col-6 text-start">Driver Received Amount :</div>
+                            <div class="col-6 text-secondary text-end">
                               '.$clientList["received_amount"].'
                             </div>
                           </div>
                           <div
                             class="row justify-content-between p-2 align-items-center"
                           >
-                            <div class="col-md-6 text-start">Remaining Individual Payable Amount :</div>
-                            <div class="col-md-6 text-secondary text-end">
+                            <div class="col-6 text-start">Remaining Individual Payable Amount :</div>
+                            <div class="col-6 text-secondary text-end">
                               '.$individual_remaining.'
                             </div>
                           </div>
                           <div
                             class="row justify-content-between p-2 align-items-center"
                           >
-                            <div class="col-md-6 text-start">Vehicle Remark :</div>
-                            <div class="col-md-6 text-secondary text-end">
+                            <div class="col-7 text-start">Vehicle Remark :</div>
+                            <div class="col-5 text-secondary text-end">
                               '.$vendorRemark.'
                             </div>
                           </div>
                           <div
                             class="row justify-content-between p-2 align-items-center"
                           >
-                            <div class="col-md-6 text-start">Status  :</div>
-                            <div class="col-md-6 text-danger-emphasis text-end">
+                            <div class="col-4 text-start">Status  :</div>
+                            <div class="col-8 text-danger-emphasis text-end">
                               '.$status.'
                             </div>
                           </div>

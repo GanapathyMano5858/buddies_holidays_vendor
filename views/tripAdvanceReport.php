@@ -1,15 +1,38 @@
 <?php include 'header.php'; ?>
+<style type="text/css">
+  .show_query {
+    position: relative;
+    text-decoration: none !important;
+    color: #555555 !important;
+    font-weight: bold;
+
+  }
+
+  .show_query:hover .show_me {
+    display: block;
+    position: absolute;
+    background-color: #515050;
+    color: white;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    width: 200px;
+    min-height: 50px;
+    right: 10px;
+    z-index: 1;
+    padding: 10px 10px;
+    word-break: break-all;
+  }
+
+  .show_me {
+    display: none;
+  }
+</style>
 <script type=text/javascript>
   $(document).ready(function() {
     $(document).on('click', '.close', function() {
       // Find the closest modal and hide it
       $(this).closest('.modal').modal('hide');
-    });
-    $('#tripPayment').DataTable({
-      lengthMenu: [
-        [-1],
-        ['All']
-      ],
     });
     $("#min-date").datepicker({
       changeMonth: true,
@@ -22,7 +45,6 @@
       }
 
     });
-
 
     $('#max-date').datepicker({
       changeMonth: true,
@@ -81,14 +103,63 @@
   }
 </script>
 
+<style>
+  .modal-header {
+    flex-direction: row-reverse;
+  }
+
+  
+  .dataTables_filter {
+    width: 100%;
+  }
+
+  .dataTables_filter label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    font-size: 14px;
+    padding: 15px 0;
+  }
+
+  .dataTables_filter label input {
+    width: 100%;
+  }
+
+  @media only screen and (min-width: 992px) {
+    .dataTables_filter label input {
+      width: 20%;
+    }
+
+    .dataTables_filter label {
+      display: inline-block;
+      /* padding: 0; */
+    }
+  }
+
+
+</style>
+
 <body>
   <div class="p-4">
-    <p class="m-0">Transport &nbsp; / &nbsp; Trip Advance Report</p>
+  <!-- <p style="font-size: 13px;" class=" page-head m-0 pb-2"> -->
+  <ul class="breadcrumb page-breadcrumb mb-1">
+    <li class="breadcrumb-container">
+    <a class="text-decoration-none text-dark" href="<?php echo _ROOT_DIRECTORY_; ?>index.php?action=outstanding-report">Report&nbsp;&nbsp;
+    </a>
+    </li>
+    <li class="breadcrumb-current">
+    <a class="text-decoration-none text-dark" href="<?php echo _ROOT_DIRECTORY_; ?>index.php?action=tripadvance-report">/&nbsp;&nbsp;Trip Advance Report 
+    </a>
+    </li>
+    </ul>
+    <!-- </p> -->
+   
 
     <div class="p-3 border rounded">
-      <form action="" method="post" style="box-shadow: none;" class="pb-0 pe-1 ps-1">
-        <div class="row justify-content-lg-around align-items-center">
-          <div class="col-lg-3 flex-row pe-md-4 ps-md-4 mb-md-3 mb-lg-0">
+      <form action="" method="post" style="box-shadow: none;" class="w-100 py-0 px-0">
+        <div class="row justify-content-lg-around justify-content-between align-items-center gap-3 gx-md-2 gx-lg-1 gx-sm-3">
+          <div class="col-lg-3 flex-row pe-md-4 mb-md-3 mb-lg-0">
             <div class="col-3 text-nowrap ">
               <label for="inputState" class="form-label">Start Date :</label>
             </div>
@@ -97,7 +168,7 @@
             </div>
           </div>
 
-          <div class="col-lg-3 flex-row pe-md-4 ps-md-4 mb-md-3 mb-lg-0">
+          <div class="col-lg-3 flex-row mb-md-3 mb-lg-0">
             <div class="col-3 text-nowrap ">
               <label for="inputState" class="form-label">End Date :</label>
             </div>
@@ -107,24 +178,30 @@
           </div>
 
           <div class="btn-group col-lg-2 mb-md-4 mb-lg-0" role="group" aria-label="Basic radio toggle button group">
-            <input type="radio" class="btn-check btn-sm" name="btnradio" id="btnradio1" value="3" name="type" autocomplete="off" checked onclick="toggleDatePicker('hide')" />
+            <input type="radio" class="btn-check btn-sm" id="btnradio1" value="3" name="type" autocomplete="off" checked />
             <label class="btn btn-outline-danger btn-sm" for="btnradio1">Paid</label>
 
-            <input type="radio" class="btn-check btn-sm" name="btnradio" id="btnradio2" name="type" value="2" autocomplete="off" <?php echo (isset($response['type']) && $response['type'] == 2) ? 'checked' : ''; ?> onclick="toggleDatePicker('show')" />
+            <input type="radio" class="btn-check btn-sm" id="btnradio2" name="type" value="2" autocomplete="off" <?php echo (isset($response['tysearcTypepe']) && $response['searcType'] == 2) ? 'checked' : ''; ?>  />
             <label class="btn btn-outline-danger btn-sm" for="btnradio2">Unpaid</label>
           </div>
-          <div class="col-lg-2 mb-md-4 mb-lg-0">
+          <div class="col-lg-1 col-md-3 col-sm-3">
             <input type="submit" value="Submit" class="form-control btn btn-outline-danger btn-sm" />
           </div>
+          <div class="col-lg-2 col-md-3 col-sm-3 col-12">
+            <button onclick="javascript:downloadReport('excel')" class="w-100 btn-sm btn btn-outline-success text-nowrap">
+              Download &nbsp;<i class="fa-solid fa-download"></i>
+            </button>
+          </div>
         </div>
+
       </form>
 
       <!-- table Start -->
-      <button onclick="javascript:downloadReport('excel')" style="right: 31px; top: 45px; z-index: 2;" class="btn-sm btn btn-outline-success position-relative float-end ">
-        Download &nbsp;<i class="fa-solid fa-download"></i>
-      </button>
+     <?php if ($response['mobile'] == 'true') { 
+          echo(isset($response['no_of_records'])&&$response['no_of_records']!="")? '<var>Total Records : '.$response['no_of_records'].'</var>':'';
+       } ?>
       <div class="table-responsive table">
-        <table class="table table-striped table-hover table-borderless" id="tripPayment">
+        <table class="table table-striped table-hover table-borderless tableList" id="tripPayment">
           <thead class="text-center">
             <tr>
               <?php if ($response['mobile'] == 'true') { ?>

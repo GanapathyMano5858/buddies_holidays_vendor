@@ -10,12 +10,14 @@ class VehicleListModel{
 		$vehicleList =$this->pdo->prepare('SELECT ps_vehicles.*,ps_vehicletypes.vehicle_category,ps_vehicletypes.vehicle_type_name,ps_vehicles.status as vehicle_status,ps_vehicletypes.vehicle_type_name as vehicle_name,ps_vehicles.blocked as vehicle_blocked FROM ps_vehicles  LEFT JOIN ps_transporter ON ps_transporter.t_id=ps_vehicles.transporter_id left join ps_vehicletypes on ps_vehicletypes.vt_id=ps_vehicles.vehicle_type where ps_transporter.t_id='.$_SESSION['trans_vendor_id'].'
 			 and ps_vehicles.status !=1  ORDER BY ps_vehicles.v_id DESC');
 		$vehicleList->execute();
+        $vehicleList=$vehicleList->fetchAll(PDO::FETCH_ASSOC);
 
 		$CheckvehiclecountForOwnCome = $this->pdo->prepare('SELECT count(ps_vehicles.v_id) as count FROM ps_vehicles  LEFT JOIN ps_transporter ON ps_transporter.t_id=ps_vehicles.transporter_id  where ps_transporter.t_id='.$_SESSION['trans_vendor_id'].'  and ps_transporter.trans_vendors=0 and ps_vehicles.status not in (1,3,6)');
 			$CheckvehiclecountForOwnCome->execute();
 			return array(
-				'vehicleList'=>$vehicleList->fetchAll(PDO::FETCH_ASSOC),
-				'CheckvehiclecountForOwnCome'=>$CheckvehiclecountForOwnCome->fetch(PDO::FETCH_ASSOC)
+				'vehicleList'=>$vehicleList,
+				'CheckvehiclecountForOwnCome'=>$CheckvehiclecountForOwnCome->fetch(PDO::FETCH_ASSOC),
+                "no_of_records"=>count($vehicleList),
 			);
 			
     }

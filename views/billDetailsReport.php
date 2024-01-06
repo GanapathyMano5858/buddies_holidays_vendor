@@ -1,4 +1,4 @@
-<?php include 'header.php'; ?>
+<?php include 'header.php';?>
 <style type="text/css">
   .even td table,
   .odd td table {
@@ -101,15 +101,15 @@
     }
 
     .asr {
-      color: #500606;
+      color: black;
       float: left;
     }
-
+/* 
     .asr:after {
       content: ":";
       position: absolute;
       right: 50%;
-    }
+    } */
 
     .cllr {
       color: #7d7d7d;
@@ -179,7 +179,7 @@
       font-weight: 600;
       text-transform: uppercase;
       width: 85% !important;
-      background: linear-gradient(to bottom, #efe9e9 19%, #dcdcdc 56%) !important;
+      /* background: linear-gradient(to bottom, #efe9e9 19%, #dcdcdc 56%) !important; */
     }
 
     .pdb {
@@ -201,32 +201,25 @@
 </style>
 <script type="text/javascript">
   $(document).ready(function() {
-    $('#BillDetailsTable').DataTable({
-      lengthMenu: [
-        [-1],
-        ['All']
-      ],
 
-    });
+    // if ($("input[name='type']:checked").val() != 2) {
+    //   $('#datePickerContainer1').removeClass("d-none");
+    //   $('#datePickerContainer2').removeClass("d-none");
 
-    if ($("input[name='type']:checked").val() != 2) {
-      $('#datePickerContainer1').removeClass("d-none");
-      $('#datePickerContainer2').removeClass("d-none");
+    // } else {
+    //   $('#datePickerContainer1').addClass("d-none");
+    //   $('#datePickerContainer2').addClass("d-none");
+    // }
+    // $("input[name='type']").change(function() {
+    //   if ($(this).val() != 2) {
 
-    } else {
-      $('#datePickerContainer1').addClass("d-none");
-      $('#datePickerContainer2').addClass("d-none");
-    }
-    $("input[name='type']").change(function() {
-      if ($(this).val() != 2) {
-
-        $('#datePickerContainer1').removeClass("d-none");
-        $('#datePickerContainer2').removeClass("d-none");
-      } else {
-        $('#datePickerContainer1').addClass("d-none");
-        $('#datePickerContainer2').addClass("d-none");
-      }
-    });
+    //     $('#datePickerContainer1').removeClass("d-none");
+    //     $('#datePickerContainer2').removeClass("d-none");
+    //   } else {
+    //     $('#datePickerContainer1').addClass("d-none");
+    //     $('#datePickerContainer2').addClass("d-none");
+    //   }
+    // });
 
     $("#min-date").datepicker({
       changeMonth: true,
@@ -269,17 +262,86 @@
     });
   }
 </script>
+<style>
+   .dataTables_filter {
+    width: 100%;
+  }
+/* 
+  .dataTables_filter label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    font-size: 14px;
+    padding: 15px 0;
+  } */
+
+  .dataTables_filter label input {
+    width: 100%;
+  }
+
+  @media only screen and (min-width: 992px) {
+    .dataTables_filter label input {
+      width: 20%;
+    }
+
+    .dataTables_filter label {
+      display: inline-block;
+      padding: 0;
+    }
+  }
+
+/* @media only screen and(max-width:520px) {
+  .total_records{
+    width: 50%;
+    position: relative;
+    top: 35px;
+    z-index: 55;
+    left: 274px;
+  }
+} */
+
+@media only screen and (max-width: 600px) {
+  .total_records{
+    width: 40%;
+    position: relative;
+    top: 27px;
+    z-index: 55;
+    left: 250px;
+  }
+}
+
+#BillDetailsTable_filter{
+  margin:0 !important;
+}
+#BillDetailsTable_filter label{
+  padding:0 !important;
+  margin:0 !important
+}
+</style>
+
 
 <body>
 
-  <div class="p-4 container hg250">
-    <p class="m-0">Transport &nbsp; / &nbsp; Bill Details Report</p>
+  <div class="p-4 container">
+    <p style="font-size: 13px;" class=" page-head m-0 pb-2"><ul class="breadcrumb page-breadcrumb">
+    <li class="breadcrumb-container">
+    <a class="text-decoration-none text-dark" href="<?php echo _ROOT_DIRECTORY_; ?>index.php?action=outstanding-report">Report&nbsp;&nbsp;
+    </a>
+    </li>
+    <li class="breadcrumb-current">
+    <a class="text-decoration-none text-dark" href="<?php echo _ROOT_DIRECTORY_; ?>index.php?action=billdetails-report">/&nbsp;&nbsp;Bill Details Report 
+    </a>
+    </li>
+    </ul>
+    </p>
 
     <div class="p-3 border rounded">
-      <form action="" method="post" style="box-shadow: none; padding:25px 25px 0;">
-        <div class="row justify-content-between align-items-center">
-          <div class="btn-group col-lg-3 mb-md-3 mb-lg-0" role="group" aria-label="Basic radio toggle button group">
-            <input type="radio" class="btn-check" name="type" id="btnradio1" autocomplete="off" value="2" checked />
+
+      <form action="" method="post" style="box-shadow: none;" class="w-100 py-0 px-0">
+        <div class="row justify-content-between   gap-3 gx-md-2 gx-lg-1 gx-sm-3">
+          <div class="btn-group col-lg-2 " role="group" aria-label="Basic radio toggle button group">
+          <input type="radio" class="btn-check" name="type" id="btnradio1" autocomplete="off" value="2" checked />
             <label class="btn btn-outline-danger btn-sm " for="btnradio1">Unpaid</label>
 
             <input type="radio" class="btn-check" name="type" id="btnradio2" value="3" autocomplete="off" <?php echo (isset($response['searchType']) && $response['searchType'] == 3) ? 'checked' : ''; ?> />
@@ -289,35 +351,46 @@
             <label class="btn btn-outline-danger btn-sm" for="btnradio3">All</label>
           </div>
 
-          <div class="gap-3 col-lg-3 flex-row  mb-md-3 mb-lg-0 " id="datePickerContainer1">
-            <div class="col-3">
-              <label for="datepicker" class="form-label text-nowrap ">Start Date:</label>
+          <div class="col-lg-3 flex-row px-4 px-lg-0" id="datePickerContainer1">
+            <div class="col-3 text-nowrap ">
+              <label for="inputState" class="form-label">Start Date :</label>
             </div>
             <div class="col-9">
-              <input style="height: 30px;" type="text" class="form-control" autocomplete="off" id="min-date" name="min-date" value="<?php echo isset($response['searchFrom']) ? $response['searchFrom'] : ''; ?>" />
-            </div>
-          </div>
-          <div class="gap-3 col-lg-3 flex-row mb-md-3 mb-lg-0" id="datePickerContainer2">
-            <div class="col-3">
-              <label for="datepicker" class="form-label text-nowrap ">End Date:</label>
-            </div>
-            <div class="col-9">
-              <input style="height: 30px;" type="text" class="form-control" id="max-date" name="max-date" autocomplete="off" value="<?php echo isset($response['searchTo']) ? $response['searchTo'] : ''; ?>" />
+              <input style="height: 30px;" type="text" class="form-control border-dark-subtle" autocomplete="off" id="min-date" name="min-date" value="<?php echo isset($response['searchFrom']) ? $response['searchFrom'] : ''; ?>" />
             </div>
           </div>
 
-          <div class="gap-3 col-lg-2 ">
-            <input type="submit" class="form-control btn btn-danger btn-sm " value="SUBMIT" />
+          <div class="col-lg-3 flex-row px-4 px-lg-0" id="datePickerContainer2">
+            <div class="col-3 text-nowrap ">
+              <label for="inputState" class="form-label">End Date :</label>
+            </div>
+            <div class="col-9">
+              <input style="height: 30px;" type="text" class="form-control border-dark-subtle" autocomplete="off" id="max-date" name="max-date" value="<?php echo isset($response['searchTo']) ? $response['searchTo'] : ''; ?>" />
+            </div>
           </div>
+
+
+          <div class="col-lg-1 col-4 ">
+            <input type="submit" value="Submit" class="form-control btn btn-outline-danger btn-sm " />
+          </div>
+          <div class="col-lg-1 col-5  d-block d-lg-none">
+          <button onclick="javascript:downloadReport('excel')" class="w-100 btn-sm btn btn-outline-success text-nowrap">
+              Download &nbsp;<i class="fa-solid fa-download"></i>
+          </div>
+
         </div>
+
       </form>
 
       <!-- table Start -->
-      <button onclick="javascript:downloadReport('excel')" style="right: 28px; top: 45px;" class="btn-sm btn btn-outline-success position-relative float-end ">
+      <button onclick="javascript:downloadReport('excel')" style="top: 31px;" class="btn-sm d-none d-lg-block  text-nowrap btn btn-outline-success position-relative float-end ">
         Download &nbsp;<i class="fa-solid fa-download"></i>
       </button>
+      <?php if ($response['mobile'] == 'true') { 
+          echo(isset($response['no_of_records'])&&$response['no_of_records']!="")? '<div class="total_records">Total Records : '.$response['no_of_records'].'</div>':'';
+       } ?>
       <div class="table-responsive table">
-        <table class="table table-striped table-hover table-borderless" id="BillDetailsTable">
+        <table class="table table-striped table-hover table-borderless tableList" id="BillDetailsTable">
           <thead class="text-center">
             <tr class="align-middle">
               <?php if ($response['mobile'] == 'true') { ?>

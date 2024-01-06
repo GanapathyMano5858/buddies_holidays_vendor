@@ -43,8 +43,8 @@
   }
 
   #remarks1 {
-    width: 300px;
-    margin: 0 auto;
+    /* width: 300px;
+    margin: 0 auto; */
   }
 
   #next_action {
@@ -86,7 +86,19 @@
     font-size: 12px;
     text-decoration: none;
     border-radius: 3px;
-    margin-bottom: 20px;
+    /* margin-bottom: 20px; */
+    display: inline-block;
+  }
+
+  .allot_button_mobile {
+    color: white !important;
+    padding: 4px 8px;
+    font-size: 12px;
+    text-decoration: none;
+    border-radius: 3px;
+    margin: 10px auto;
+    width: 250px;
+    /* margin-bottom: 20px; */
     display: inline-block;
   }
 
@@ -172,161 +184,167 @@
     }
 
     .asr {
-      color: #500606;
+      color: black;
       float: left;
     }
 
-    .asr:after {
+    /* .asr:after {
       content: ":";
       position: absolute;
       /*right: 52%; */
-    }
+  }
 
-    .cllr {
-      color: #7d7d7d;
-      float: right;
-      font-size: 11px;
-    }
+  */ .cllr {
+    color: #7d7d7d;
+    float: right;
+    font-size: 11px;
+  }
 
-    .allot_button {
-      float: right;
-    }
+  .allot_button {
+    float: right;
+  }
 
-    .request {
-      color: #ffffff;
-      background: transparent !important;
-      padding: 2px 0px;
-      text-transform: uppercase;
-      color: #f31111 !important;
-      font-weight: 600;
-      font-size: 11px;
-    }
+  .request {
+    color: #ffffff;
+    background: transparent !important;
+    padding: 2px 0px;
+    text-transform: uppercase;
+    color: #f31111 !important;
+    font-weight: 600;
+    font-size: 11px;
+  }
 
-    .bootstrap .table tbody>tr:nth-child(odd)>td {
-      /*background-color:#ffffff!important;*/
-      padding: 12px 12px 12px 15px !important;
-      box-shadow: 0 10px 10px -10px rgba(0, 0, 0, 0.42);
-      border: 1px solid #e4e4e4;
-    }
+  .bootstrap .table tbody>tr:nth-child(odd)>td {
+    /*background-color:#ffffff!important;*/
+    padding: 12px 12px 12px 15px !important;
+    box-shadow: 0 10px 10px -10px rgba(0, 0, 0, 0.42);
+    border: 1px solid #e4e4e4;
+  }
 
-    .bootstrap .table tbody>tr:nth-child(odd)>td:hover,
-    .bootstrap .table tbody>tr:nth-child(even)>td:hover {
-      box-shadow: 0 10px 10px -10px rgba(0, 0, 0, 0.42);
-      border: 1px solid #e4e4e4;
-    }
+  .bootstrap .table tbody>tr:nth-child(odd)>td:hover,
+  .bootstrap .table tbody>tr:nth-child(even)>td:hover {
+    box-shadow: 0 10px 10px -10px rgba(0, 0, 0, 0.42);
+    border: 1px solid #e4e4e4;
+  }
 
-    .bootstrap .table tbody>tr:nth-child(even)>td {
-      background-color: #ffffff;
-      padding: 12px 12px 12px 15px !important;
-      box-shadow: 0 10px 10px -10px rgba(0, 0, 0, 0.42);
-      border: 1px solid #e4e4e4;
-    }
+  .bootstrap .table tbody>tr:nth-child(even)>td {
+    background-color: #ffffff;
+    padding: 12px 12px 12px 15px !important;
+    box-shadow: 0 10px 10px -10px rgba(0, 0, 0, 0.42);
+    border: 1px solid #e4e4e4;
+  }
 
-    /*.cancel td
+  /*.cancel td
   {
     background-color: #e4b7d8;
   }*/
-    .icon-trash {
-      color: #cc0707;
-      font-size: 16px;
-    }
+  .icon-trash {
+    color: #cc0707;
+    font-size: 16px;
+  }
 
-    .dataTables_filter label {
-      font-size: 12px !important;
-    }
 
-    /*.bootstrap .table tbody>tr:nth-child(even)
+  .dataTables_filter label {
+    font-size: 12px !important;
+  }
+
+  /*.bootstrap .table tbody>tr:nth-child(even)
   {
     border:2px solid green!important;
   }*/
-    .serialno {
-      width: 14% !important;
-    }
-
-    .vechdet {
-      text-align: center !important;
-      font-weight: 600;
-      text-transform: uppercase;
-      width: 85% !important;
-      background: linear-gradient(to bottom, #efe9e9 19%, #dcdcdc 56%) !important;
-    }
-
-    .serialno {
-      background: linear-gradient(to bottom, #efe9e9 19%, #dcdcdc 56%) !important;
-      text-align: center !important;
-    }
-
-    .dataTables_filter input {
-      width: 245px !important;
-    }
-
-    #allotmentTable {
-      width: 100% !important;
-      margin: 0;
-    }
-
-    #ui-datepicker-div {
-      z-index: 9999 !important;
-    }
-
-    .allot_button {
-      padding: 0px 12px;
-      box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
-    }
-
-    .adminvehicleallotment .fancybox-inner {
-      width: auto !important;
-    }
-
-    .client_views,
-    .list_view {
-      padding: 0px;
-    }
-
-    .client_views h3 {
-      margin: 8px 0;
-      font-size: 18px;
-    }
-
-    .list_view table th {
-      font-size: 12px;
-      color: #c12231;
-      /*font-weight: 600;*/
-    }
-
-    .fancybox-inner table tbody tr td {
-      font-size: 12px !important;
-    }
-
-    .fancybox-opened {
-      font-family: 'Open Sans', sans-serif;
-    }
-
-    .tabhead {
-      background: linear-gradient(to bottom, #efe9e9 19%, #f1f1f1 56%);
-    }
-
-    .vehicle_divss {
-      border: none !important;
-    }
-
-    .ui-datepicker-multi-2 {
-      width: 30em !important;
-      left: 6.5px !important;
-    }
-
-    #arrival_div label {
-      margin-left: 0px !important;
-      margin: 0px 5px;
-      font-weight: 600;
-      color: #484848;
-    }
-
-    .arrived td {
-      background: #EEDEF5 !important;
-    }
-
+  .serialno {
+    width: 14% !important;
   }
+
+  .vechdet {
+    text-align: center !important;
+    font-weight: 600;
+    text-transform: uppercase;
+    width: 85% !important;
+    /* background: linear-gradient(to bottom, #efe9e9 19%, #dcdcdc 56%) !important; */
+  }
+
+  .serialno {
+    background: linear-gradient(to bottom, #efe9e9 19%, #dcdcdc 56%) !important;
+    text-align: center !important;
+  }
+
+  .dataTables_filter input {
+    width: 245px !important;
+  }
+
+  #allotmentTable {
+    width: 100% !important;
+    margin: 0;
+  }
+
+  #ui-datepicker-div {
+    z-index: 9999 !important;
+  }
+
+  .allot_button {
+    padding: 0px 12px;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+  }
+
+  .adminvehicleallotment .fancybox-inner {
+    width: auto !important;
+  }
+
+  .client_views,
+  .list_view {
+    padding: 0px;
+  }
+
+  .client_views h3 {
+    margin: 8px 0;
+    font-size: 18px;
+  }
+
+  .list_view table th {
+    font-size: 12px;
+    color: #c12231;
+    /*font-weight: 600;*/
+  }
+
+  .fancybox-inner table tbody tr td {
+    font-size: 12px !important;
+  }
+
+  .fancybox-opened {
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  .tabhead {
+    background: linear-gradient(to bottom, #efe9e9 19%, #f1f1f1 56%);
+  }
+
+  .vehicle_divss {
+    border: none !important;
+  }
+
+  .ui-datepicker-multi-2 {
+    width: 30em !important;
+    /* left: 6.5px !important; */
+  }
+
+  #arrival_div label {
+    margin-left: 0px !important;
+    margin: 0px 5px;
+    font-weight: 600;
+    color: #484848;
+  }
+
+  .arrived td {
+    background: #EEDEF5 !important;
+  }
+
+  @media only screen and (max-width: 600px) {
+    #datallotment_value_filter{
+    margin:45px 0 0 !important;
+  }
+
+}
 
   @media(width:320px) {
     .fancybox-opened {
@@ -589,12 +607,16 @@
     margin-top: 16px;
     margin-left: 5px;
   }
+
+  .modal-header {
+    justify-content: center !important;
+  }
+
+  .fancybox-inner {
+    width: 100% !important;
+  }
 </style>
 <script type="text/javascript">
-  $(document).ready(function() {
-
-    $('#allotmentTable').DataTable({});
-  });
   $(document).on("click", "input[name='allocate']", function() {
     // Uncheck all other checkboxes
     $("input[name='allocate']").not(this).prop("checked", false);
@@ -829,7 +851,7 @@
           //$(this).data('clicked', true);
 
 
-          $("#remark_div").css("display", "block");
+          $("#remark_div").css("display", "flex");
 
         });
 
@@ -852,8 +874,8 @@
 
             $("#que_div").css("display", "none");
             $("#vehicle_div").css("display", "block");
-            $("#arrival_div").css("display", "inline");
-            $("#date_div").css("display", "block");
+            $("#arrival_div").css("display", "flex");
+            $("#date_div").css("display", "flex");
             $(".allotmentmodel #myModalLabel").html("New Vehicle Assign");
             $("#final_submit").css("display", "block");
 
@@ -862,17 +884,17 @@
 
             $("#driver_div").css("display", "block");
             $("#que_div").css("display", "none");
-            $("#arrival_div").css("display", "inline");
+            $("#arrival_div").css("display", "flex");
             $(".allotmentmodel #myModalLabel").html("New Driver Assign");
-            $("#date_div").css("display", "block");
+            $("#date_div").css("display", "flex");
 
 
 
           } else if ($("input[name='allot_que']:checked").val() == 3) {
 
 
-            $("#arrival_div").css("display", "inline");
-            $("#date_div").css("display", "block");
+            $("#arrival_div").css("display", "flex");
+            $("#date_div").css("display", "flex");
             $("#vehicle_div").css("display", "block");
             $("#que_div").css("display", "none");
             $("#next_driver").css("display", "block");
@@ -881,14 +903,14 @@
             $(".allotmentmodel").on("click", '#next_driver', function() {
 
               if ($("input[name='allot_que']:checked").val() != 0) {
-                $("#date_div").css("display", "block");
+                $("#date_div").css("display", "flex");
               }
 
 
             });
             $(".allotmentmodel").on("click", '#previous_driver', function() {
               if ($("input[name='allot_que']:checked").val() != 0) {
-                $("#date_div").css("display", "block");
+                $("#date_div").css("display", "flex");
               }
             });
 
@@ -976,70 +998,79 @@
 <body>
 
   <div class="p-4  hg250">
-    <p class="m-0">Transport &nbsp; / &nbsp; Vehicle Allotment</p>
+    <p style="font-size: 13px;" class=" page-head m-0 pb-2"><ul class="breadcrumb page-breadcrumb">
+    <li class="breadcrumb-container">
+    <a class="text-decoration-none text-dark" href="<?php echo _ROOT_DIRECTORY_; ?>index.php?action=get-vehicleList">Transport&nbsp;&nbsp;
+    </a>
+    </li>
+    <li class="breadcrumb-current">
+    <a class="text-decoration-none text-dark" href="<?php echo _ROOT_DIRECTORY_; ?>index.php?action=vehicle-allotment">/&nbsp;&nbsp;Vehicle Allotment 
+    </a>
+    </li>
+    </ul>
+    </p>
 
     <div class="p-3 border rounded">
-      <!-- <div class="row justify-content-end mb-4">
-        <div class="col-lg-1">
-          <a href="vehicleAllotment.html">
-            <button type="button" class="btn btn-secondary">
-              <i class="fa-solid fa-rotate"></i>
-            </button>
-          </a>
-        </div>
-      </div> -->
-      <form action="" method="post" style="box-shadow: none;">
-        <div class="row  justify-content-lg-evenly align-items-center">
-          <div class="col-lg-1 mt-auto mb-lg-auto mb-md-2 ps-md-4 ps-lg-0 ">
-            <label for="inputState" class="form-label m-0 text-nowrap ">Start Date :</label>
+      <form action="" method="post" style="box-shadow: none;" class="w-100 p-0">
+        <div class="row  justify-content-lg-evenly align-items-center gap-2 pb-lg-3 ">
+          <div class="col-1 text-nowrap mt-auto mb-lg-auto mb-md-2 px-2 px-lg-0 text-end">
+            <label for="inputState" class="form-label m-0 text-nowrap  ">Start Date :</label>
           </div>
-          <div class="col-lg-2 mt-auto mb-auto pe-md-3 ps-md-3 ps-lg-0 pe-lg-0 mb-md-2 mb-lg-0">
-            <div class="input-group ">
+          <div class="col-lg-2 mt-auto mb-auto pe-md-3 p-0 mb-md-2 mb-lg-0">
+            <div class="input-group px-2 px-lg-0 ">
               <input style="height: 30px;" type="text" id="min-date" autocomplete="off" name="min-date" class=" form-control border-dark-subtle" value="<?php echo isset($response['searchFrom']) ? $response['searchFrom'] : ''; ?>">
             </div>
           </div>
 
-          <div class="col-lg-1 mt-auto mb-lg-auto mb-md-2  ps-md-4 ps-lg-0">
+          <div class="col-1 text-nowrap mt-auto mb-lg-auto mb-md-2 px-2 px-lg-0 text-end">
             <label for="inputState" class="form-label m-0 text-nowrap">End Date :</label>
           </div>
 
-          <div class="col-lg-2 mt-auto mb-auto pe-md-3 ps-md-3 ps-lg-0 pe-lg-0 mb-md-3 mb-lg-0">
-            <div class="input-group ">
+          <div class="col-lg-2 mt-auto mb-auto pe-md-3 p-0 mb-md-3 mb-lg-0">
+            <div class="input-group px-2 px-lg-0">
               <input style="height: 30px;" type="text" id="max-date" name="max-date" class="form-control border-dark-subtle" autocomplete="off" value="<?php echo isset($response['searchTo']) ? $response['searchTo'] : ''; ?>">
             </div>
           </div>
 
-          <div class="btn-group col-lg-4 mb-md-3 mb-lg-0 " role="group" aria-label="Basic radio toggle button group">
+          <div class="btn-group col-lg-4 mb-md-3 mb-lg-0 my-2 my-md-0 my-lg-0 my-xl-0" role="group" aria-label="Basic radio toggle button group">
             <input type="radio" class="btn-check" name="type" id="btnradio1" autocomplete="off" value="1" checked onclick="toggleDatePicker('hide')" />
-            <label class="btn btn-outline-danger" for="btnradio1">Un Allotted</label>
+            <label style="margin: 0 !important; " class="btn btn-outline-danger" for="btnradio1">Un Allotted</label>
 
             <input type="radio" class="btn-check" name="type" id="btnradio2" value="2" <?php echo (isset($response['searchType']) && $response['searchType'] == 2) ? 'checked' : ''; ?> autocomplete="off" />
-            <label class="btn btn-outline-danger" for="btnradio2">Allotted</label>
+            <label style="margin: 0 !important; " class="btn btn-outline-danger" for="btnradio2">Allotted</label>
 
             <input type="radio" class="btn-check" name="type" id="btnradio3" autocomplete="off" value="3" <?php echo (isset($response['searchType']) && $response['searchType'] == 3) ? 'checked' : ''; ?> />
-            <label class="btn btn-outline-danger" for="btnradio3">All</label>
+            <label style="margin: 0 !important; " class="btn btn-outline-danger" for="btnradio3">All</label>
           </div>
-          <div class="col-lg-1">
-            <input type="submit" value="Search" class="form-control btn btn-outline-danger" />
+
+          <div class="col-lg-1 pb-2 col-5 pb-lg-0">
+            <input style="margin: 0 !important;" type="submit" value="Search" class="form-control btn btn-outline-danger" />
           </div>
+          <?php if ($response['mobile'] == 'true') { 
+          echo(isset($response['no_of_records'])&&$response['no_of_records']!="")? '<div class="col-6 pb-2 pb-lg-0 px-0 text-end">Total Records : <b>'.$response['no_of_records'].'</b></div>':'';
+       } ?>
         </div>
+        <!-- <div class="d-none d-xs-block"> -->
+   
+        <!-- </div> -->
       </form>
-
-
       <!-- table Start -->
-      <div class="table-responsive table ">
-        <table class=" table table-striped table-hover table-borderless" id="allotmentTable">
+     
+      
+      <div class="table-responsive" style="border:0px !important;">
+        <table class=" table table-striped table-hover table-borderless tableList" id="allotmentTable">
           <thead class="tabel-row">
             <tr>
               <?php if ($response['mobile'] == 'true') { ?>
 
-                <th class="serialno">S.no</th>
+                <th class="serialno" style="display:none">S.no</th>
                 <th class="vechdet">Client Details</th>
 
               <?php } else { ?>
-                <th style="display: none;">S.no</th>
+                <!-- <th style="display: none;">S.no</th> -->
                 <th>S.no</th>
-                <th class="text-nowrap ">Booking Id </th>
+                <th class="text-now
+                rap ">Booking Id </th>
                 <th class="text-nowrap">Guest Name</th>
                 <th>Arrival </th>
                 <th>Departure </th>
@@ -1064,7 +1095,7 @@
                   </table>
                 </th>
                 <th>Allotment</th>
-                   <?php } ?>
+              <?php } ?>
             </tr>
           </thead>
 
@@ -1177,11 +1208,11 @@
 
           </div>
 
-          <div id="loadingDiv1" style="display: none">
+          <!-- <div id="loadingDiv1" style="display: none">
             <div>
               Please Wait!.. <img src="./assets/load_search.gif">
             </div>
-          </div>
+          </div> -->
 
 
         </div>
@@ -1189,7 +1220,7 @@
       </div>
     </div>
   </div>
-  <div class="overlayss __web-inspector-hide-shortcut__">
+  <!-- <div class="overlayss __web-inspector-hide-shortcut__">
     <div class="loader-box">
       <div id="loader-2">
         <span></span>
@@ -1200,7 +1231,7 @@
         <div class="loading" data-name="Loading">Please Wait....</div>
       </div>
     </div>
-  </div>
+  </div> -->
 </body>
 
 </html>

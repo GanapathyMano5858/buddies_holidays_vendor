@@ -2,6 +2,31 @@
 include "header.php";
 ?>
 <script type="text/javascript">
+    $(document).ready(function() {
+       var idDriver = getUrlParameter('id_driver');
+
+    // Check if id_driver exists and has a specific value (e.g., 3082)
+    if (idDriver) {
+        // Get the input elements by their IDs
+        var driver_name = document.getElementById("driver_name");
+        var driving_license = document.getElementById("driving_license");
+        //var aadhaar = document.getElementById("aadhaar");
+
+        // Add the readonly attribute to the input elements
+        driver_name.setAttribute("readonly", "readonly");
+        driving_license.setAttribute("readonly", "readonly");
+        //aadhaar.setAttribute("readonly", "readonly");
+        
+    }
+     });
+     function getUrlParameter(name) {
+        name = name.replace(/[[]/, '\\[').replace(/[\]]/, '\\]');
+        var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+        var results = regex.exec(location.search);
+        return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+    }
+  
+
   // Mano
 
   // Text Only
@@ -49,8 +74,8 @@ function limitNumberLength12(input) {
     // Remove any non-numeric characters
     input.value = input.value.replace(/[^0-9]/g, "");
 
-    // Limit the length to 10 digits
-    if (input.value.length > 10) {
+    // Limit the length to 12 digits
+    if (input.value.length > 12) {
       input.value = input.value.slice(0, 2);
     }
   }
@@ -122,10 +147,10 @@ function limitNumberLength12(input) {
       type: 'POST',
       success: function(res) {
         console.log(res);
-        if (res) {
+        if (res===1) {
           $('#driver_status').html('ok');
-          $.alert('This Driver Account already Exists');
-          return false;
+          // $.alert('This Driver Account already Exists');
+          // return false;
         } else {
           $('#driver_status').html('');
 
@@ -167,8 +192,23 @@ function limitNumberLength12(input) {
       $.alert(errorMsg);
       return false;
     }
+    // else if($('#aadhaar').val()){
+    //   if($('#aadhaar').val().length!=12){
+    //     errorMsg = 'Please enter Valid Aadhaar number\n';
+    //   $.alert(errorMsg);
+    //   return false;
+    //   }
 
-    if (vehiclenohtml == 'ok') {
+    // }
+    else if(!$('#aadhaar').val()||$('#aadhaar').val().length!=12){
+      errorMsg = 'Please enter Valid Aadhaar number\n';
+      $.alert(errorMsg);
+      return false;
+      
+
+    }
+
+    if (vehiclenohtml === 'ok') {
       $.alert('This Driver Account already Exists');
       return false;
 
@@ -193,8 +233,18 @@ function limitNumberLength12(input) {
     });
   });
 </script>
-<div class="container-sm pt-4 hg250">
-  <p class="m-0" style="font-size: 14px;">Transport / Add Driver / Add New Driver</p>
+<div class="container-fluid container-sm pt-4">
+    <p style="font-size: 13px;" class=" page-head m-0 pb-2"><ul class="breadcrumb page-breadcrumb">
+  <li class="breadcrumb-container">
+  <a class="text-decoration-none text-dark" href="<?php echo _ROOT_DIRECTORY_; ?>index.php?action=get-vehicleList">Transport&nbsp;&nbsp;
+  </a>
+  </li>
+  <li class="breadcrumb-current">
+  <a class="text-decoration-none text-dark" href="<?php echo _ROOT_DIRECTORY_; ?>index.php?action=get-driverList">/&nbsp;&nbsp;Add New Driver 
+  </a>
+  </li>
+  </ul>
+ </p>
   <?php if (isset($_GET['id_driver']) && $_GET['id_driver']) {
     $action = 'addDriver-update';
   } else {
@@ -202,20 +252,20 @@ function limitNumberLength12(input) {
   }
   ?>
   <div class="p-4 border rounded-4">
-    <div class="row align-items-center">
+    <!-- <div class="row align-items-center">
       <div class="col-5">
         <p>Driver Details</p>
       </div>
-    </div>
+    </div> -->
     <form method="post" action="<?php echo _ROOT_DIRECTORY_ . 'index.php?action=' . $action; ?>" onsubmit="return validateform(event);" name="driver_form" style="display: block; width: auto">
-      <span id='driver_status'></span>
+      <span class="d-none" id='driver_status'></span>
       <input type="hidden" name="id_driver" id="id_driver" value="<?php echo (isset($response['driverList']['id_driver']) ? $response['driverList']['id_driver'] : ''); ?>">
 
       <input type="hidden" name="transporter_id" id="transporter_id" value="<?php echo (isset($response['driverList']['transporter_id']) ? $response['driverList']['transporter_id'] : $_SESSION['trans_vendor_id']); ?>">
       <div class="row">
         <div class="col-lg-4 mb-2 mb-lg-0">
           <label for="inputState" class="form-label">Driver Name</label><span class="text-danger"> *</span>
-          <input type="text" class="form-control me-3 text-uppercase " placeholder="Enter Driver Name" id="driver_name" name="driver_name" oninput="validateText(this)" value="<?php echo (isset($response['driverList']['driver_name']) ? $response['driverList']['driver_name'] : ''); ?>" />
+          <input type="text" class="form-control me-3 text-uppercase inputdisable" placeholder="Enter Driver Name" id="driver_name" name="driver_name" oninput="validateText(this)" value="<?php echo (isset($response['driverList']['driver_name']) ? $response['driverList']['driver_name'] : ''); ?>" />
         </div>
 
         <div class="col-lg-4 mb-2 mb-lg-0">
@@ -235,7 +285,7 @@ function limitNumberLength12(input) {
       <div class="row mt-lg-3">
         <div class="col-lg-4 mb-2 mb-lg-0">
           <label for="inputState" class="form-label">Driving License</label><span class="text-danger"> *</span>
-          <input type="text" class="form-control me-3" placeholder="Enter Your Driver Number" id="driving_license" name="driving_license" value="<?php echo (isset($response['driverList']['driving_license']) ? $response['driverList']['driving_license'] : ''); ?>" oninput="isValid_License_Number(this)" />
+          <input type="text"  class="form-control me-3 inputdisable" placeholder="Enter Your Driver License" id="driving_license" name="driving_license" value="<?php echo (isset($response['driverList']['driving_license']) ? $response['driverList']['driving_license'] : ''); ?>" oninput="isValid_License_Number(this)" />
           <div class="clearfix"> </div>
           <em class="emnoteclass">Only Capital Letters and numbers allowed</em>
         </div>
@@ -244,7 +294,7 @@ function limitNumberLength12(input) {
           <label for="inputState" class="form-label">Aadhaar Number</label><span class="text-danger"> *</span>
 
           <div class="input">
-            <input maxlength="12" type="text" class="form-control me-3" placeholder="Enter Aadhaar Number" id="aadhaar" name="aadhaar" value="<?php echo (isset($response['driverList']['aadhaar']) ? $response['driverList']['aadhaar'] : ''); ?>" oninput="limitNumberLength12(this)" />
+            <input maxlength="12" type="text" class=" form-control me-3 inputdisable" placeholder="Enter Aadhaar Number" id="aadhaar" name="aadhaar" value="<?php echo (isset($response['driverList']['aadhaar']) ? $response['driverList']['aadhaar'] : ''); ?>" oninput="limitNumberLength12(this)" />
           </div>
         </div>
       </div>

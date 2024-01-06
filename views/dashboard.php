@@ -4,7 +4,8 @@ include"header.php";
   <body>
 
     <div class="container-sm p-4 hg250">
-      <p class="m-0" style="font-size: 14px;">Dashboard</p>
+      <p class="page-head m-0 pb-2"><a class="text-decoration-none text-dark" href="<?php echo _ROOT_DIRECTORY_; ?>index.php?action=GetCount">Dashboard
+    </a></p>
 
       <div class="row border rounded-4 p-lg-5 pt-sm-5">
         <div class="col-lg-4 p-3">
@@ -14,8 +15,8 @@ include"header.php";
           >
             <i class="fa-solid fa-car-side h3 mt-3"></i>
             <div class="card-body">
-              <p class="h5 mb-3">0</p>
-              <a href="" class="h6 text-decoration-none">Unalloted Vehicles</a>
+              <p class="h5 mb-3"> <?php echo $response['unalloted_vehicle_vendors'];?></p>
+              <a href="<?php echo _ROOT_DIRECTORY_;?>index.php?action=vehicle-allotment" class="h6 text-decoration-none">Unalloted Vehicles</a>
             </div>
           </div>
         </div>
@@ -27,8 +28,8 @@ include"header.php";
             <i class="fa-solid fa-file-circle-question h3 mt-3"></i>
             <!-- <i class="fa-solid fa-car-side ></i> -->
             <div class="card-body">
-              <p class="h5 mb-3">0</p>
-              <a href="" class="h6 text-decoration-none">Unpaid Bill</a>
+              <p class="h5 mb-3"> <?php echo $response['unpaid_bill_vendors'];?></p>
+              <a href="<?php echo _ROOT_DIRECTORY_;?>index.php?action=billdetails-report" class="h6 text-decoration-none">Unpaid Bill</a>
             </div>
           </div>
         </div>
@@ -40,8 +41,8 @@ include"header.php";
             <i class="fa-solid fa-comments h3 mt-3"></i>
             <!-- <i class="fa-solid fa-car-side h3 mt-3"></i> -->
             <div class="card-body">
-              <p class="h5 mb-3">0</p>
-              <a href="" class="h6 text-decoration-none">Unalloted Vehicles</a>
+              <p class="h5 mb-3"> <?php echo $response['unsubmitted_bill_vendors'];?></p>
+              <a href="<?php echo _ROOT_DIRECTORY_;?>index.php?action=add-purchase-bill" class="h6 text-decoration-none">Unsubmitted Bill</a>
             </div>
           </div>
         </div>

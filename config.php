@@ -1,16 +1,13 @@
 <?php
+ini_set('session.gc_maxlifetime', 1800);
 session_start();
-// if(empty($_SESSION)){
-// session_destroy();
-// header('Location: index.php');
-// }
 date_default_timezone_set('Asia/Kolkata');
 define('_DB_SERVER_', 'localhost');
 define('_DB_NAME_', 'buddinfi_admin');
-//define('_DB_USER_', 'buddinfi_holidays_admin');
-//define('_DB_PASSWD_', 'buddy@2017');
- define('_DB_USER_', 'root');
- define('_DB_PASSWD_', '');
+// define('_DB_USER_', 'buddinfi_holidays_admin');
+// define('_DB_PASSWD_', 'buddy@2017');
+define('_DB_USER_', 'root');
+define('_DB_PASSWD_', '');
 define('_COOKIE_KEY_', 'xCGoC0yRy1AOPu5Zem0U21f7dh4EvtyMFAcGcQBmYLggS3D9GQ9QLxSf');
 
 use PHPMailer\PHPMailer\PHPMailer;

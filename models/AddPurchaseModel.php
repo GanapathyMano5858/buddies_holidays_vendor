@@ -140,12 +140,7 @@ class AddPurchaseModel
           $s .= '<td style="display:none;">' . $classcolour . '</td>';
           $s .= '<td class="align-middle">' . $si . '</td>';
           $s .= '<td class="align-middle" >' . $valuesa[0]['ref_no'] . '</td>';
-          $s .= '<td class="text-nowrap" style="
-          width: 80px;
-          justify-content: center;
-          align-items: center;
-          display: flex;
-          height: 105px;">' . $valuesa[0]['client_name'] . '</td>';
+          $s .= '<td class="align-middle text-center">' . $valuesa[0]['client_name'] . '</td>';
 
 
           $s .= '<td class="p-0"><table class="p-0" style="margin-bottom:0 !important;width:100% !important" >';
@@ -160,7 +155,7 @@ class AddPurchaseModel
            <table style='width: 100%!important;' class='table-word'>
            <tr style='flex-direction: row;
            display: flex;
-           justify-content: start;
+           justify-content: space-between;
            align-items: center;'>";
 
           $purchase_total = $purchase_total + $valuesa[0]['purchase_rate_shared'];
@@ -291,7 +286,7 @@ class AddPurchaseModel
               if (!is_int($kkk)) {
                 $img_bill_values = $kkk;
               }
-              $link .= "<div class='uploadfilee'><a class='removeFile " . $disabled_re . "  " . $disabled . "' href='javascript:void(0);' data-fileid='" . $e . "' >X</a><a href='javascript:void(0);' class='view_img" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "' onclick='dispalyImage(" . $e . ",\"purchaserate_bill\"," . $imageARRR . ");'><p style='display:none;'>" . $img_bill_values . " </p><span class='thumbnail'> " . substr($img_bill_values, 0, 8) . " ...</span></a></div>";
+              $link .= "<div class='uploadfilee'><a class='removeFile " . $disabled_re . "  " . $disabled . "' href='javascript:void(0);' data-fileid='" . $e . "' ><button type='button' class='btn-close' aria-label='Close'></button></a><a href='javascript:void(0);' class='view_img" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "' onclick='dispalyImage(" . $e . ",\"purchaserate_bill\"," . $imageARRR . ");'><p style='display:none;'>" . $img_bill_values . " </p><span class='thumbnail'> " . substr($img_bill_values, 0, 8) . " ...</span></a></div>";
               $e++;
             }
           }
@@ -307,7 +302,7 @@ class AddPurchaseModel
               if (!is_int($kk1)) {
                 $img_feed_values = $kk1;
               }
-              $linkf .= "<div class='uploadfilee'><a class='removeFile " . $disabled_re . "  " . $disabled . "' href='javascript:void(0);' data-fileid='" . $r . "'  >X</a><a href='javascript:void(0);' class='view_img_feed" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "' onclick='dispalyImage(" . $r . ",\"purchaserate_bill\"," . $imageARRRf . ");'><p style='display:none;'>" . $img_feed_values . " </p><span class='thumbnail'>" . substr($img_feed_values, 0, 8) . " ...</span></a></div>";
+              $linkf .= "<div class='uploadfilee'><a class='removeFile " . $disabled_re . "  " . $disabled . "' href='javascript:void(0);' data-fileid='" . $r . "'  ><button type='button' class='btn-close' aria-label='Close'></button></a><a href='javascript:void(0);' class='view_img_feed" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "' onclick='dispalyImage(" . $r . ",\"purchaserate_bill\"," . $imageARRRf . ");'><p style='display:none;'>" . $img_feed_values . " </p><span class='thumbnail'>" . substr($img_feed_values, 0, 8) . " ...</span></a></div>";
               $r++;
             }
           }
@@ -369,7 +364,7 @@ class AddPurchaseModel
           </td>";
         $s .= "<td class='" . $container0 . "'>
     
-        <div class='" . $container1 . "'><textarea style='border: 1px solid #0d6efd; border-radius: 2px; resize:auto;padding:3px 4px; width:100px; height:50px;'  class='" . $class . " " . $container2 . "' name='cal" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "'  id='cal" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "' " . $readonly . " >" . $cal . "
+        <div class='" . $container1 . "'><textarea style='border: 1px solid #0d6efd; border-radius: 2px; resize:auto;padding:3px 4px; width:100px; height:50px;outline: none;'  class='" . $class . " " . $container2 . "' name='cal" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "'  id='cal" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "' " . $readonly . " >" . $cal . "
         </textarea>
         </div>
        
@@ -385,13 +380,13 @@ class AddPurchaseModel
            <input type='hidden' name='id_client_add'>
            <input type='hidden' name='loss_check" . $valuesa[0]['id_client'] . $valuesa[0]['va_id'] . "' id='loss_check" . $valuesa[0]['id_client'] . $valuesa[0]['va_id'] . "'>
            
-           <div style='width:67px; display:flex; justify-content:center; align-item:center;' class='filedrf'><label  style='--bs-btn-padding-y: .20rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .65rem;' class='btn btn-primary' for='img_bil" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "' class='" . $class_up . "  img_bil" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "'><i class='fa-solid fa-upload pe-2'></i>Upload</label><input type='file'  class='" . $class . "    " . $container2 . "'  name='img_bil" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "[]'  id='img_bil" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "' " . $disabled . "  multiple onclick='removePic(this,\"result\");' onchange='showPreview(this,\"result\");'></div> <output id='result" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "' > " . $link . "</output>
+           <div style='width:67px; display:flex; justify-content:center; align-item:center;' class='filedrf'><label  style='--bs-btn-padding-y: .20rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .65rem;' for='img_bil" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "' class='btn btn-danger'" . $class_up . "  img_bil" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "'><i class='fa-solid fa-upload pe-2'></i>Upload</label><input type='file'  class='" . $class . "    " . $container2 . "'  name='img_bil" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "[]'  id='img_bil" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "' " . $disabled . "  multiple onclick='removePic(this,\"result\");' onchange='showPreview(this,\"result\");'></div> <output id='result" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "' > " . $link . "</output>
            
           </td>";
         $s .= "<td class='   d-flex flex-column  text-center justify-content-center align-items-center " . $container0 . "'>
           
           <div style='display:flex; justify-content: center;
-          align-items: center;' class='filedrf'><label  style='--bs-btn-padding-y: .20rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .65rem;' class='btn btn-primary' for='img_feed" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "' class='" . $class_up . "  img_feed" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "'><i class='fa-solid fa-upload pe-2'></i>Upload</label><input type='file'  class='" . $class . "  " . $container2 . "' name='img_feed" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "[]'  id='img_feed" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "' " . $disabled . "  multiple onclick='removePic(this,\"result_feed\");' onchange='showPreview(this,\"result_feed\");'></div> <output id='result_feed" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "' >" . $linkf . "</output>
+          align-items: center;' class='filedrf'><label  style='--bs-btn-padding-y: .20rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .65rem;' class='btn btn-danger' for='img_feed" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "' class='" . $class_up . "  img_feed" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "'><i class='fa-solid fa-upload pe-2'></i>Upload</label><input type='file'  class='" . $class . "  " . $container2 . "' name='img_feed" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "[]'  id='img_feed" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "' " . $disabled . "  multiple onclick='removePic(this,\"result_feed\");' onchange='showPreview(this,\"result_feed\");'></div> <output id='result_feed" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "' >" . $linkf . "</output>
          
           </td>";
         // $s.="";  
@@ -496,6 +491,7 @@ class AddPurchaseModel
   {
     $s = '';
     $si = 0;
+    $toclosewhile = "";
     //main loop key>client reference
     foreach ($listArra as $keys => $list) {
       $purchase_total = 0;
@@ -531,26 +527,26 @@ class AddPurchaseModel
           }
 
 
-          $s .= '<li class="col-xs-12 col-sm-12 col-md-12 col-lg-12 data-item ">';
+          $s .= '<li class="col-xs-12 col-sm-12 col-md-12 col-lg-12 data-item py-2 px-2 ">';
           if ($valuesa[0]['cancel_status'] == 1) {
-            $s .= '<div class="panel panel-default cancel ' . $classcolour . '" style="padding-left:0px;padding-right:0px;padding-bottom:3px;">';
+            $s .= '<div class="py-2 px-3 border rounded rounded-4 panel panel-default cancel ' . $classcolour . '" >';
             $s .= '<div class="panel-heading  cancel ' . $classcolour . '" style="margin-left:0rem;margin-right:0rem;display:flex;align-items:center;margin-bottom:0px;">';
           } else if ($valuesa[0]['arrivedornot'] == 1) {
-            $s .= '<div class="panel panel-default arrived ' . $classcolour . '" style="padding-left:0px;padding-right:0px;padding-bottom:3px;">';
+            $s .= '<div class="py-2 px-3 border rounded rounded-4 panel panel-default arrived ' . $classcolour . '" >';
             $s .= '<div class="panel-heading  arrived ' . $classcolour . '" style="margin-left:0rem;margin-right:0rem;display:flex;align-items:center;margin-bottom:0px;">';
           } else {
-            $s .= '<div class="panel panel-default ' . $classcolour . '" style="padding-left:0px;padding-right:0px;padding-bottom:3px;">';
-            $s .= '<div class="panel-heading' . $classcolour . '" style="font-weight: 900; justify-content: center; margin-left:0rem;margin-right:0rem;display:flex;align-items:center;margin-bottom:0px;">';
+            $s .= '<div class="py-2 px-3 border rounded rounded-4 panel panel-default ' . $classcolour . '" >';
+            $s .= '<div class="panel-heading' . $classcolour . '" style="padding: 5px 0; font-weight: 900; justify-content: center; margin-left:0rem;margin-right:0rem;display:flex;align-items:center;margin-bottom:0px;">';
           }
 
 
           $s .= '<div class="panel-title" >' . $valuesa[0]['ref_no'] . '</div>';
 
           $s .= '</div>
-          <div class="panel-body">
+          <div class="panel-body" style="font-size:13px">
     
-          <div class="colmanagecar">
-          <p><strong>Client Name</strong><span class="cllr"> ' . $valuesa[0]['client_name'] . '</span></p>';
+          <div class="colmanagecar py-3">
+          <p style="display: flex; justify-content: space-between; align-items: center;"><strong>Client Name</strong><span class="cllr"><b> ' . $valuesa[0]['client_name'] . '</b></span></p>';
         }
         $sdfr++;
 
@@ -564,7 +560,7 @@ class AddPurchaseModel
 
           //<br>N:'.$valuesa[0]['vehicle_no'].'
           if ($valuesa[0]['trip_went_not'] == 2) {
-            $s .= '<p > <strong>Trip Date</strong> <span class="cllr"><b>Trip Not Went</b></span></p>';
+            $s .= '<p style="display: flex; justify-content: space-between; align-items: center;"> <strong>Trip Date</strong> <span class="cllr"><b>Trip Not Went</b></span></p>';
           } else {
             if ($valuesa[0]['his_start_date'] != "" && $valuesa[0]['his_start_date'] != "0000-00-00") {
               $hiss_dateee_staert = $valuesa[0]['his_start_date'];
@@ -573,50 +569,40 @@ class AddPurchaseModel
             }
 
 
-            $s .= '<p> <strong>Trip Date:</strong><span class="cllr">S:' . date('d/m/Y', strtotime($hiss_dateee_staert)) . '<br>E:' . date('d/m/Y', strtotime($valuesa[0]['va_end_date'])) . '</span></p><br>';
+            $s .= '<p style="display: flex; justify-content: space-between; align-items: center;"> <strong>Trip Date:</strong><span class="cllr" style="font-size:14px;">S:' . date('d/m/Y', strtotime($hiss_dateee_staert)) . '<br>E:' . date('d/m/Y', strtotime($valuesa[0]['va_end_date'])) . '</span></p>';
           }
 
           //Vehicle Remark
           //isset($arr_trans_remarks[$keya])&&
-          $s .= "<p> <strong>Vehicle Remark</strong>";
+          $s .= "<p style='display: flex; justify-content: space-between; align-items: center;'> <strong>Vehicle Remark</strong>";
 
           if ($valuesa[0]['vehicle_remark'] != "") {
-            $s .= "<div class='show_query'><p class='cllr'> Remark<div class='show_me cllr'>" . $valuesa[0]['vehicle_remark'] . "</div></p></div>";
+            $s .= "<div style='display: flex; justify-content: space-between; align-items: center;' class='show_query'><p class='cllr'> Remark<div class='show_me cllr'>" . $valuesa[0]['vehicle_remark'] . "</div></p></div>";
           } else {
             $s .= "<span class='cllr'>-</span>";
           }
 
           $s .= "</p>";
 
-
-
-          $s .= '<p ><strong>Trip Advance</strong>';
         }
 
+     foreach ($valuesa as $keyb => $valuesb) {
+    $s .= '<p style="display: flex; justify-content: space-between; align-items: center;" >'.(($j==0)? "<strong>Trip Advance</strong>":"<span style='color:white;'>Trip Advance</span>");
+    
+    if (isset($valuesb['tripadvance_paid'])) {
+        $s .= "<span class='show_query cllr'> " . (isset($valuesb['tripadvance_paid']) ? $valuesb['tripadvance_paid'] : '-') . "<div class='show_me cllr'>" . date('d/m/Y', strtotime($valuesb['payment_date'])) . "</div></span>";
+    } else {
+        $s .= "<span class='cllr'>-</span>";
+    }
 
-        foreach ($valuesa as $keyb => $valuesb) {
-
-          if (isset($valuesb['tripadvance_paid'])) {
-            $s .= "<span class='show_query cllr'> " . (isset($valuesb['tripadvance_paid']) ? $valuesb['tripadvance_paid'] : '-') . "<div class='show_me cllr'>" . date('d/m/Y', strtotime($valuesb['payment_date'])) . "</div></span>";
-          } else {
-            $s .= "<span class='cllr'>-</span>";
-          }
-
-
-          $j++;
-        }
-
-        $s .= "</p>";
-
-
+    $s .= "</p>";
+    $j++;
+}
 
         $link = $linkf = '';
         $container0 = 'container0';
         $container1 = 'container1';
         $container2 = 'container2';
-
-
-
 
         if ($valuesa[0]['purchaserate_added_date'] != '0000-00-00 00:00:00' && ($type == 3 || $type == 5)) {
           if ($valuesa[0]['trip_went_not'] == 2) {
@@ -676,7 +662,7 @@ class AddPurchaseModel
               if (!is_int($kkk)) {
                 $img_bill_values = $kkk;
               }
-              $link .= "<div class='uploadfilee cllr'><a class='removeFile cllr " . $disabled_re . "  " . $disabled . "' href='javascript:void(0);' data-fileid='" . $e . "' >X</a><a href='javascript:void(0);' class='view_img" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "' onclick='dispalyImage(" . $e . ",\"purchaserate_bill\"," . $imageARRR . ");'><p style='display:none;'>" . $img_bill_values . " </p><span class='thumbnail'> " . substr($img_bill_values, 0, 8) . " ...</span></a></div>";
+              $link .= "<div class='uploadfilee cllr'><a class='removeFile cllr " . $disabled_re . "  " . $disabled . "' href='javascript:void(0);' data-fileid='" . $e . "' ><button type='button' class='btn-close' aria-label='Close'></button></a><a href='javascript:void(0);' class='view_img" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "' onclick='dispalyImage(" . $e . ",\"purchaserate_bill\"," . $imageARRR . ");'><p style='display:none;'>" . $img_bill_values . " </p><span class='thumbnail' style='width:60px'> " . substr($img_bill_values, 0, 8) . " ...</span></a></div>";
               $e++;
             }
           }
@@ -692,7 +678,7 @@ class AddPurchaseModel
               if (!is_int($kk1)) {
                 $img_feed_values = $kk1;
               }
-              $linkf .= "<div class='uploadfilee cllr'><a class='removeFile cllr " . $disabled_re . "  " . $disabled . "' href='javascript:void(0);' data-fileid='" . $r . "'  >X</a><a href='javascript:void(0);' class='view_img_feed" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "' onclick='dispalyImage(" . $r . ",\"purchaserate_bill\"," . $imageARRRf . ");'><p style='display:none;'>" . $img_feed_values . " </p><span class='thumbnail'>" . substr($img_feed_values, 0, 8) . " ...</span></a></div>";
+              $linkf .= "<div class='uploadfilee cllr'><a class='removeFile cllr " . $disabled_re . "  " . $disabled . "' href='javascript:void(0);' data-fileid='" . $r . "'  ><button type='button' class='btn-close' aria-label='Close'></button></a><a href='javascript:void(0);' class='view_img_feed" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "' onclick='dispalyImage(" . $r . ",\"purchaserate_bill\"," . $imageARRRf . ");'><p style='display:none;'>" . $img_feed_values . " </p><span class='thumbnail' style='width:60px'>" . substr($img_feed_values, 0, 8) . " ...</span></a></div>";
               $r++;
             }
           }
@@ -747,18 +733,17 @@ class AddPurchaseModel
            <input type='hidden' name='loss_check" . $valuesa[0]['id_client'] . $valuesa[0]['va_id'] . "' id='loss_check" . $valuesa[0]['id_client'] . $valuesa[0]['va_id'] . "'>";
 
 
-        $s .= "<p><strong>Total Km</strong><input type='" . $types . "' class='cvb cllr " . $class . "' name='total_km" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "' onkeyup='checkalphabetandnumber(this.value, \"#total_km" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "\")'  id='total_km" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "' " . $readonly . " value='" . $total_km . "'   maxlength='4' >
+        $s .= "<p style='display: flex; justify-content: space-between; align-items: center;'><strong>Total Km</strong><input style='border: 1px solid #0d6efd; border-radius: 2px' type='" . $types . "' class='cvb cllr text-end w-50 ".$class . "' name='total_km" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "' onkeyup='checkalphabetandnumber(this.value, \"#total_km" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "\")'  id='total_km" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "' " . $readonly . " value='" . $total_km . "'   maxlength='4' >
           </p>";
-        $s .= "<p><strong>Bill Amount</strong><input type='" . $types . "' class='cvb cllr " . $class . "' name='bal_amount" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "'  id='bal_amount" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "' onkeyup='checkalphabetandnumber(this.value, \"#bal_amount" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "\")' " . $readonly . " value='" . $amount . "' >
+        $s .= "<p style='display: flex; justify-content: space-between; align-items: center;'><strong>Bill Amount</strong><input style='border: 1px solid #0d6efd; border-radius: 2px; text-align: end;' type='" . $types . "' class='cvb cllr text-end w-50 " . $class . "' name='bal_amount" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "'  id='bal_amount" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "' onkeyup='checkalphabetandnumber(this.value, \"#bal_amount" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "\")' " . $readonly . " value='" . $amount . "' >
           </p>";
-        $s .= "<p  class='" . $container0 . "'><strong>Calculation</strong><div class='" . $container1 . " cvb cllr'><textarea style='resize:auto;padding:3px 4px;'  class='" . $class . " " . $container2 . "' name='cal" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "'  id='cal" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "' " . $readonly . " >" . $cal . "</textarea></div>
-          </p>";
+        $s .= "<p  style='display: flex; justify-content: space-between; align-items: center;' class='" . $container0 . "'><strong>Calculation</strong> <textarea style='border: 1px solid #0d6efd; border-radius: 2px; resize:auto;padding:3px 4px;outline: none;'  class=' w-50 " . $class . " " . $container2 . "' name='cal" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "'  id='cal" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "' " . $readonly . " >" . $cal . "</textarea></p>";
 
 
 
-        $s .= "<div style='clear:both';></div><p  class='" . $container0 . "'><strong>Upload Bill</strong><div class='filedrf cllr'><label for='img_bil" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "' class='" . $class_up . " img_bil" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "'><i class='fa-solid fa-upload'></i>Upload</label><input type='file'  class='" . $class . "  " . $container2 . "'  name='img_bil" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "[]'  id='img_bil" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "' " . $disabled . "  multiple onclick='removePic(this,\"result\");' onchange='showPreview(this,\"result\");'></div> <output id='result" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "' > " . $link . "</output>
-          </p>";
-        $s .= "<p class='" . $container0 . " sdf'><strong>Upload Feedback</strong><div class='filedrf cllr'><label for='img_feed" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "'  class='" . $class_up . "  img_feed" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "'><i class='fa-solid fa-upload'></i>Upload</label><input type='file'  class='" . $class . "  " . $container2 . "' name='img_feed" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "[]'  id='img_feed" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "' " . $disabled . "  multiple onclick='removePic(this,\"result_feed\");' onchange='showPreview(this,\"result_feed\");'></div> <output id='result_feed" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "' >" . $linkf . "</output></p>";
+        $s .= "<div class='d-flex justify-content-between mb-3'><strong>Upload Bill</strong><div class='filedrf cllr '><label for='img_bil" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "' class='btn btn-danger btn-sm ". $class_up . " img_bil" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "'><i class='fa-solid fa-upload'></i>&nbsp; Upload</label><input type='file'  class='" . $class . "  " . $container2 . "'  name='img_bil" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "[]'  id='img_bil" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "' " . $disabled . "  multiple onclick='removePic(this,\"result\");' onchange='showPreview(this,\"result\");'></div></div> <output style='float:right;' id='result" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "' > " . $link . "</output>
+          ";
+        $s .= "<div class='" . $container0 . " sdf'><div class='d-flex justify-content-between mb-3'><strong>Upload Feedback</strong><div class='filedrf cllr'><label for='img_feed" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "'  class='btn btn-danger btn-sm ". $class_up . "  img_feed" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "'><i class='fa-solid fa-upload'></i>&nbsp; Upload</label><input type='file'  class='" . $class . "  " . $container2 . "' name='img_feed" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "[]'  id='img_feed" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "' " . $disabled . "  multiple onclick='removePic(this,\"result_feed\");' onchange='showPreview(this,\"result_feed\");'></div></div> <div><output style='float:right' id='result_feed" . $valuesa[0]['id_client'] . "" . $valuesa[0]['va_id'] . "' >" . $linkf . "</output></div></div>";
         $s .= "</div>";
         // $s.="";
 
@@ -766,7 +751,7 @@ class AddPurchaseModel
         // </p>";
         //if($type!=5){
         if ($valuesa[0]['purchaserate_added_date'] != '0000-00-00 00:00:00') {
-          $s .= "<p ><strong>Purchaserate Added Date:</strong><span class='cllr'>" . (($valuesa[0]['purchaserate_added_date'] != '0000-00-00 00:00:00') ? date('d/m/Y H:i:s', strtotime($valuesa[0]['purchaserate_added_date'])) . "<br> Days  " . $dateDiff_count : '-') . "</span></p>";
+          $s .= "<p style='display: flex; justify-content: space-between; align-items: center;clear:both;'><strong>Purchaserate Added Date:</strong><span class='cllr text-end'>" . (($valuesa[0]['purchaserate_added_date'] != '0000-00-00 00:00:00') ? date('d/m/Y H:i:s', strtotime($valuesa[0]['purchaserate_added_date'])) . "<br> Days  " . $dateDiff_count : '-') . "</span></p>";
         }
 
 
@@ -802,8 +787,8 @@ class AddPurchaseModel
 
 
         if (!empty($Combined_image_val)) {
-          $s .= "<p><strong>Images</strong>";
-          $s .= '<i class="fa-solid fa-eye view_bill cllr" data="' . $valuesa[0]['id_client'] . $valuesa[0]['va_id'] . '"></i>';
+          $s .= "<p style='display: flex; justify-content: space-between; align-items: center;'><strong>Images</strong>";
+          $s .= '<button class="btn btn-primary btn-sm"><i class="fa-solid fa-eye view_bill" data="' . $valuesa[0]['id_client'] . $valuesa[0]['va_id'] . '"></i></button>';
           $s .= "<ul class='viewer_images' style='list-style-type: none;margin: 0 auto;text-align: center;columns: 3;'>";
           $a = 0;
           foreach ($Combined_image_val as $k => $image) {
@@ -818,7 +803,7 @@ class AddPurchaseModel
 
 
         //}
-        $s .= "<p class='bot_button cllr'> ";
+        $s .= "<p class='bot_button cllr w-100 d-flex justify-content-center'> ";
 
 
         if ($label == 'Update') {
@@ -828,7 +813,7 @@ class AddPurchaseModel
           // $s.="<a class='customedit' href='".$url."&add_bill&va_id=".$valuesa[0]['va_id']."&id_client=".$valuesa[0]['id_client']."' >
           //    <button class='raz ".$color." modify'   type='button' class='btn btn-default dialogs' ".$disabled." >".$label."</button>
           //   </a>";
-          $s .= "<button class='raz " . $color . " modify' type='button' class='btn btn-default dialogs' onclick='Add(" . $valuesa[0]['va_id'] . "," . $valuesa[0]['id_client'] . ",\"add\"," . $valuesa[0]['trip_went_not'] . ")' " . $button_dis . " >" . $label . "</button>";
+          $s .= "<button style='width:50%' class='raz btn btn-danger'" . $color . " modify' type='button' class='btn btn-default dialogs' onclick='Add(" . $valuesa[0]['va_id'] . "," . $valuesa[0]['id_client'] . ",\"add\"," . $valuesa[0]['trip_went_not'] . ")' " . $button_dis . " >" . $label . "</button>";
         }
         $s .= "</p>";
 
@@ -846,6 +831,7 @@ class AddPurchaseModel
       }
     }
     return [
+      "no_of_records"=>$toclosewhile,
       "mobile" => 1,
       "content" => $s,
       "searchFrom" => isset($minDate)
